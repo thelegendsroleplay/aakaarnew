@@ -1509,6 +1509,337 @@ body {
     font-size: 14px;
 }
 
+/* Pricing Page Styles */
+/* Pricing Hero */
+.pricing-hero {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    color: white;
+    padding: 120px 0 80px;
+    text-align: center;
+}
+
+.pricing-hero-title {
+    font-size: 56px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.pricing-hero-subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    opacity: 0.95;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Pricing Philosophy */
+.pricing-philosophy {
+    padding: 60px 0;
+    background-color: #f9fafb;
+}
+
+.philosophy-card {
+    background-color: white;
+    border-left: 4px solid #2563eb;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.philosophy-card p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #374151;
+}
+
+/* Pricing Section */
+.pricing-section {
+    padding: 80px 0;
+    background-color: white;
+}
+
+.pricing-section:nth-of-type(even) {
+    background-color: #f9fafb;
+}
+
+.pricing-section-title {
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    color: #1f2937;
+    text-align: center;
+}
+
+/* Pricing Tables */
+.pricing-table-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.pricing-table thead {
+    background-color: #f3f4f6;
+}
+
+.pricing-table th {
+    padding: 20px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.pricing-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.3s;
+}
+
+.pricing-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.pricing-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.pricing-table td {
+    padding: 20px;
+    font-size: 15px;
+    color: #374151;
+}
+
+.price-cell {
+    font-weight: 700;
+    color: #2563eb;
+    font-size: 16px;
+}
+
+.pricing-note {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 15px;
+    color: #6b7280;
+}
+
+.pricing-note strong {
+    color: #1f2937;
+}
+
+/* Comparison Table */
+.comparison-table-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.comparison-table thead {
+    background-color: #f3f4f6;
+}
+
+.comparison-table th {
+    padding: 24px 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.comparison-table .feature-col {
+    text-align: left;
+    width: 30%;
+}
+
+.comparison-table .starter-col {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+    color: #059669;
+}
+
+.comparison-table .professional-col {
+    background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%);
+    color: #7c3aed;
+}
+
+.comparison-table .premium-col {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%);
+    color: #2563eb;
+}
+
+.comparison-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.comparison-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.comparison-table td {
+    padding: 20px;
+    text-align: center;
+    font-size: 15px;
+    color: #374151;
+}
+
+.comparison-table .feature-name {
+    text-align: left;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.comparison-table .price-value {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.comparison-table .starter-price {
+    color: #059669;
+}
+
+.comparison-table .professional-price {
+    color: #7c3aed;
+}
+
+.comparison-table .premium-price {
+    color: #2563eb;
+}
+
+.check-icon-table {
+    margin: 0 auto;
+    display: block;
+}
+
+/* Add-on Services Section */
+.addon-section {
+    padding: 80px 0;
+    background-color: #f9fafb;
+}
+
+.addon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.addon-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 2px solid #e5e7eb;
+    transition: all 0.3s;
+}
+
+.addon-card:hover {
+    border-color: #2563eb;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.1);
+    transform: translateY(-5px);
+}
+
+.addon-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #1f2937;
+}
+
+.addon-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.addon-item:last-child {
+    border-bottom: none;
+}
+
+.addon-service {
+    font-size: 15px;
+    color: #374151;
+}
+
+.addon-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+/* Custom Pricing Section */
+.custom-pricing-section {
+    padding: 80px 0;
+    background-color: white;
+    text-align: center;
+}
+
+.custom-pricing-title {
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: #1f2937;
+}
+
+.custom-pricing-subtitle {
+    font-size: 18px;
+    color: #6b7280;
+    margin-bottom: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.custom-pricing-features {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.custom-feature {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: #f9fafb;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.custom-feature span {
+    font-size: 16px;
+    color: #374151;
+    font-weight: 500;
+}
+
+.check-icon-custom {
+    flex-shrink: 0;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .two-column-layout,
@@ -1566,6 +1897,10 @@ body {
     .btn-project-cta {
         width: 100%;
         max-width: 400px;
+    }
+
+    .addon-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -1654,6 +1989,57 @@ body {
 
     .final-cta-subtitle {
         font-size: 18px;
+    }
+
+    .pricing-hero-title {
+        font-size: 40px;
+    }
+
+    .pricing-hero-subtitle {
+        font-size: 18px;
+    }
+
+    .pricing-section-title {
+        font-size: 32px;
+    }
+
+    .philosophy-card {
+        padding: 30px;
+    }
+
+    .philosophy-card p {
+        font-size: 16px;
+    }
+
+    .pricing-table,
+    .comparison-table {
+        font-size: 14px;
+    }
+
+    .pricing-table th,
+    .pricing-table td {
+        padding: 16px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 16px 12px;
+    }
+
+    .comparison-table .price-value {
+        font-size: 24px;
+    }
+
+    .addon-card {
+        padding: 30px;
+    }
+
+    .custom-pricing-title {
+        font-size: 32px;
+    }
+
+    .custom-pricing-subtitle {
+        font-size: 16px;
     }
 }
 
@@ -1760,5 +2146,87 @@ body {
     .btn-emergency-cta .btn-title,
     .btn-project-cta .btn-title {
         font-size: 18px;
+    }
+
+    .pricing-hero {
+        padding: 80px 0 60px;
+    }
+
+    .pricing-hero-title {
+        font-size: 32px;
+    }
+
+    .pricing-hero-subtitle {
+        font-size: 16px;
+    }
+
+    .pricing-philosophy {
+        padding: 40px 0;
+    }
+
+    .philosophy-card {
+        padding: 24px;
+    }
+
+    .philosophy-card p {
+        font-size: 15px;
+    }
+
+    .pricing-section {
+        padding: 40px 0;
+    }
+
+    .pricing-section-title {
+        font-size: 28px;
+    }
+
+    .pricing-table th,
+    .pricing-table td {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+
+    .comparison-table .price-value {
+        font-size: 20px;
+    }
+
+    .addon-section {
+        padding: 40px 0;
+    }
+
+    .addon-card {
+        padding: 24px;
+    }
+
+    .addon-card h3 {
+        font-size: 20px;
+    }
+
+    .addon-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .custom-pricing-section {
+        padding: 40px 0;
+    }
+
+    .custom-pricing-title {
+        font-size: 28px;
+    }
+
+    .custom-pricing-subtitle {
+        font-size: 15px;
+    }
+
+    .custom-feature {
+        padding: 16px;
     }
 }
