@@ -1,0 +1,596 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    color: #1f2937;
+    line-height: 1.6;
+    background-color: #f9fafb;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navigation */
+.navbar {
+    background-color: #ffffff;
+    padding: 20px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #2563eb;
+    letter-spacing: -0.5px;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #6b7280;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #2563eb;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    color: white;
+    padding: 120px 0;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 56px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    opacity: 0.95;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Emergency Fixes Section */
+.emergency-fixes {
+    padding: 80px 0;
+    background-color: #ffffff;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.icon-box {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.icon-box.red {
+    background-color: #fef2f2;
+}
+
+.icon-box.purple {
+    background-color: #faf5ff;
+}
+
+.icon-box.green {
+    background-color: #f0fdf4;
+}
+
+.section-header h2 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: #6b7280;
+}
+
+.two-column-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 40px;
+}
+
+.fixes-list h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.fixes-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.fix-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.check-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.fix-item span {
+    color: #374151;
+    font-size: 15px;
+}
+
+/* Service Card */
+.service-card {
+    background-color: #fef2f2;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.service-card.pink {
+    background-color: #fef2f2;
+}
+
+.service-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.detail-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.detail-icon {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.detail-item h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #1f2937;
+}
+
+.detail-item p {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.pricing {
+    background-color: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 30px 0;
+}
+
+.price-range {
+    font-size: 32px;
+    font-weight: 800;
+    color: #dc2626;
+    margin-bottom: 8px;
+}
+
+.pricing-note {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.perfect-for {
+    margin: 20px 0;
+}
+
+.perfect-for p {
+    font-size: 14px;
+    color: #374151;
+}
+
+.btn-emergency {
+    width: 100%;
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-emergency:hover {
+    background-color: #b91c1c;
+}
+
+/* WooCommerce Section */
+.woocommerce-section {
+    padding: 80px 0;
+    background-color: #f9fafb;
+}
+
+.features-section {
+    margin-bottom: 60px;
+}
+
+.features-section h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.features-grid {
+    background-color: white;
+    border-radius: 16px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.feature-item span {
+    color: #374151;
+    font-size: 15px;
+}
+
+/* Pricing Tiers */
+.pricing-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.pricing-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    position: relative;
+    border: 2px solid transparent;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pricing-card.featured {
+    background: linear-gradient(135deg, #9333ea 0%, #a855f7 100%);
+    color: white;
+    transform: scale(1.05);
+}
+
+.pricing-card.featured:hover {
+    transform: scale(1.08);
+}
+
+.badge {
+    background-color: white;
+    color: #9333ea;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.pricing-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.pricing-card .price {
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: #9333ea;
+}
+
+.pricing-card.featured .price {
+    color: white;
+}
+
+.pricing-features {
+    list-style: none;
+    margin-bottom: 30px;
+}
+
+.pricing-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 15px;
+}
+
+.btn-outline {
+    width: 100%;
+    background-color: transparent;
+    color: #9333ea;
+    border: 2px solid #9333ea;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-outline:hover {
+    background-color: #9333ea;
+    color: white;
+}
+
+.btn-white {
+    width: 100%;
+    background-color: white;
+    color: #9333ea;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-white:hover {
+    background-color: #f3e8ff;
+}
+
+/* Shopify Section */
+.shopify-section {
+    padding: 80px 0;
+    background-color: #ffffff;
+}
+
+.shopify-layout {
+    display: grid;
+    grid-template-columns: 1fr 600px;
+    gap: 40px;
+}
+
+.shopify-features h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.feature-list {
+    background-color: #f9fafb;
+    border-radius: 16px;
+    padding: 40px;
+    list-style: none;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #374151;
+}
+
+.shopify-pricing {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.shopify-price-card {
+    background-color: #f0fdf4;
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.shopify-price-card h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.shopify-price-card .price {
+    font-size: 32px;
+    font-weight: 800;
+    color: #10b981;
+    margin-bottom: 8px;
+}
+
+.shopify-price-card p {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+/* Footer */
+.footer {
+    background-color: #1f2937;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.footer p {
+    color: #9ca3af;
+}
+
+/* Help Button */
+.help-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #1f2937;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+
+.help-button:hover {
+    background-color: #374151;
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .two-column-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .shopify-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .pricing-tiers {
+        grid-template-columns: 1fr;
+    }
+
+    .pricing-card.featured {
+        transform: scale(1);
+    }
+
+    .pricing-card.featured:hover {
+        transform: scale(1.02);
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .hero-title {
+        font-size: 36px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .section-header h2 {
+        font-size: 28px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        padding: 30px;
+    }
+
+    .feature-list {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 60px 0;
+    }
+
+    .hero-title {
+        font-size: 28px;
+    }
+
+    .emergency-fixes,
+    .woocommerce-section,
+    .shopify-section {
+        padding: 40px 0;
+    }
+
+    .service-card,
+    .pricing-card {
+        padding: 24px;
+    }
+
+    .price-range,
+    .pricing-card .price {
+        font-size: 28px;
+    }
+}
