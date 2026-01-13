@@ -74,7 +74,7 @@ body {
     background-color: #1d4ed8;
 }
 
-/* Hero Section */
+/* Hero Section (Services Page) */
 .hero {
     background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
     color: white;
@@ -95,6 +95,572 @@ body {
     opacity: 0.95;
     max-width: 800px;
     margin: 0 auto;
+}
+
+/* Home Page Hero */
+.home-hero {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    color: white;
+    padding: 140px 0 100px;
+    text-align: center;
+}
+
+.home-hero-title {
+    font-size: 64px;
+    font-weight: 800;
+    margin-bottom: 24px;
+    line-height: 1.1;
+}
+
+.home-hero-subtitle {
+    font-size: 22px;
+    font-weight: 400;
+    opacity: 0.95;
+    max-width: 900px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-hero-primary {
+    background-color: white;
+    color: #2563eb;
+    border: none;
+    padding: 18px 40px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-hero-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-hero-secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 16px 38px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-hero-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Features Bar */
+.features-bar {
+    background-color: #2563eb;
+    padding: 40px 0;
+    margin-bottom: 80px;
+}
+
+.features-grid-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+}
+
+.feature-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    color: white;
+}
+
+.badge-icon {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a5d8ff;
+}
+
+.feature-badge span {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Quick Services */
+.quick-services {
+    padding: 80px 0;
+    background-color: white;
+}
+
+.section-title-center {
+    font-size: 48px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 16px;
+    color: #1f2937;
+}
+
+.section-desc-center {
+    font-size: 20px;
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 60px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.quick-services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.quick-service-card {
+    background-color: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.quick-service-card:hover {
+    border-color: #2563eb;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
+    transform: translateY(-5px);
+}
+
+.service-icon-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+}
+
+.service-icon-large.red {
+    background-color: #fef2f2;
+}
+
+.service-icon-large.blue {
+    background-color: #eff6ff;
+}
+
+.service-icon-large.green {
+    background-color: #f0fdf4;
+}
+
+.quick-service-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #1f2937;
+}
+
+.quick-service-card p {
+    font-size: 16px;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* Services Overview */
+.services-overview {
+    padding: 80px 0;
+    background-color: #f9fafb;
+}
+
+.services-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.service-overview-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 40px;
+    border: 2px solid #e5e7eb;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.service-overview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.service-overview-card.urgent {
+    border-color: #fca5a5;
+    background-color: #fef2f2;
+}
+
+.service-overview-card.popular {
+    border-color: #c084fc;
+    background-color: #faf5ff;
+}
+
+.service-overview-card.enterprise {
+    border-color: #93c5fd;
+    background-color: #eff6ff;
+}
+
+.service-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.urgent-tag {
+    background-color: #dc2626;
+    color: white;
+}
+
+.popular-tag {
+    background-color: #9333ea;
+    color: white;
+}
+
+.enterprise-tag {
+    background-color: #2563eb;
+    color: white;
+}
+
+.service-overview-card h3 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #1f2937;
+}
+
+.service-desc {
+    font-size: 16px;
+    color: #6b7280;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.service-pricing {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.starting-text {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.price-large {
+    font-size: 36px;
+    font-weight: 800;
+}
+
+.red-price {
+    color: #dc2626;
+}
+
+.purple-price {
+    color: #9333ea;
+}
+
+.green-price {
+    color: #10b981;
+}
+
+.blue-price {
+    color: #2563eb;
+}
+
+.delivery-time {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.btn-learn-more {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-learn-more.red {
+    color: #dc2626;
+}
+
+.btn-learn-more.purple {
+    color: #9333ea;
+}
+
+.btn-learn-more.green {
+    color: #10b981;
+}
+
+.btn-learn-more.blue {
+    color: #2563eb;
+}
+
+.btn-learn-more:hover {
+    opacity: 0.8;
+    transform: translateX(4px);
+}
+
+/* Process Section (Services Page) */
+.process-section {
+    padding: 80px 0;
+    background-color: white;
+}
+
+.process-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.process-card {
+    text-align: center;
+    padding: 40px;
+}
+
+.process-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    margin: 0 auto 24px;
+}
+
+.process-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #1f2937;
+}
+
+.process-card p {
+    font-size: 16px;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* Process Section (Home Page) */
+.process-section-home {
+    padding: 80px 0;
+    background-color: #f9fafb;
+}
+
+.process-card-home {
+    text-align: center;
+    padding: 40px;
+}
+
+.process-number-home {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 800;
+    color: white;
+    margin: 0 auto 24px;
+}
+
+.process-card-home h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #1f2937;
+}
+
+.process-card-home p {
+    font-size: 16px;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.process-cta {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.btn-process-cta {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 18px 48px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-process-cta:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+/* Trust Section */
+.trust-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+}
+
+.trust-title {
+    font-size: 48px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 60px;
+    color: white;
+}
+
+.trust-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.trust-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.trust-card:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+}
+
+.trust-icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+}
+
+.trust-card p {
+    font-size: 18px;
+    color: white;
+    line-height: 1.6;
+}
+
+/* Final CTA Section */
+.final-cta-section {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+}
+
+.final-cta-title {
+    font-size: 48px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.final-cta-subtitle {
+    font-size: 20px;
+    color: #cbd5e1;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.final-cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.btn-emergency-cta,
+.btn-project-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 48px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-emergency-cta {
+    background-color: #ef4444;
+}
+
+.btn-emergency-cta:hover {
+    background-color: #dc2626;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+.btn-project-cta {
+    background-color: #10b981;
+}
+
+.btn-project-cta:hover {
+    background-color: #059669;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.btn-emergency-cta .btn-title,
+.btn-project-cta .btn-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 6px;
+}
+
+.btn-emergency-cta .btn-subtitle,
+.btn-project-cta .btn-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
 }
 
 /* Emergency Fixes Section */
@@ -969,6 +1535,38 @@ body {
     .footer-content {
         grid-template-columns: 1fr 1fr;
     }
+
+    .features-grid-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    .quick-services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .services-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .process-steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .trust-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .final-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-emergency-cta,
+    .btn-project-cta {
+        width: 100%;
+        max-width: 400px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -984,6 +1582,24 @@ body {
         font-size: 16px;
     }
 
+    .home-hero-title {
+        font-size: 40px;
+    }
+
+    .home-hero-subtitle {
+        font-size: 18px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        width: 100%;
+    }
+
     .section-header {
         flex-direction: column;
         text-align: center;
@@ -993,10 +1609,23 @@ body {
         font-size: 28px;
     }
 
+    .section-title-center {
+        font-size: 32px;
+    }
+
+    .section-desc-center {
+        font-size: 16px;
+    }
+
     .features-grid,
     .maintenance-grid {
         grid-template-columns: 1fr;
         padding: 30px;
+    }
+
+    .features-grid-bar {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .feature-list {
@@ -1014,6 +1643,18 @@ body {
     .footer-content {
         grid-template-columns: 1fr;
     }
+
+    .trust-title {
+        font-size: 36px;
+    }
+
+    .final-cta-title {
+        font-size: 36px;
+    }
+
+    .final-cta-subtitle {
+        font-size: 18px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1025,12 +1666,51 @@ body {
         font-size: 28px;
     }
 
+    .home-hero {
+        padding: 80px 0 60px;
+    }
+
+    .home-hero-title {
+        font-size: 32px;
+    }
+
+    .home-hero-subtitle {
+        font-size: 16px;
+        margin-bottom: 32px;
+    }
+
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        padding: 14px 24px;
+        font-size: 16px;
+    }
+
+    .features-bar {
+        padding: 30px 0;
+    }
+
+    .section-title-center {
+        font-size: 28px;
+    }
+
+    .quick-services,
+    .services-overview,
+    .process-section,
+    .process-section-home,
+    .trust-section,
+    .final-cta-section,
     .emergency-fixes,
     .woocommerce-section,
     .shopify-section,
     .php-section,
     .maintenance-section {
         padding: 40px 0;
+    }
+
+    .quick-service-card,
+    .service-overview-card,
+    .process-card {
+        padding: 30px;
     }
 
     .service-card,
@@ -1043,7 +1723,8 @@ body {
     .price-range,
     .pricing-card .price,
     .php-starting-price,
-    .maintenance-price {
+    .maintenance-price,
+    .price-large {
         font-size: 28px;
     }
 
@@ -1053,5 +1734,31 @@ body {
 
     .cta-title {
         font-size: 24px;
+    }
+
+    .trust-title {
+        font-size: 28px;
+    }
+
+    .trust-card {
+        padding: 30px;
+    }
+
+    .final-cta-title {
+        font-size: 28px;
+    }
+
+    .final-cta-subtitle {
+        font-size: 16px;
+    }
+
+    .btn-emergency-cta,
+    .btn-project-cta {
+        padding: 20px 32px;
+    }
+
+    .btn-emergency-cta .btn-title,
+    .btn-project-cta .btn-title {
+        font-size: 18px;
     }
 }
