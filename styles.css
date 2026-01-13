@@ -514,26 +514,460 @@ body {
     transform: scale(1.1);
 }
 
+/* Custom PHP Development Section */
+.php-section {
+    padding: 80px 0;
+    background-color: #f0f9ff;
+}
+
+.icon-box.blue {
+    background-color: #dbeafe;
+}
+
+.icon-box.orange {
+    background-color: #fff7ed;
+}
+
+.php-layout {
+    display: grid;
+    grid-template-columns: 1fr 450px;
+    gap: 40px;
+}
+
+.php-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.php-section-block h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.php-list {
+    display: grid;
+    gap: 16px;
+}
+
+.php-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.php-item span {
+    color: #374151;
+    font-size: 15px;
+}
+
+.php-pricing-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.php-pricing-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.php-starting-price {
+    font-size: 36px;
+    font-weight: 800;
+    color: #2563eb;
+    margin-bottom: 8px;
+}
+
+.php-pricing-note {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+
+.php-timeline {
+    padding: 20px 0;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 20px;
+}
+
+.php-timeline p {
+    font-size: 14px;
+    color: #374151;
+}
+
+.php-process h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.process-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.step-number.blue-step {
+    background-color: #dbeafe;
+    color: #2563eb;
+}
+
+.process-step span {
+    font-size: 14px;
+    color: #374151;
+    padding-top: 4px;
+}
+
+.btn-blue {
+    width: 100%;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-blue:hover {
+    background-color: #1d4ed8;
+}
+
+/* Monthly Maintenance & Support Section */
+.maintenance-section {
+    padding: 80px 0;
+    background-color: #ffffff;
+}
+
+.maintenance-included {
+    margin-bottom: 50px;
+}
+
+.maintenance-included h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.maintenance-grid {
+    background-color: #f9fafb;
+    border-radius: 16px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.maintenance-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.maintenance-item span {
+    color: #374151;
+    font-size: 15px;
+}
+
+.maintenance-plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.maintenance-plan-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 2px solid #e5e7eb;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.maintenance-plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.maintenance-plan-card.featured-orange {
+    background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+    color: white;
+    border: none;
+    transform: scale(1.05);
+}
+
+.maintenance-plan-card.featured-orange:hover {
+    transform: scale(1.08);
+}
+
+.badge.orange-badge {
+    background-color: white;
+    color: #f97316;
+}
+
+.maintenance-plan-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.maintenance-price {
+    font-size: 40px;
+    font-weight: 800;
+    color: #f97316;
+    margin-bottom: 4px;
+}
+
+.maintenance-plan-card.featured-orange .maintenance-price {
+    color: white;
+}
+
+.maintenance-period {
+    font-size: 16px;
+    color: #6b7280;
+    margin-bottom: 30px;
+}
+
+.maintenance-plan-card.featured-orange .maintenance-period {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.maintenance-features {
+    list-style: none;
+    margin-bottom: 30px;
+}
+
+.maintenance-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 15px;
+}
+
+.maintenance-features.white-text li {
+    color: white;
+}
+
+.btn-orange {
+    width: 100%;
+    background-color: #f97316;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-orange:hover {
+    background-color: #ea580c;
+}
+
+.btn-white-orange {
+    width: 100%;
+    background-color: white;
+    color: #f97316;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-white-orange:hover {
+    background-color: #fff7ed;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    padding: 100px 0;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 48px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 16px;
+}
+
+.cta-subtitle {
+    font-size: 20px;
+    color: #cbd5e1;
+    margin-bottom: 40px;
+}
+
+.btn-cta {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 18px 48px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-cta:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+/* Footer */
+.footer {
+    background-color: #0f172a;
+    color: #cbd5e1;
+    padding: 60px 0 30px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-col h3,
+.footer-col h4 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.footer-logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #2563eb;
+}
+
+.footer-desc {
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.footer-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #2563eb;
+}
+
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-item a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.contact-item a:hover {
+    color: #2563eb;
+}
+
+.footer-bottom {
+    border-top: 1px solid #1e293b;
+    padding-top: 30px;
+    text-align: center;
+}
+
+.footer-bottom p {
+    color: #64748b;
+    font-size: 14px;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .two-column-layout {
-        grid-template-columns: 1fr;
-    }
-
+    .two-column-layout,
+    .php-layout,
     .shopify-layout {
         grid-template-columns: 1fr;
     }
 
-    .pricing-tiers {
+    .pricing-tiers,
+    .maintenance-plans {
         grid-template-columns: 1fr;
     }
 
-    .pricing-card.featured {
+    .pricing-card.featured,
+    .maintenance-plan-card.featured-orange {
         transform: scale(1);
     }
 
-    .pricing-card.featured:hover {
+    .pricing-card.featured:hover,
+    .maintenance-plan-card.featured-orange:hover {
         transform: scale(1.02);
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -559,13 +993,26 @@ body {
         font-size: 28px;
     }
 
-    .features-grid {
+    .features-grid,
+    .maintenance-grid {
         grid-template-columns: 1fr;
         padding: 30px;
     }
 
     .feature-list {
         padding: 30px;
+    }
+
+    .cta-title {
+        font-size: 32px;
+    }
+
+    .cta-subtitle {
+        font-size: 16px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -580,17 +1027,31 @@ body {
 
     .emergency-fixes,
     .woocommerce-section,
-    .shopify-section {
+    .shopify-section,
+    .php-section,
+    .maintenance-section {
         padding: 40px 0;
     }
 
     .service-card,
-    .pricing-card {
+    .pricing-card,
+    .php-pricing-card,
+    .maintenance-plan-card {
         padding: 24px;
     }
 
     .price-range,
-    .pricing-card .price {
+    .pricing-card .price,
+    .php-starting-price,
+    .maintenance-price {
         font-size: 28px;
+    }
+
+    .cta-section {
+        padding: 60px 0;
+    }
+
+    .cta-title {
+        font-size: 24px;
     }
 }
