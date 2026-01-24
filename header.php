@@ -14,7 +14,7 @@
             <?php if (has_custom_logo()) : ?>
                 <?php the_custom_logo(); ?>
             <?php else : ?>
-                <a class="site-title" href="<?php echo esc_url(home_url('/')); ?>">Aakaari</a>
+                <a class="site-title" href="<?php echo esc_url(home_url('/')); ?>">aakaari</a>
             <?php endif; ?>
         </div>
         <nav class="site-nav">
@@ -26,8 +26,8 @@
                 'fallback_cb' => function () {
                     echo '<ul class="nav-list">';
                     echo '<li><a href="' . esc_url(home_url('/fix-an-issue/')) . '">Fix an Issue</a></li>';
-                    echo '<li><a href="' . esc_url(home_url('/plans/')) . '">Plans</a></li>';
-                    echo '<li><a href="' . esc_url(home_url('/build/')) . '">Build</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/plans/')) . '">Maintenance Plans</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/build/')) . '">Build Solutions</a></li>';
                     echo '<li><a href="' . esc_url(home_url('/knowledge-base/')) . '">Knowledge Base</a></li>';
                     echo '</ul>';
                 },
@@ -36,7 +36,7 @@
         </nav>
         <div class="header-actions">
             <a class="text-link" href="<?php echo esc_url(home_url('/account/')); ?>">Sign in</a>
-            <a class="btn btn-primary" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">Get Started</a>
+            <a class="btn btn-primary" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">Fix an Issue</a>
         </div>
     </div>
 </header>
