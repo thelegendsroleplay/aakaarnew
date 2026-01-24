@@ -31,7 +31,7 @@ $placeholders = [
 ?>
 
 <section class="section hero hero-centered">
-    <div class="container hero-content" data-animate>
+    <div class="container hero-content hero-animate" data-animate>
         <h1>Fix WordPress &amp; WooCommerce issues — fast.</h1>
         <p class="lead">Choose your issue, pay a fixed price, share details after checkout. No bidding. No delays.</p>
         <div class="button-group hero-actions">
@@ -54,6 +54,29 @@ $placeholders = [
             <div class="trust-card">
                 <span class="trust-icon">⏱</span>
                 <span>Delivery Tracking</span>
+            </div>
+        </div>
+        <div class="hero-showcase" data-animate>
+            <div class="showcase-card">
+                <span class="showcase-icon">⚡</span>
+                <div>
+                    <strong>Fast Turnaround</strong>
+                    <p class="muted">Most fixes delivered in 24–72 hours.</p>
+                </div>
+            </div>
+            <div class="showcase-card">
+                <span class="showcase-icon">💎</span>
+                <div>
+                    <strong>Fixed Pricing</strong>
+                    <p class="muted">No hourly surprises or bidding.</p>
+                </div>
+            </div>
+            <div class="showcase-card">
+                <span class="showcase-icon">🧠</span>
+                <div>
+                    <strong>WooCommerce Experts</strong>
+                    <p class="muted">Specialists in stores, checkouts, and payments.</p>
+                </div>
             </div>
         </div>
     </div>

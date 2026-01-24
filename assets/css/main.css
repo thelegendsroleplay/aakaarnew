@@ -7,10 +7,10 @@
   --color-border: #e2e8f0;
   --color-section: #f8fafc;
   --color-accent: #dbeafe;
-  --radius: 18px;
+  --radius: 16px;
   --radius-sm: 12px;
-  --shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
-  --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+  --shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+  --shadow-soft: 0 12px 24px rgba(15, 23, 42, 0.08);
   --container-width: 1180px;
   --spacing: 24px;
   --font-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -73,7 +73,7 @@ img {
 
 .section-heading h2 {
   margin: 0 0 8px;
-  font-size: 2.2rem;
+  font-size: 2.1rem;
 }
 
 .section-heading p {
@@ -104,7 +104,7 @@ img {
 .card {
   border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: var(--radius);
-  padding: 24px;
+  padding: 22px;
   background: #fff;
   box-shadow: var(--shadow-soft);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
@@ -142,8 +142,8 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 22px;
-  border-radius: 999px;
+  padding: 12px 24px;
+  border-radius: 12px;
   font-weight: 600;
   border: 1px solid transparent;
   transition: all 0.2s ease;
@@ -246,11 +246,12 @@ img {
 }
 
 .hero {
-  padding-top: 96px;
+  padding-top: 88px;
+  padding-bottom: 24px;
 }
 
 .hero-centered {
-  padding-bottom: 64px;
+  padding-bottom: 72px;
 }
 
 .hero-content {
@@ -259,8 +260,12 @@ img {
   text-align: center;
 }
 
+.hero-animate {
+  animation: heroFade 0.8s ease both;
+}
+
 .hero h1 {
-  font-size: clamp(2.8rem, 3vw + 1.5rem, 3.6rem);
+  font-size: clamp(2.7rem, 3vw + 1.3rem, 3.4rem);
   margin: 0 0 16px;
   line-height: 1.1;
 }
@@ -286,7 +291,7 @@ img {
 .trust-card {
   background: #fff;
   border: 1px solid var(--color-border);
-  border-radius: 14px;
+  border-radius: 12px;
   padding: 16px;
   font-weight: 600;
   display: flex;
@@ -308,11 +313,50 @@ img {
   font-size: 1rem;
 }
 
+.hero-showcase {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.showcase-card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  animation: floatUp 4s ease-in-out infinite;
+}
+
+.showcase-card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.showcase-card:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+.showcase-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--color-accent);
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
 .issues-grid .card {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-height: 320px;
+  min-height: 330px;
 }
 
 .issue-card-body p {
@@ -485,6 +529,27 @@ img {
   transform: translateY(0);
 }
 
+@keyframes heroFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatUp {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 @media (max-width: 1024px) {
   .grid-5 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -495,6 +560,10 @@ img {
   }
 
   .trust-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-showcase {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -516,6 +585,10 @@ img {
   .grid-3,
   .grid-2,
   .grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-showcase {
     grid-template-columns: 1fr;
   }
 
