@@ -39,11 +39,11 @@ $placeholders = [
                 <span class="badge badge-light">Delivery tracking</span>
             </div>
         </div>
-        <div class="hero-cards">
+        <div class="hero-cards hero-panel">
             <div class="grid grid-2">
                 <?php for ($i = 0; $i < 4; $i++) : ?>
                     <?php $product = $issue_products[$i] ?? null; ?>
-                    <div class="card shadow">
+                    <div class="card issue-card">
                         <h3>
                             <?php if ($product) : ?>
                                 <?php echo esc_html($product->get_name()); ?>
@@ -70,6 +70,7 @@ $placeholders = [
 <section class="section section-muted">
     <div class="container">
         <div class="section-heading">
+            <span class="section-eyebrow">How it works</span>
             <h2>How it works</h2>
             <p class="muted">Issue-as-product means you know the price and timeline before you start.</p>
         </div>
@@ -94,6 +95,7 @@ $placeholders = [
 <section class="section">
     <div class="container">
         <div class="section-heading">
+            <span class="section-eyebrow">Fix categories</span>
             <h2>Fix categories</h2>
             <p class="muted">Get help across core WordPress, WooCommerce, and custom builds.</p>
         </div>
@@ -150,6 +152,7 @@ $placeholders = [
 <section class="section section-muted">
     <div class="container">
         <div class="section-heading">
+            <span class="section-eyebrow">Maintenance Plans</span>
             <h2>Maintenance Plans</h2>
             <p class="muted">Ongoing care for growing WordPress and WooCommerce sites.</p>
         </div>
@@ -194,6 +197,7 @@ $placeholders = [
 <section class="section">
     <div class="container">
         <div class="section-heading">
+            <span class="section-eyebrow">Build Solutions</span>
             <h2>Build Solutions</h2>
             <p class="muted">From ecommerce launches to custom workflows.</p>
         </div>
@@ -218,6 +222,7 @@ $placeholders = [
 <section class="section section-muted">
     <div class="container">
         <div class="section-heading">
+            <span class="section-eyebrow">Proof + Trust</span>
             <h2>Trusted by busy teams</h2>
             <p class="muted">Clear scope, clear delivery.</p>
         </div>
