@@ -56,29 +56,6 @@ $placeholders = [
                 <span>Delivery Tracking</span>
             </div>
         </div>
-        <div class="hero-showcase" data-animate>
-            <div class="showcase-card">
-                <span class="showcase-icon">⚡</span>
-                <div>
-                    <strong>Fast Turnaround</strong>
-                    <p class="muted">Most fixes delivered in 24–72 hours.</p>
-                </div>
-            </div>
-            <div class="showcase-card">
-                <span class="showcase-icon">💎</span>
-                <div>
-                    <strong>Fixed Pricing</strong>
-                    <p class="muted">No hourly surprises or bidding.</p>
-                </div>
-            </div>
-            <div class="showcase-card">
-                <span class="showcase-icon">🧠</span>
-                <div>
-                    <strong>WooCommerce Experts</strong>
-                    <p class="muted">Specialists in stores, checkouts, and payments.</p>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
