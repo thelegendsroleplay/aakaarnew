@@ -1,0 +1,16 @@
+/*
+Theme Name: Aakaari
+Theme URI: https://example.com/aakaari
+Author: Aakaari
+Author URI: https://example.com
+Description: A clean, premium WooCommerce issue-fix theme for Aakaari.
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: aakaari
+Tags: custom-logo, custom-menu, featured-images, theme-options, ecommerce
+*/
+
+:root {
+  --aakaari-placeholder: #ffffff;
+}
