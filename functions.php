@@ -30,7 +30,7 @@ function aakaari_enqueue_assets(): void {
         $theme_version
     );
 
-    if (is_page('fix-an-issue')) {
+    if (is_page_template('page-fix-an-issue.php')) {
         wp_enqueue_style(
             'aakaari-fix-an-issue',
             get_template_directory_uri() . '/assets/css/fix-an-issue.css',

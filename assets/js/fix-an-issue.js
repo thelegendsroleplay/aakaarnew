@@ -19,4 +19,6 @@
       applyFilter(button.dataset.filter);
     });
   });
+
+  applyFilter('all');
 })();
