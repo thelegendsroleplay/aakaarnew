@@ -30,6 +30,22 @@ function aakaari_enqueue_assets(): void {
         $theme_version
     );
 
+    if (is_page('fix-an-issue')) {
+        wp_enqueue_style(
+            'aakaari-fix-an-issue',
+            get_template_directory_uri() . '/assets/css/fix-an-issue.css',
+            ['aakaari-main'],
+            $theme_version
+        );
+        wp_enqueue_script(
+            'aakaari-fix-an-issue',
+            get_template_directory_uri() . '/assets/js/fix-an-issue.js',
+            [],
+            $theme_version,
+            true
+        );
+    }
+
     wp_enqueue_script(
         'aakaari-main',
         get_template_directory_uri() . '/assets/js/main.js',
