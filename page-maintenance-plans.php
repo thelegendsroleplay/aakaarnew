@@ -24,31 +24,31 @@ get_header();
     <div class="container" data-animate>
         <div class="section-heading center">
             <h2>Why Not Just Hosting?</h2>
-            <p class="muted">Hosting manages servers. Aakaari manages your website.</p>
         </div>
         <div class="grid grid-2 comparison-grid">
             <div class="card comparison-card comparison-card-hosting" data-animate>
                 <h3>Hosting Support</h3>
                 <ul class="comparison-list comparison-list-hosting">
-                    <li>Server uptime ✅</li>
-                    <li>Auto updates ✅</li>
-                    <li>Website bugs ❌</li>
-                    <li>WooCommerce checkout help ❌</li>
-                    <li>Plugin conflicts ❌</li>
-                    <li>Revenue protection ❌</li>
+                    <li>Server uptime</li>
+                    <li>Auto updates</li>
+                    <li>Website bugs</li>
+                    <li>WooCommerce checkout help</li>
+                    <li>Plugin conflicts</li>
+                    <li>Revenue protection</li>
                 </ul>
             </div>
             <div class="card comparison-card comparison-card-care" data-animate>
                 <h3>Aakaari Care</h3>
                 <ul class="comparison-list comparison-list-care">
-                    <li>Safe updates with backup ✅</li>
-                    <li>Fix small issues before they grow ✅</li>
-                    <li>WooCommerce testing (Store plan) ✅</li>
-                    <li>Human support ✅</li>
-                    <li>Clear reporting ✅</li>
+                    <li>Safe updates with backup</li>
+                    <li>Fix small issues before they grow</li>
+                    <li>WooCommerce testing (Store plan)</li>
+                    <li>Human support</li>
+                    <li>Clear reporting</li>
                 </ul>
             </div>
         </div>
+        <p class="comparison-footnote">Hosting manages servers. Aakaari manages your website.</p>
     </div>
 </section>
 
@@ -56,7 +56,6 @@ get_header();
     <div class="container" data-animate>
         <div class="section-heading center">
             <h2>Choose Your Plan</h2>
-            <p class="muted">All plans include safe updates, backups, and human review.</p>
         </div>
         <div class="grid grid-3 plan-grid">
             <div class="card plan-card-alt plan-basic" data-animate>
@@ -65,11 +64,11 @@ get_header();
                     <span class="plan-kicker plan-kicker-green">Safe &amp; Updated</span>
                 </div>
                 <p class="plan-best">Best for: Simple websites, blogs, portfolios</p>
-                <p class="plan-price">From $99<span>/mo</span></p>
+                <p class="plan-price">From $99<span class="plan-price-period">/mo</span></p>
                 <p class="muted">Keep your site updated safely without breaking things.</p>
                 <div class="plan-section">
                     <strong>Includes</strong>
-                    <ul>
+                    <ul class="plan-list plan-list-includes">
                         <li>Monthly WordPress + plugin + theme updates (safe cycle)</li>
                         <li>Manual backup before updates</li>
                         <li>Restore support if update breaks the site</li>
@@ -80,7 +79,7 @@ get_header();
                 </div>
                 <div class="plan-section">
                     <strong>Limits</strong>
-                    <ul>
+                    <ul class="plan-list plan-list-limits">
                         <li>No free fixes</li>
                         <li>No WooCommerce monitoring</li>
                         <li>No custom development</li>
@@ -95,11 +94,11 @@ get_header();
                     <span class="plan-kicker plan-kicker-blue">Stable Growth ★</span>
                 </div>
                 <p class="plan-best">Best for: Business websites &amp; lead generation</p>
-                <p class="plan-price">From $199<span>/mo</span></p>
+                <p class="plan-price">From $199<span class="plan-price-period">/mo</span></p>
                 <p class="muted">Stability + security + small fixes — the best balance.</p>
                 <div class="plan-section">
                     <strong>Includes</strong>
-                    <ul>
+                    <ul class="plan-list plan-list-includes">
                         <li>Everything in Basic Care</li>
                         <li>Two checkups per month</li>
                         <li>Monthly performance cleanup</li>
@@ -111,7 +110,7 @@ get_header();
                 </div>
                 <div class="plan-section">
                     <strong>Limits</strong>
-                    <ul>
+                    <ul class="plan-list plan-list-limits">
                         <li>No new feature development</li>
                         <li>No redesign work</li>
                     </ul>
@@ -124,11 +123,11 @@ get_header();
                     <span class="plan-kicker plan-kicker-purple">Revenue Protection</span>
                 </div>
                 <p class="plan-best">Best for: WooCommerce stores</p>
-                <p class="plan-price">From $299<span>/mo</span></p>
+                <p class="plan-price">From $299<span class="plan-price-period">/mo</span></p>
                 <p class="muted">Keep checkout, payments, and orders running smoothly.</p>
                 <div class="plan-section">
                     <strong>Includes</strong>
-                    <ul>
+                    <ul class="plan-list plan-list-includes">
                         <li>Everything in Business Care</li>
                         <li>Monthly checkout + payment test</li>
                         <li>Order flow check (orders are being created correctly)</li>
@@ -140,7 +139,7 @@ get_header();
                 </div>
                 <div class="plan-section">
                     <strong>Limits</strong>
-                    <ul>
+                    <ul class="plan-list plan-list-limits">
                         <li>No major store rebuilds</li>
                         <li>No advanced feature builds</li>
                     </ul>
@@ -154,8 +153,7 @@ get_header();
 <section class="section section-muted">
     <div class="container" data-animate>
         <div class="section-heading center">
-            <h2>Plan comparison</h2>
-            <p class="muted">Clear differences so you can decide fast.</p>
+            <h2>Plan Comparison</h2>
         </div>
         <div class="comparison-table" data-animate>
             <div class="comparison-row comparison-header">
@@ -231,13 +229,12 @@ get_header();
 <section class="section">
     <div class="container" data-animate>
         <div class="section-heading center">
-            <h2>What counts as a “minor fix”</h2>
-            <p class="muted">So you always know what’s included.</p>
+            <h2>What Counts as a “Minor Fix”?</h2>
         </div>
         <div class="grid grid-2 minor-fix-grid">
             <div class="card minor-fix-card minor-fix-included" data-animate>
                 <h3>✓ Included as Minor Fix</h3>
-                <ul>
+                <ul class="minor-fix-list minor-fix-list-included">
                     <li>Plugin conflict resolution (small)</li>
                     <li>Layout break on one page</li>
                     <li>Forms not working</li>
@@ -248,7 +245,7 @@ get_header();
             </div>
             <div class="card minor-fix-card minor-fix-not" data-animate>
                 <h3>✕ Not Included</h3>
-                <ul>
+                <ul class="minor-fix-list minor-fix-list-not">
                     <li>New features / custom development</li>
                     <li>Full redesign / theme changes</li>
                     <li>Large migrations</li>
@@ -264,8 +261,7 @@ get_header();
 <section class="section section-muted">
     <div class="container" data-animate>
         <div class="section-heading center">
-            <h2>How it works</h2>
-            <p class="muted">Simple steps, clear outcomes.</p>
+            <h2>How It Works</h2>
         </div>
         <div class="grid grid-4 plans-steps">
             <div class="card step-card-alt" data-animate>
@@ -285,7 +281,7 @@ get_header();
             </div>
             <div class="card step-card-alt" data-animate>
                 <div class="step-number">4</div>
-                <h3>Request fixes (within plan limits)</h3>
+                <h3>Request fixes</h3>
                 <p class="muted">Within your plan limits</p>
             </div>
         </div>
@@ -296,8 +292,7 @@ get_header();
 <section class="section">
     <div class="container" data-animate>
         <div class="section-heading center">
-            <h2>FAQ</h2>
-            <p class="muted">Answers to the most common questions.</p>
+            <h2>Frequently Asked Questions</h2>
         </div>
         <div class="faq-grid">
             <div class="card faq-card" data-animate>
