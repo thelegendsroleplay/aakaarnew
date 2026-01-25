@@ -46,6 +46,15 @@ function aakaari_enqueue_assets(): void {
         );
     }
 
+    if (is_page_template('page-maintenance-plans.php')) {
+        wp_enqueue_style(
+            'aakaari-maintenance-plans',
+            get_template_directory_uri() . '/assets/css/maintenance-plans.css',
+            ['aakaari-main'],
+            $theme_version
+        );
+    }
+
     wp_enqueue_script(
         'aakaari-main',
         get_template_directory_uri() . '/assets/js/main.js',
