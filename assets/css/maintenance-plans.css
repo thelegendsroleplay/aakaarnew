@@ -1,0 +1,168 @@
+.plans-hero {
+  padding-top: 48px;
+}
+
+.plans-hero-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.plans-pill {
+  display: inline-flex;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(29, 78, 216, 0.25);
+  color: var(--color-primary);
+  background: #eff6ff;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.plans-hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2.4rem, 3vw + 1rem, 3.2rem);
+}
+
+.plans-badges {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.plans-actions {
+  justify-content: center;
+}
+
+.comparison-grid {
+  margin-top: 32px;
+}
+
+.comparison-card ul {
+  margin: 16px 0 0;
+  padding-left: 18px;
+  color: var(--color-muted);
+}
+
+.comparison-card.highlight {
+  border-color: rgba(29, 78, 216, 0.3);
+  box-shadow: 0 18px 40px rgba(29, 78, 216, 0.12);
+}
+
+.plan-grid {
+  margin-top: 32px;
+}
+
+.plan-card-alt {
+  padding: 28px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.plan-card-alt .badge {
+  align-self: flex-start;
+}
+
+.plan-card-alt.featured {
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 20px 40px rgba(29, 78, 216, 0.16);
+  position: relative;
+}
+
+.plan-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.plan-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.plan-section ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+.comparison-table {
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.comparison-row:last-child {
+  border-bottom: none;
+}
+
+.comparison-header {
+  background: #eff6ff;
+  font-weight: 700;
+}
+
+.minor-fix-grid {
+  margin-top: 32px;
+}
+
+.minor-fix-card ul {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+.minor-fix-note {
+  margin-top: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.plans-steps {
+  margin-top: 32px;
+}
+
+.faq-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+}
+
+.faq-card h3 {
+  margin-top: 0;
+}
+
+.plans-cta {
+  margin-top: 0;
+}
+
+@media (min-width: 768px) {
+  .faq-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .comparison-row {
+    grid-template-columns: 1fr;
+  }
+}
