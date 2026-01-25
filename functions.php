@@ -53,6 +53,13 @@ function aakaari_enqueue_assets(): void {
             ['aakaari-main'],
             $theme_version
         );
+        wp_enqueue_script(
+            'aakaari-maintenance-plans',
+            get_template_directory_uri() . '/assets/js/maintenance-plans.js',
+            [],
+            $theme_version,
+            true
+        );
     }
 
     wp_enqueue_script(
