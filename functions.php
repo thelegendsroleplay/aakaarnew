@@ -37,6 +37,13 @@ function aakaari_enqueue_assets(): void {
             ['aakaari-main'],
             $theme_version
         );
+        wp_enqueue_script(
+            'aakaari-fix-an-issue',
+            get_template_directory_uri() . '/assets/js/fix-an-issue.js',
+            [],
+            $theme_version,
+            true
+        );
     }
 
     wp_enqueue_script(
