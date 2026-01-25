@@ -81,13 +81,13 @@ $issue_cards = [
     <div class="container issue-hero-inner" data-animate>
         <h1>Fix an Issue</h1>
         <p class="lead">Select your specific problem and get a fixed price instantly. Pay first, share details after.</p>
-        <div class="issue-filters">
-            <button class="filter-pill is-active" type="button">All Issues</button>
-            <button class="filter-pill" type="button">WordPress Core</button>
-            <button class="filter-pill" type="button">WooCommerce</button>
-            <button class="filter-pill" type="button">Performance</button>
-            <button class="filter-pill" type="button">Security</button>
-            <button class="filter-pill" type="button">Custom Code / PHP</button>
+        <div class="issue-filters" data-issue-filters>
+            <button class="filter-pill is-active" type="button" data-filter="all">All Issues</button>
+            <button class="filter-pill" type="button" data-filter="wordpress-core">WordPress Core</button>
+            <button class="filter-pill" type="button" data-filter="woocommerce">WooCommerce</button>
+            <button class="filter-pill" type="button" data-filter="performance">Performance</button>
+            <button class="filter-pill" type="button" data-filter="security">Security</button>
+            <button class="filter-pill" type="button" data-filter="custom-code-php">Custom Code / PHP</button>
         </div>
     </div>
 </section>
@@ -96,7 +96,8 @@ $issue_cards = [
     <div class="container" data-animate>
         <div class="grid grid-3 issue-detail-grid">
             <?php foreach ($issue_cards as $card) : ?>
-                <div class="card issue-detail-card" data-animate>
+                <?php $category_slug = sanitize_title($card['category']); ?>
+                <div class="card issue-detail-card" data-animate data-category="<?php echo esc_attr($category_slug); ?>">
                     <span class="issue-tag"><?php echo esc_html($card['category']); ?></span>
                     <h3><?php echo esc_html($card['title']); ?></h3>
                     <p class="muted"><?php echo esc_html($card['description']); ?></p>
