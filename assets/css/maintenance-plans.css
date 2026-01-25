@@ -1,11 +1,11 @@
 .plans-hero {
   padding-top: 72px;
-  padding-bottom: 48px;
+  padding-bottom: 64px;
   background: radial-gradient(circle at top left, rgba(29, 78, 216, 0.08), transparent 60%);
 }
 
 .plans-hero-inner {
-  max-width: 860px;
+  max-width: 880px;
   margin: 0 auto;
   text-align: left;
 }
@@ -14,7 +14,7 @@
   display: inline-flex;
   padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(29, 78, 216, 0.25);
+  border: 1px solid rgba(29, 78, 216, 0.2);
   color: var(--color-primary);
   background: #eff6ff;
   font-weight: 600;
@@ -22,8 +22,9 @@
 }
 
 .plans-hero h1 {
-  margin: 0 0 12px;
-  font-size: clamp(2.4rem, 3vw + 1rem, 3.2rem);
+  margin: 0 0 14px;
+  font-size: clamp(2.6rem, 3.1vw + 1rem, 3.4rem);
+  letter-spacing: -0.02em;
 }
 
 .plans-badges {
@@ -42,17 +43,18 @@
 
 .plans-actions {
   justify-content: flex-start;
+  margin-top: 22px;
 }
 
 .comparison-grid {
-  margin-top: 32px;
+  margin-top: 36px;
 }
 
 .comparison-card {
-  padding: 28px;
-  border-radius: 18px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 .comparison-card ul {
@@ -85,6 +87,7 @@
 .comparison-list-care li::before {
   content: '✓';
   font-weight: 700;
+  font-size: 1rem;
 }
 
 .comparison-list-hosting li:nth-child(n + 3)::before {
@@ -100,13 +103,20 @@
   color: var(--color-primary);
 }
 
+.comparison-footnote {
+  margin-top: 28px;
+  text-align: center;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
 .plan-grid {
-  margin-top: 32px;
+  margin-top: 36px;
 }
 
 .plan-card-alt {
-  padding: 28px;
-  border-radius: 18px;
+  padding: 30px;
+  border-radius: 20px;
   border: 1px solid rgba(148, 163, 184, 0.35);
   box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
   display: flex;
@@ -127,7 +137,7 @@
 }
 
 .plan-popular {
-  margin-top: -42px;
+  margin-top: -44px;
   background: var(--color-primary);
   color: #fff;
   padding: 6px 16px;
@@ -168,7 +178,7 @@
 
 .plan-card-alt h3 {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
 }
 
 .plan-best {
@@ -177,23 +187,27 @@
 }
 
 .plan-price {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
   margin: 4px 0 0;
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
-.plan-price span {
+.plan-price-period {
   font-size: 1rem;
   color: var(--color-muted);
   margin-left: 4px;
 }
 
-.plan-section ul {
+.plan-section ul,
+.plan-list {
   margin: 8px 0 0;
-  padding-left: 18px;
+  padding-left: 0;
   color: var(--color-muted);
   line-height: 1.7;
+  list-style: none;
+  display: grid;
+  gap: 8px;
 }
 
 .plan-card-alt .btn {
@@ -202,6 +216,32 @@
   justify-content: center;
   padding: 12px 18px;
   border-radius: 12px;
+}
+
+.plan-list li::before {
+  content: '✓';
+  color: #16a34a;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.plan-business .plan-list li::before {
+  color: var(--color-primary);
+}
+
+.plan-store .plan-list li::before {
+  color: #9333ea;
+}
+
+.plan-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.plan-list-limits li::before {
+  content: '✕';
+  color: #94a3b8;
 }
 
 .plan-button {
@@ -219,7 +259,7 @@
 
 .comparison-table {
   border: 1px solid rgba(148, 163, 184, 0.3);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   background: #fff;
   box-shadow: 0 16px 30px rgba(15, 23, 42, 0.06);
@@ -229,7 +269,7 @@
   display: grid;
   grid-template-columns: 2fr repeat(3, 1fr);
   gap: 16px;
-  padding: 16px 20px;
+  padding: 18px 22px;
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
@@ -244,7 +284,7 @@
 
 .comparison-row .col-store {
   text-align: center;
-  background: #f3e8ff;
+  background: #f8fafc;
 }
 
 .comparison-row:last-child {
@@ -252,7 +292,7 @@
 }
 
 .comparison-header {
-  background: #eff6ff;
+  background: #f8fafc;
   font-weight: 700;
 }
 
@@ -261,8 +301,8 @@
 }
 
 .minor-fix-card {
-  border-radius: 18px;
-  padding: 24px;
+  border-radius: 20px;
+  padding: 26px;
 }
 
 .minor-fix-included {
@@ -277,15 +317,36 @@
 
 .minor-fix-card ul {
   margin: 12px 0 0;
-  padding-left: 18px;
+  padding-left: 0;
   color: var(--color-muted);
   line-height: 1.7;
+  list-style: none;
+  display: grid;
+  gap: 10px;
 }
 
 .minor-fix-note {
   margin-top: 24px;
   font-weight: 600;
   text-align: center;
+}
+
+.minor-fix-list li::before {
+  content: '✓';
+  color: #16a34a;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.minor-fix-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.minor-fix-list-not li::before {
+  content: '✕';
+  color: #ef4444;
 }
 
 .highlight-note {
@@ -302,6 +363,16 @@
 .plans-steps .step-card-alt {
   text-align: center;
   box-shadow: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.plans-steps .step-number {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 14px;
+  font-size: 1.05rem;
 }
 
 .faq-grid {
@@ -312,8 +383,8 @@
 
 .faq-card {
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
-  border-radius: 16px;
-  padding: 20px 24px;
+  border-radius: 18px;
+  padding: 24px 28px;
 }
 
 .faq-card h3 {
@@ -322,12 +393,6 @@
 
 .plans-cta {
   margin-top: 0;
-}
-
-@media (min-width: 768px) {
-  .faq-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 768px) {
