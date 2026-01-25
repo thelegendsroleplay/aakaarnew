@@ -32,27 +32,59 @@ $placeholders = [
 
 <section class="section hero hero-centered">
     <div class="container hero-content hero-animate" data-animate>
-        <h1>Fix WordPress &amp; WooCommerce issues — fast.</h1>
-        <p class="lead">Choose your issue, pay a fixed price, share details after checkout. No bidding. No delays.</p>
+        <div class="hero-pill">
+            <span class="pill-dot"></span>
+            Premium WordPress &amp; WooCommerce Support Platform
+        </div>
+        <h1 class="hero-title">
+            Fix WordPress Issues
+            <span class="hero-highlight">Fast &amp; Fair</span>
+        </h1>
+        <p class="hero-subtitle">Choose your issue. Pay a fixed price. Share details. Get it fixed.</p>
+        <p class="hero-note">No bidding. No surprises. No delays.</p>
         <div class="button-group hero-actions">
-            <a class="btn btn-primary" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">Fix an Issue</a>
-            <a class="btn btn-outline" href="<?php echo esc_url(home_url('/plans/')); ?>">View Plans</a>
+            <a class="btn btn-primary" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">
+                Fix an Issue Now
+                <span aria-hidden="true">→</span>
+            </a>
+            <a class="btn btn-outline" href="<?php echo esc_url(home_url('/plans/')); ?>">View Maintenance Plans</a>
         </div>
         <div class="trust-cards" data-animate>
             <div class="trust-card">
-                <span class="trust-icon">✓</span>
+                <span class="trust-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img">
+                        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
+                        <path d="M8 12.5l2.5 2.5L16 9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </span>
                 <span>Fixed Pricing</span>
             </div>
             <div class="trust-card">
-                <span class="trust-icon">⟲</span>
+                <span class="trust-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img">
+                        <path d="M12 3v4m0 10v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <path d="M6 7a7 7 0 1 1-1 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <path d="M5 14l-1.5 3.5L7 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </span>
                 <span>Upgrade or Refund</span>
             </div>
             <div class="trust-card">
-                <span class="trust-icon">🔒</span>
+                <span class="trust-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img">
+                        <rect x="6" y="11" width="12" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2" />
+                        <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </span>
                 <span>Secure Payments</span>
             </div>
             <div class="trust-card">
-                <span class="trust-icon">⏱</span>
+                <span class="trust-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img">
+                        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
+                        <path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </span>
                 <span>Delivery Tracking</span>
             </div>
         </div>
