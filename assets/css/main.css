@@ -200,7 +200,7 @@ img {
   z-index: 100;
   background: transparent;
   border-bottom: none;
-  padding: 16px 0;
+  padding: 0;
 }
 
 .site-header.is-scrolled {
@@ -218,6 +218,7 @@ img {
   border-radius: 999px;
   box-shadow: var(--shadow-soft);
   flex-wrap: wrap;
+  margin: 16px auto;
 }
 
 .site-title {
@@ -317,7 +318,7 @@ img {
 }
 
 .hero-note {
-  margin: 6px 0 0;
+  margin: 12px 0 20px;
   font-weight: 700;
   color: var(--color-text);
 }
@@ -812,7 +813,7 @@ img {
   }
 
   .site-header {
-    padding: 24px 0;
+    padding: 0;
   }
 }
 
