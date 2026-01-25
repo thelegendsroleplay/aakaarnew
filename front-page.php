@@ -187,29 +187,55 @@ $placeholders = [
 
 <section class="section">
     <div class="container" data-animate>
-        <div class="section-heading center">
+        <div class="section-heading center steps-heading">
             <h2>How It Works</h2>
-            <p class="muted">Three simple steps to get your site fixed</p>
+            <p class="muted">Get your WordPress issue fixed in three simple steps</p>
         </div>
         <div class="grid grid-3 steps-grid">
-            <div class="step-card" data-animate>
+            <div class="card step-card-alt" data-animate>
                 <div class="step-number">1</div>
-                <h3>Choose Issue</h3>
-                <p class="muted">Select your specific WordPress or WooCommerce problem from our list.</p>
+                <div class="step-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img">
+                        <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+                        <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+                <h3>Choose Your Issue</h3>
+                <p class="muted">Browse our catalog and select the exact problem you're facing. Each issue has clear descriptions and fixed pricing.</p>
             </div>
-            <div class="step-card" data-animate>
+            <div class="card step-card-alt" data-animate>
                 <div class="step-number">2</div>
+                <div class="step-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img">
+                        <rect x="4" y="7" width="16" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2" />
+                        <path d="M4 11h16" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
                 <h3>Pay Fixed Price</h3>
-                <p class="muted">Know exactly what you’ll pay. Choose Basic, Advanced, or Critical tier.</p>
+                <p class="muted">Select your tier (Basic/Advanced/Critical) based on complexity. Pay securely via WooCommerce checkout.</p>
             </div>
-            <div class="step-card" data-animate>
+            <div class="card step-card-alt" data-animate>
                 <div class="step-number">3</div>
-                <h3>Share Details → We Fix</h3>
-                <p class="muted">After payment, provide access details. We fix your issue within the timeframe.</p>
+                <div class="step-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img">
+                        <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+                        <path d="M9 12.5l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h3>We Fix It Fast</h3>
+                <p class="muted">After payment, share your site details through our secure form. Then relax while our experts work on your issue.</p>
             </div>
         </div>
-        <div class="notice-card" data-animate>
-            <strong>Fair Pricing Guarantee:</strong> If the selected tier doesn’t match complexity, we’ll offer a clear upgrade or a full refund.
+        <div class="notice-card notice-card-alt" data-animate>
+            <div class="notice-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                    <path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <div>
+                <strong>Fair Pricing Guarantee</strong>
+                <p class="muted">If the selected tier doesn't match complexity, we'll offer a clear upgrade option or provide a full refund. No hidden fees, no surprises.</p>
+            </div>
         </div>
     </div>
 </section>
