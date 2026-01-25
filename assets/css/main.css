@@ -204,7 +204,8 @@ img {
 }
 
 .site-header.is-scrolled {
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  box-shadow: none;
+  background: transparent;
 }
 
 .header-inner {
@@ -378,6 +379,10 @@ img {
   flex-direction: column;
   gap: 16px;
   min-height: 330px;
+}
+
+.issues-grid + .center {
+  margin-top: 28px;
 }
 
 .issue-card-body p {
