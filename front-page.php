@@ -1,31 +1,49 @@
 <?php
 get_header();
 
-$issue_products = aakaari_get_issue_products(4);
+$issue_products = aakaari_get_issue_products(6);
 $placeholders = [
     [
         'title' => __('White Screen of Death (WSOD)', 'aakaari'),
         'price' => __('From $79', 'aakaari'),
         'duration' => __('24 hours', 'aakaari'),
         'description' => __('Your WordPress site displays a blank white screen with no error message.', 'aakaari'),
+        'badge' => __('Popular', 'aakaari'),
     ],
     [
         'title' => __('WooCommerce Checkout Not Working', 'aakaari'),
         'price' => __('From $99', 'aakaari'),
         'duration' => __('24 hours', 'aakaari'),
         'description' => __('Customers cannot complete purchases on your WooCommerce checkout.', 'aakaari'),
+        'badge' => __('Popular', 'aakaari'),
     ],
     [
         'title' => __('Slow Loading Website', 'aakaari'),
         'price' => __('From $129', 'aakaari'),
         'duration' => __('48 hours', 'aakaari'),
         'description' => __('Your WordPress site takes too long to load, affecting user experience.', 'aakaari'),
+        'badge' => __('Popular', 'aakaari'),
     ],
     [
         'title' => __('Hacked Site / Malware Removal', 'aakaari'),
         'price' => __('From $199', 'aakaari'),
         'duration' => __('48 hours', 'aakaari'),
         'description' => __('Your site has been compromised with malware or hacked content.', 'aakaari'),
+        'badge' => __('Popular', 'aakaari'),
+    ],
+    [
+        'title' => __('PHP Fatal Error', 'aakaari'),
+        'price' => __('From $89', 'aakaari'),
+        'duration' => __('24 hours', 'aakaari'),
+        'description' => __('Your site shows PHP errors or stops working due to code issues.', 'aakaari'),
+        'badge' => __('Popular', 'aakaari'),
+    ],
+    [
+        'title' => __('My Issue Is Not Listed', 'aakaari'),
+        'price' => __('From $49', 'aakaari'),
+        'duration' => __('24 hours', 'aakaari'),
+        'description' => __('Describe your unique WordPress or WooCommerce problem.', 'aakaari'),
+        'badge' => __('Popular', 'aakaari'),
     ],
 ];
 ?>
@@ -93,14 +111,22 @@ $placeholders = [
 
 <section class="section section-muted">
     <div class="container" data-animate>
-        <div class="section-heading center">
+        <div class="section-heading center issues-heading">
             <h2>Popular Issues We Fix</h2>
-            <p class="muted">Select an issue and get a fixed price instantly</p>
+            <p class="muted">Browse our most common fixes with transparent, fixed pricing</p>
         </div>
-        <div class="grid grid-4 issues-grid">
-            <?php for ($i = 0; $i < 4; $i++) : ?>
+        <div class="grid grid-3 issues-grid">
+            <?php for ($i = 0; $i < 6; $i++) : ?>
                 <?php $product = $issue_products[$i] ?? null; ?>
-                <div class="card issue-card" data-animate>
+                <div class="card issue-card issue-card-alt" data-animate>
+                    <div class="issue-card-header">
+                        <div class="issue-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img">
+                                <path d="M13 2L3 14h7l-1 8 12-14h-7l1-8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <span class="issue-badge"><?php echo esc_html($placeholders[$i]['badge']); ?></span>
+                    </div>
                     <div class="issue-card-body">
                         <h3>
                             <?php if ($product) : ?>
@@ -112,32 +138,49 @@ $placeholders = [
                         <p class="muted">
                             <?php
                             if ($product && $product->get_short_description()) {
-                                echo wp_kses_post(wp_trim_words($product->get_short_description(), 16));
+                                echo wp_kses_post(wp_trim_words($product->get_short_description(), 18));
                             } else {
                                 echo esc_html($placeholders[$i]['description']);
                             }
                             ?>
                         </p>
                     </div>
-                    <div class="issue-card-meta">
-                        <span class="muted">From</span>
-                        <span class="price">
+                    <div class="issue-card-price">
+                        <span class="price-label">Starting at</span>
+                        <span class="price-amount">
                             <?php if ($product && $product->get_price()) : ?>
                                 <?php echo wp_kses_post(wc_price($product->get_price())); ?>
                             <?php else : ?>
-                                <?php echo esc_html($placeholders[$i]['price']); ?>
+                                <?php echo esc_html(str_replace('From ', '', $placeholders[$i]['price'])); ?>
                             <?php endif; ?>
                         </span>
                     </div>
+                    <div class="issue-card-meta">
+                        <span class="meta-item">
+                            <span class="meta-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img">
+                                    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
+                                    <path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <?php echo esc_html($product ? __('24 hours', 'aakaari') : $placeholders[$i]['duration']); ?>
+                        </span>
+                        <span class="meta-item">Fixed Price</span>
+                    </div>
                     <div class="issue-card-footer">
-                        <span class="muted"><span class="icon">⏱</span> <?php echo esc_html($product ? __('24 hours', 'aakaari') : $placeholders[$i]['duration']); ?></span>
-                        <a class="btn btn-primary" href="<?php echo esc_url($product ? $product->get_permalink() : home_url('/fix-an-issue/')); ?>">Select</a>
+                        <a class="btn btn-primary" href="<?php echo esc_url($product ? $product->get_permalink() : home_url('/fix-an-issue/')); ?>">
+                            View Details
+                            <span aria-hidden="true">→</span>
+                        </a>
                     </div>
                 </div>
             <?php endfor; ?>
         </div>
         <div class="center" data-animate>
-            <a class="btn btn-outline" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">View All Issues →</a>
+            <a class="btn btn-outline" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">
+                View All Issues
+                <span aria-hidden="true">→</span>
+            </a>
         </div>
     </div>
 </section>

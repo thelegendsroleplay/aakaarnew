@@ -373,31 +373,117 @@ img {
   min-height: 64px;
 }
 
-.issue-card-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+.issues-heading {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.issue-card .price {
+.issue-card-alt {
+  padding: 22px 22px 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: none;
+  gap: 18px;
+}
+
+.issue-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.issue-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #eff6ff;
   color: var(--color-primary);
-  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.issue-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.issue-badge {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.issue-card-body h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.issue-card-body p {
   margin: 0;
 }
 
-.issue-card-footer {
+.issue-card-price {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  background: #eff6ff;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.price-label {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.price-amount {
+  color: var(--color-primary);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.issue-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.meta-item:last-child {
+  color: var(--color-text);
+}
+
+.meta-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.meta-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .issue-card-footer .btn {
   width: 100%;
-}
-
-.issue-card-footer .icon {
-  margin-right: 6px;
+  justify-content: center;
 }
 
 .steps-grid {
