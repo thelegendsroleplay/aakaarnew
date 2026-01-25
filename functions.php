@@ -72,6 +72,41 @@ function aakaari_enqueue_assets(): void {
 }
 add_action('wp_enqueue_scripts', 'aakaari_enqueue_assets');
 
+function aakaari_create_required_pages(): void {
+    $pages = [
+        'plans' => [
+            'title' => __('Maintenance Plans', 'aakaari'),
+            'template' => 'page-maintenance-plans.php',
+        ],
+        'fix-an-issue' => [
+            'title' => __('Fix an Issue', 'aakaari'),
+            'template' => 'page-fix-an-issue.php',
+        ],
+    ];
+
+    foreach ($pages as $slug => $page) {
+        $existing = get_page_by_path($slug);
+        if ($existing) {
+            if ($page['template']) {
+                update_post_meta($existing->ID, '_wp_page_template', $page['template']);
+            }
+            continue;
+        }
+
+        $page_id = wp_insert_post([
+            'post_title' => $page['title'],
+            'post_name' => $slug,
+            'post_status' => 'publish',
+            'post_type' => 'page',
+        ]);
+
+        if (!is_wp_error($page_id) && $page['template']) {
+            update_post_meta($page_id, '_wp_page_template', $page['template']);
+        }
+    }
+}
+add_action('after_switch_theme', 'aakaari_create_required_pages');
+
 function aakaari_get_issue_products(int $limit = 4): array {
     if (!class_exists('WooCommerce')) {
         return [];
