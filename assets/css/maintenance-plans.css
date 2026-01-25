@@ -1,11 +1,13 @@
 .plans-hero {
-  padding-top: 48px;
+  padding-top: 64px;
+  padding-bottom: 32px;
+  background: radial-gradient(circle at top left, rgba(29, 78, 216, 0.08), transparent 55%);
 }
 
 .plans-hero-inner {
-  max-width: 780px;
+  max-width: 860px;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
 }
 
 .plans-pill {
@@ -29,21 +31,37 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .plans-actions {
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .comparison-grid {
   margin-top: 32px;
 }
 
+.comparison-card {
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
 .comparison-card ul {
   margin: 16px 0 0;
-  padding-left: 18px;
+  padding-left: 0;
+  list-style: none;
   color: var(--color-muted);
+  display: grid;
+  gap: 10px;
+}
+
+.comparison-card li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 500;
 }
 
 .comparison-card.highlight {
@@ -59,7 +77,7 @@
   padding: 28px;
   border-radius: 18px;
   border: 1px solid rgba(148, 163, 184, 0.35);
-  box-shadow: none;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -83,10 +101,16 @@
   letter-spacing: 0.05em;
 }
 
+.plan-card-alt h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
 .plan-price {
   font-size: 1.6rem;
   font-weight: 700;
-  margin: 0;
+  margin: 4px 0 0;
+  color: var(--color-primary);
 }
 
 .plan-section ul {
@@ -96,11 +120,18 @@
   line-height: 1.7;
 }
 
+.plan-card-alt .btn {
+  margin-top: auto;
+  width: 100%;
+  justify-content: center;
+}
+
 .comparison-table {
   border: 1px solid rgba(148, 163, 184, 0.3);
   border-radius: 16px;
   overflow: hidden;
   background: #fff;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.06);
 }
 
 .comparison-row {
@@ -141,10 +172,18 @@
   margin-top: 32px;
 }
 
+.plans-steps .step-card-alt {
+  text-align: center;
+}
+
 .faq-grid {
   display: grid;
   gap: 24px;
   grid-template-columns: 1fr;
+}
+
+.faq-card {
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
 }
 
 .faq-card h3 {
@@ -162,6 +201,15 @@
 }
 
 @media (max-width: 768px) {
+  .plans-hero-inner {
+    text-align: center;
+  }
+
+  .plans-badges,
+  .plans-actions {
+    justify-content: center;
+  }
+
   .comparison-row {
     grid-template-columns: 1fr;
   }

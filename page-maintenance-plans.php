@@ -29,7 +29,7 @@ get_header();
         <div class="grid grid-2 comparison-grid">
             <div class="card comparison-card" data-animate>
                 <h3>Hosting Support</h3>
-                <ul>
+                <ul class="comparison-list comparison-list-hosting">
                     <li>Server uptime ✅</li>
                     <li>Auto updates ✅</li>
                     <li>Website bugs ❌</li>
@@ -40,7 +40,7 @@ get_header();
             </div>
             <div class="card comparison-card highlight" data-animate>
                 <h3>Aakaari Care</h3>
-                <ul>
+                <ul class="comparison-list comparison-list-care">
                     <li>Safe updates with backup ✅</li>
                     <li>Fix small issues before they grow ✅</li>
                     <li>WooCommerce testing (Store plan) ✅</li>
