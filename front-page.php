@@ -330,11 +330,17 @@ $placeholders = [
 
 <section class="section cta-strip">
     <div class="container cta-inner" data-animate>
-        <div>
-            <h2>Fix it today — choose your issue now.</h2>
-            <p>Professional WordPress support with transparent, fixed pricing.</p>
+        <div class="cta-content">
+            <h2>Ready to Fix Your WordPress Issue?</h2>
+            <p>Join thousands of satisfied clients who chose transparency over uncertainty</p>
         </div>
-        <a class="btn btn-outline" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">Fix an Issue →</a>
+        <div class="button-group cta-actions">
+            <a class="btn btn-primary btn-light" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">
+                Fix an Issue Now
+                <span aria-hidden="true">→</span>
+            </a>
+            <a class="btn btn-outline btn-light-outline" href="<?php echo esc_url(home_url('/plans/')); ?>">View Maintenance Plans</a>
+        </div>
     </div>
 </section>
 

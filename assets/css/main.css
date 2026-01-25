@@ -629,17 +629,55 @@ img {
 .cta-strip {
   background: #1d4ed8;
   color: #fff;
-  padding: 72px 0;
+  padding: 88px 0;
 }
 
 .cta-inner {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
   flex-wrap: wrap;
   text-align: center;
   flex-direction: column;
+}
+
+.cta-content h2 {
+  margin: 0 0 8px;
+  font-size: clamp(2rem, 2.4vw + 1rem, 2.6rem);
+}
+
+.cta-content p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cta-actions {
+  margin-bottom: 0;
+  justify-content: center;
+}
+
+.btn-light {
+  background: #fff;
+  color: var(--color-primary);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+}
+
+.btn-light:hover {
+  background: #e0e7ff;
+  color: var(--color-primary-dark);
+}
+
+.btn-light-outline {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+.btn-light-outline:hover {
+  border-color: #fff;
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .site-footer {
@@ -676,10 +714,12 @@ img {
 
 .footer-bottom-inner {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
+  flex-direction: column;
+  text-align: center;
 }
 
 [data-animate] {
