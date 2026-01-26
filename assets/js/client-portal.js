@@ -1,11 +1,15 @@
 const clientPortal = (() => {
   const titles = {
     home: 'Dashboard',
+    fixes: 'My Fixes',
     support: 'Support Center',
-    projects: 'Build Projects',
-    websites: 'Websites',
+    projects: 'Projects (Build)',
+    websites: 'My Websites',
     files: 'Files',
+    security: 'Security Vault',
+    plan: 'My Plan',
     billing: 'Billing',
+    settings: 'Settings',
   };
 
   const nav = (viewId, el) => {

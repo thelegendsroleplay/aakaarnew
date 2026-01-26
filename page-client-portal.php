@@ -21,13 +21,17 @@
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
       Dashboard
     </div>
-    <div class="nav-item" onclick="clientPortal.nav('support', this)">
-      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-      Support Tickets
+    <div class="nav-item" onclick="clientPortal.nav('fixes', this)">
+      <svg viewBox="0 0 24 24"><path d="M4 4h10l6 6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path><polyline points="14 4 14 10 20 10"></polyline></svg>
+      My Fixes
     </div>
     <div class="nav-item" onclick="clientPortal.nav('projects', this)">
       <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
       Projects
+    </div>
+    <div class="nav-item" onclick="clientPortal.nav('support', this)">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      Support Tickets
     </div>
 
     <div class="nav-header">Management</div>
@@ -39,9 +43,22 @@
       <svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
       Files
     </div>
+    <div class="nav-item" onclick="clientPortal.nav('security', this)">
+      <svg viewBox="0 0 24 24"><path d="M12 2l7 4v6c0 5-3.5 9.5-7 10-3.5-.5-7-5-7-10V6z"></path></svg>
+      Security Vault
+    </div>
+    <div class="nav-header">Account</div>
+    <div class="nav-item" onclick="clientPortal.nav('plan', this)">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8"></polygon></svg>
+      My Plan
+    </div>
     <div class="nav-item" onclick="clientPortal.nav('billing', this)">
       <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
       Billing
+    </div>
+    <div class="nav-item" onclick="clientPortal.nav('settings', this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.8 1.8 0 0 0 .4 2l.1.1a2 2 0 0 1-1.4 3.4h-1a2 2 0 0 1-2-1.4l-.1-.3a1.8 1.8 0 0 0-1.7-1.2h-1.4a1.8 1.8 0 0 0-1.7 1.2l-.1.3a2 2 0 0 1-2 1.4h-1a2 2 0 0 1-1.4-3.4l.1-.1a1.8 1.8 0 0 0 .4-2l-.5-.9a1.8 1.8 0 0 0-1.5-.9H3a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h.3a1.8 1.8 0 0 0 1.5-.9l.5-.9a1.8 1.8 0 0 0-.4-2l-.1-.1A2 2 0 0 1 6.2 2.6h1a2 2 0 0 1 2 1.4l.1.3a1.8 1.8 0 0 0 1.7 1.2h1.4a1.8 1.8 0 0 0 1.7-1.2l.1-.3a2 2 0 0 1 2-1.4h1a2 2 0 0 1 1.4 3.4l-.1.1a1.8 1.8 0 0 0-.4 2l.5.9a1.8 1.8 0 0 0 1.5.9h.3a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-.3a1.8 1.8 0 0 0-1.5.9z\"></path></svg>
+      Settings
     </div>
   </div>
   <div class="user-panel">
@@ -81,6 +98,10 @@
           <div style="font-size:1.8rem; font-weight:800; margin-top:8px; color:var(--text-head);">$179</div>
         </div>
       </div>
+    </div>
+
+    <div id="view-fixes" class="view-section">
+      <div class="card"><div class="card-body"><h3>My Fixes</h3><p>Ticket history and fix requests appear here...</p></div></div>
     </div>
 
     <div id="view-support" class="view-section" style="height:100%;">
@@ -170,8 +191,17 @@
     <div id="view-files" class="view-section">
       <div class="card"><div class="card-body"><h3>Files View</h3><p>Download reports...</p></div></div>
     </div>
+    <div id="view-security" class="view-section">
+      <div class="card"><div class="card-body"><h3>Security Vault</h3><p>Security assets and credentials live here...</p></div></div>
+    </div>
+    <div id="view-plan" class="view-section">
+      <div class="card"><div class="card-body"><h3>My Plan</h3><p>Plan details and usage info go here...</p></div></div>
+    </div>
     <div id="view-billing" class="view-section">
       <div class="card"><div class="card-body"><h3>Billing View</h3><p>Invoices list...</p></div></div>
+    </div>
+    <div id="view-settings" class="view-section">
+      <div class="card"><div class="card-body"><h3>Settings</h3><p>Account settings and preferences go here...</p></div></div>
     </div>
   </div>
 </main>
