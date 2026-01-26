@@ -90,6 +90,28 @@ function aakaari_enqueue_assets(): void {
         );
     }
 
+    if (is_page_template('page-client-portal.php')) {
+        wp_enqueue_style(
+            'aakaari-portal-fonts',
+            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap',
+            [],
+            null
+        );
+        wp_enqueue_style(
+            'aakaari-client-portal',
+            get_template_directory_uri() . '/assets/css/client-portal.css',
+            ['aakaari-main', 'aakaari-portal-fonts'],
+            $theme_version
+        );
+        wp_enqueue_script(
+            'aakaari-client-portal',
+            get_template_directory_uri() . '/assets/js/client-portal.js',
+            [],
+            $theme_version,
+            true
+        );
+    }
+
     wp_enqueue_script(
         'aakaari-main',
         get_template_directory_uri() . '/assets/js/main.js',
@@ -113,6 +135,10 @@ function aakaari_create_required_pages(): void {
         'build' => [
             'title' => __('Build Solutions', 'aakaari'),
             'template' => 'page-build-solutions.php',
+        ],
+        'dashboard' => [
+            'title' => __('Client Portal', 'aakaari'),
+            'template' => 'page-client-portal.php',
         ],
     ];
 
