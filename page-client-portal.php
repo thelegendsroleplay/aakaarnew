@@ -13,7 +13,7 @@
 <body <?php body_class('client-portal-page'); ?>>
 <?php wp_body_open(); ?>
 
-<aside class="sidebar">
+<aside class="sidebar" id="portal-sidebar">
   <div class="brand"><div class="brand-dot"></div> Aakaari</div>
   <div class="nav-scroll">
     <div class="nav-header">Overview</div>
@@ -70,8 +70,16 @@
   </div>
 </aside>
 
+<div class="portal-overlay" onclick="clientPortal.closeMenu()"></div>
+
 <main class="main">
   <header class="header">
+    <button class="menu-toggle" type="button" onclick="clientPortal.toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="sr-only">Toggle menu</span>
+    </button>
     <div class="page-title" id="headerTitle">Dashboard</div>
     <div class="header-tools">
       <button class="btn btn-primary" type="button" onclick="clientPortal.openModal()">+ New Ticket</button>

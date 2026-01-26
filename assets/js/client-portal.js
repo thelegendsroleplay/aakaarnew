@@ -49,7 +49,15 @@ const clientPortal = (() => {
     }
   };
 
-  return { nav, openModal, closeModal, loadTicket };
+  const toggleMenu = () => {
+    document.body.classList.toggle('is-menu-open');
+  };
+
+  const closeMenu = () => {
+    document.body.classList.remove('is-menu-open');
+  };
+
+  return { nav, openModal, closeModal, loadTicket, toggleMenu, closeMenu };
 })();
 
 if (document.readyState === 'loading') {
