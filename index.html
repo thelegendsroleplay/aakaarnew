@@ -3,348 +3,440 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AAKAARI - Professional E-commerce Website Services</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Aakaari Admin | Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. ADMIN DESIGN SYSTEM --- */
+        :root {
+            /* Brand */
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --accent: #F59E0B; /* Orange for Admin Alerts */
+            
+            /* Dark Theme (Sidebar/Header) */
+            --sidebar-bg: #0F172A;
+            --sidebar-hover: #1E293B;
+            
+            /* Light Theme (Content) */
+            --bg-body: #F1F5F9;
+            --bg-card: #FFFFFF;
+            
+            /* Typography */
+            --text-head: #0F172A;
+            --text-body: #475569;
+            --text-muted: #94A3B8;
+            
+            /* Status Colors */
+            --st-new: #3B82F6;
+            --st-waiting: #F59E0B;
+            --st-active: #8B5CF6;
+            --st-done: #10B981;
+            --st-overdue: #EF4444;
+
+            --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-head);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- 2. COMPACT SIDEBAR --- */
+        .sidebar {
+            width: 240px; background-color: var(--sidebar-bg); color: #CBD5E1;
+            display: flex; flex-direction: column; flex-shrink: 0; border-right: 1px solid #1E293B;
+        }
+        .brand {
+            padding: 20px; font-size: 1.1rem; font-weight: 800; letter-spacing: -0.5px;
+            color: white; border-bottom: 1px solid #1E293B; display: flex; align-items: center; gap: 10px;
+        }
+        .brand span { color: var(--accent); } /* "Admin" Text */
+
+        .nav-scroll { flex: 1; overflow-y: auto; padding: 16px 10px; }
+        
+        .nav-header {
+            font-size: 0.7rem; text-transform: uppercase; color: #64748B;
+            font-weight: 700; margin: 20px 0 8px 12px; letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 6px; margin-bottom: 2px; color: #94A3B8; text-decoration: none;
+            font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.1s;
+        }
+        .nav-item:hover { background-color: var(--sidebar-hover); color: white; }
+        .nav-item.active { background-color: var(--primary); color: white; }
+        
+        .nav-badge { 
+            margin-left: auto; background: var(--accent); color: #FFF; 
+            font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; font-weight: 700;
+        }
+
+        /* --- 3. MAIN AREA --- */
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Admin Header */
+        .header {
+            height: 60px; background: white; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 24px; flex-shrink: 0;
+        }
+        .search-bar {
+            background: #F1F5F9; border: 1px solid var(--border); border-radius: 6px;
+            padding: 8px 12px; width: 400px; display: flex; align-items: center; gap: 8px; color: #64748B;
+        }
+        .search-input { background: transparent; border: none; outline: none; width: 100%; font-size: 0.9rem; }
+
+        /* Content Scroll */
+        .content-scroll { flex: 1; overflow-y: auto; padding: 24px; }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        /* --- 4. DASHBOARD COMPONENTS --- */
+        
+        /* KPI Cards */
+        .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: white; border: 1px solid var(--border); padding: 16px; border-radius: 8px; }
+        .kpi-val { font-size: 1.5rem; font-weight: 800; margin-top: 4px; color: var(--text-head); }
+        .kpi-label { font-size: 0.8rem; color: var(--text-body); font-weight: 600; text-transform: uppercase; }
+        .kpi-alert { color: var(--st-overdue); }
+
+        /* Priority Action Bar */
+        .action-bar {
+            background: #1E293B; color: white; padding: 16px 24px; border-radius: 8px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+            box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3);
+        }
+        .priority-text { font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .priority-dot { width: 10px; height: 10px; background: var(--st-overdue); border-radius: 50%; animation: pulse 1.5s infinite; }
+        
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
+        /* Buttons */
+        .btn { padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-action { background: var(--primary); color: white; }
+        .btn-action:hover { background: var(--primary-dark); }
+        .btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; }
+        .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+        .btn-sm { padding: 4px 8px; font-size: 0.75rem; }
+
+        /* Tables (Work Queue) */
+        .table-card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .table-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px 16px; background: #F8FAFC; font-size: 0.75rem; text-transform: uppercase; color: var(--text-body); font-weight: 700; }
+        td { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 0.9rem; vertical-align: middle; }
+        tr:hover { background: #F8FAFC; cursor: pointer; }
+
+        /* Status Badges */
+        .badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .b-waiting { background: #FFF7ED; color: var(--st-waiting); border: 1px solid #FED7AA; }
+        .b-active { background: #EFF6FF; color: var(--st-active); border: 1px solid #DDD6FE; }
+        .b-overdue { background: #FEF2F2; color: var(--st-overdue); border: 1px solid #FECACA; }
+        .b-new { background: #EFF6FF; color: var(--st-new); border: 1px solid #BFDBFE; }
+
+        /* --- 5. WORKSPACE (Order Detail) --- */
+        .workspace-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; height: calc(100vh - 140px); }
+        .ws-col { display: flex; flex-direction: column; gap: 20px; overflow-y: auto; padding-right: 5px; }
+        
+        .ws-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+        .ws-head { font-weight: 700; font-size: 0.95rem; margin-bottom: 16px; color: var(--text-head); display: flex; justify-content: space-between; }
+
+        /* Encrypted Credentials */
+        .cred-box { background: #1E293B; border-radius: 6px; padding: 12px; font-family: 'JetBrains Mono', monospace; color: #E2E8F0; font-size: 0.85rem; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .blur-text { filter: blur(5px); transition: 0.2s; cursor: pointer; user-select: none; }
+        .blur-text.revealed { filter: blur(0); }
+        .reveal-btn { font-size: 0.7rem; color: #94A3B8; cursor: pointer; text-decoration: underline; }
+
+        /* Internal Notes */
+        .note-box { background: #FEF9C3; border: 1px solid #FEF08A; padding: 12px; border-radius: 6px; margin-bottom: 10px; font-size: 0.9rem; color: #854D0E; }
+        
+        /* Checklist */
+        .checklist-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F1F5F9; }
+        .checklist-item input { margin-top: 4px; cursor: pointer; }
+        
+        /* Chat */
+        .admin-chat { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; height: 400px; display: flex; flex-direction: column; }
+        .chat-msgs { flex: 1; padding: 16px; overflow-y: auto; }
+        .msg { margin-bottom: 12px; padding: 10px; border-radius: 8px; font-size: 0.9rem; max-width: 85%; }
+        .msg-client { background: white; border: 1px solid var(--border); align-self: flex-start; }
+        .msg-admin { background: #DBEAFE; color: #1E3A8A; align-self: flex-end; margin-left: auto; text-align: right; }
+
+        /* Unified Inbox List */
+        .inbox-item { padding: 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.1s; }
+        .inbox-item:hover { background: #F8FAFC; }
+        .inbox-item.unread { background: #EFF6FF; border-left: 3px solid var(--primary); }
+        .inbox-sub { font-weight: 600; margin-bottom: 4px; font-size: 0.95rem; }
+        .inbox-snip { color: var(--text-body); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <div class="logo">AAKAARI</div>
-                <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link active">Home</a></li>
-                    <li><a href="services.html" class="nav-link">Services</a></li>
-                    <li><a href="#pricing" class="nav-link">Pricing</a></li>
-                    <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-                    <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-                <button class="btn-primary">Get Started</button>
-            </div>
+
+    <aside class="sidebar">
+        <div class="brand">AAKAARI <span>ADMIN</span></div>
+        <div class="nav-scroll">
+            <div class="nav-header">Core</div>
+            <div class="nav-item active" onclick="nav('home', this)">🏠 Command Center</div>
+            <div class="nav-item" onclick="nav('queue', this)">⚡ Work Queue <span class="nav-badge">5</span></div>
+            <div class="nav-item" onclick="nav('inbox', this)">💬 Unified Inbox <span class="nav-badge" style="background:#EF4444">2</span></div>
+            
+            <div class="nav-header">Management</div>
+            <div class="nav-item" onclick="nav('customers', this)">👥 Customers</div>
+            <div class="nav-item" onclick="nav('maintenance', this)">🔁 Console</div>
+            <div class="nav-item" onclick="nav('files', this)">📁 File Manager</div>
+            
+            <div class="nav-header">Admin</div>
+            <div class="nav-item" onclick="nav('billing', this)">💳 Finance</div>
+            <div class="nav-item" onclick="nav('reports', this)">📊 Reports</div>
+            <div class="nav-item" onclick="nav('settings', this)">⚙️ Settings</div>
         </div>
-    </nav>
+    </aside>
 
-    <!-- Hero Section -->
-    <section class="home-hero">
-        <div class="container">
-            <h1 class="home-hero-title">E-commerce Website Problems?<br>Solved in 24 Hours.</h1>
-            <p class="home-hero-subtitle">Emergency fixes to full custom stores — WooCommerce, Shopify, and custom solutions for growing online businesses.</p>
-
-            <div class="hero-buttons">
-                <button class="btn-hero-primary">Get Emergency Help →</button>
-                <button class="btn-hero-secondary">View Our Services</button>
+    <main class="main">
+        <header class="header">
+            <div class="search-bar">
+                <span>🔍</span>
+                <input type="text" class="search-input" placeholder="Search orders, emails, domains (Cmd+K)">
             </div>
-        </div>
-    </section>
-
-    <!-- Features Bar -->
-    <section class="features-bar">
-        <div class="container">
-            <div class="features-grid-bar">
-                <div class="feature-badge">
-                    <div class="badge-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <span>5+ Years IT Experience</span>
-                </div>
-                <div class="feature-badge">
-                    <div class="badge-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <span>24-48 Hour Response</span>
-                </div>
-                <div class="feature-badge">
-                    <div class="badge-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                            <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <span>Custom Development</span>
-                </div>
-                <div class="feature-badge">
-                    <div class="badge-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <span>Secure & Reliable</span>
-                </div>
+            <div style="display:flex; gap:16px; align-items:center;">
+                <button class="btn btn-sm btn-ghost" style="color:#64748B; border:1px solid #E2E8F0;">🔔</button>
+                <div style="width:32px; height:32px; background:#0F172A; border-radius:50%; color:white; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:700;">AD</div>
             </div>
-        </div>
-    </section>
+        </header>
 
-    <!-- Quick Services Overview -->
-    <section class="quick-services">
-        <div class="container">
-            <h2 class="section-title-center">Website Down? Store Not Selling? We Fix It Fast.</h2>
-            <p class="section-desc-center">Whether it's an emergency or building from scratch, we have the solution</p>
+        <div class="content-scroll">
 
-            <div class="quick-services-grid">
-                <div class="quick-service-card">
-                    <div class="service-icon-large red">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2L2 22h20L12 2z" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12 9v4M12 17h.01" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+            <div id="view-home" class="view-section active">
+                <div class="action-bar">
+                    <div class="priority-text">
+                        <div class="priority-dot"></div>
+                        <span><strong>2 Overdue Orders</strong> require immediate attention.</span>
                     </div>
-                    <h3>Emergency Issues</h3>
-                    <p>Site crashed? Payment not working? Security breach? We respond within 2 hours and fix it in 24.</p>
+                    <button class="btn btn-action" onclick="openDetail(294)">Open Next Priority →</button>
                 </div>
 
-                <div class="quick-service-card">
-                    <div class="service-icon-large blue">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                            <circle cx="9" cy="21" r="1" stroke="#2563EB" stroke-width="2"/>
-                            <circle cx="20" cy="21" r="1" stroke="#2563EB" stroke-width="2"/>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Open Orders</div>
+                        <div class="kpi-val">12</div>
                     </div>
-                    <h3>E-commerce Builds</h3>
-                    <p>Need a professional WooCommerce or Shopify store? Custom design, smooth checkout, mobile-optimized.</p>
-                </div>
-
-                <div class="quick-service-card">
-                    <div class="service-icon-large green">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Overdue</div>
+                        <div class="kpi-val kpi-alert">2</div>
                     </div>
-                    <h3>Ongoing Support</h3>
-                    <p>Keep your store running smoothly with monthly maintenance, updates, and technical support.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Grid -->
-    <section class="services-overview">
-        <div class="container">
-            <h2 class="section-title-center">Complete E-commerce Website Solutions</h2>
-            <p class="section-desc-center">From emergency fixes to custom development, we cover all your needs</p>
-
-            <div class="services-cards-grid">
-                <div class="service-overview-card urgent">
-                    <div class="service-tag urgent-tag">URGENT</div>
-                    <h3>Emergency Fixes</h3>
-                    <p class="service-desc">Website errors, crashes, malware removal, payment gateway issues, speed optimization</p>
-                    <div class="service-pricing">
-                        <span class="starting-text">Starting at</span>
-                        <span class="price-large red-price">₹5,000</span>
-                        <span class="delivery-time">| 24-48hr delivery</span>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Unread Msgs</div>
+                        <div class="kpi-val">5</div>
                     </div>
-                    <button class="btn-learn-more red">Learn More →</button>
-                </div>
-
-                <div class="service-overview-card popular">
-                    <div class="service-tag popular-tag">POPULAR</div>
-                    <h3>WordPress/WooCommerce</h3>
-                    <p class="service-desc">Custom online stores with beautiful design, secure checkout, inventory management</p>
-                    <div class="service-pricing">
-                        <span class="starting-text">Starting at</span>
-                        <span class="price-large purple-price">₹50,000</span>
-                        <span class="delivery-time">| 2-3 weeks</span>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Rev (Today)</div>
+                        <div class="kpi-val text-green">$358</div>
                     </div>
-                    <button class="btn-learn-more purple">Learn More →</button>
-                </div>
-
-                <div class="service-overview-card">
-                    <h3>Shopify Development</h3>
-                    <p class="service-desc">Complete Shopify store setup, theme customization, app integrations, conversion optimization</p>
-                    <div class="service-pricing">
-                        <span class="starting-text">Starting at</span>
-                        <span class="price-large green-price">₹60,000</span>
-                        <span class="delivery-time">| 2-3 weeks</span>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Rev (Month)</div>
+                        <div class="kpi-val">$4,250</div>
                     </div>
-                    <button class="btn-learn-more green">Learn More →</button>
                 </div>
 
-                <div class="service-overview-card enterprise">
-                    <div class="service-tag enterprise-tag">ENTERPRISE</div>
-                    <h3>Custom PHP Development</h3>
-                    <p class="service-desc">Fully custom e-commerce platforms, integrations, complex functionality, scalable architecture</p>
-                    <div class="service-pricing">
-                        <span class="starting-text">Starting at</span>
-                        <span class="price-large blue-price">₹1,50,000</span>
-                        <span class="delivery-time">| 4-6 weeks</span>
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3 style="font-size:1rem;">Work Queue (Active)</h3>
+                        <div style="font-size:0.85rem; color:#64748B;">Sorted by: <strong>Due Date</strong></div>
                     </div>
-                    <button class="btn-learn-more blue">Learn More →</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process Section -->
-    <section class="process-section-home">
-        <div class="container">
-            <h2 class="section-title-center">Simple Process, Professional Results</h2>
-            <p class="section-desc-center">Three easy steps from problem to solution</p>
-
-            <div class="process-steps-grid">
-                <div class="process-card-home">
-                    <div class="process-number-home">1</div>
-                    <h3>Tell Us Your Problem</h3>
-                    <p>Fill out our quick form or book a call. We respond within 2 hours with a clear quote.</p>
-                </div>
-
-                <div class="process-card-home">
-                    <div class="process-number-home">2</div>
-                    <h3>We Get To Work</h3>
-                    <p>Once approved, we start immediately. You'll get daily updates on progress.</p>
-                </div>
-
-                <div class="process-card-home">
-                    <div class="process-number-home">3</div>
-                    <h3>Launch & Support</h3>
-                    <p>We deliver on time, test thoroughly, and provide 30-day support on all projects.</p>
+                    <table>
+                        <thead><tr><th>ID</th><th>Client</th><th>Task</th><th>Status</th><th>Due</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr onclick="openDetail(294)">
+                                <td>#294</td><td><strong>John Doe</strong></td><td>Mobile Menu Fix</td>
+                                <td><span class="badge b-overdue">Overdue</span></td>
+                                <td style="color:#EF4444;">-2h</td>
+                                <td><button class="btn btn-sm btn-ghost" style="color:var(--primary); border:1px solid #E2E8F0;">Open</button></td>
+                            </tr>
+                            <tr onclick="openDetail(291)">
+                                <td>#291</td><td><strong>Sarah Smith</strong></td><td>Speed Opt</td>
+                                <td><span class="badge b-waiting">Waiting Info</span></td>
+                                <td>Today</td>
+                                <td><button class="btn btn-sm btn-ghost" style="color:var(--primary); border:1px solid #E2E8F0;">Open</button></td>
+                            </tr>
+                            <tr onclick="openDetail(288)">
+                                <td>#288</td><td><strong>Mike Ross</strong></td><td>Malware Scan</td>
+                                <td><span class="badge b-active">In Progress</span></td>
+                                <td>Tomorrow</td>
+                                <td><button class="btn btn-sm btn-ghost" style="color:var(--primary); border:1px solid #E2E8F0;">Open</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div class="process-cta">
-                <button class="btn-process-cta">Start Your Project →</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trust Section -->
-    <section class="trust-section">
-        <div class="container">
-            <h2 class="trust-title">Trusted by Growing E-commerce Brands</h2>
-
-            <div class="trust-cards-grid">
-                <div class="trust-card">
-                    <div class="trust-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" stroke="#4ade80" stroke-width="2"/>
-                            <path d="M8 12L11 15L16 9" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+            <div id="view-queue" class="view-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+                    <h2 style="font-size:1.2rem;">Global Work Queue</h2>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn btn-sm" style="background:#E2E8F0;">All</button>
+                        <button class="btn btn-sm" style="background:white; border:1px solid #E2E8F0;">Due Today</button>
+                        <button class="btn btn-sm" style="background:white; border:1px solid #E2E8F0;">Waiting</button>
                     </div>
-                    <p>5+ years of IT infrastructure experience at enterprise level</p>
                 </div>
-
-                <div class="trust-card">
-                    <div class="trust-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" stroke="#4ade80" stroke-width="2"/>
-                            <path d="M8 12L11 15L16 9" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <p>Technical expertise in WordPress, WooCommerce, Shopify, and custom PHP</p>
-                </div>
-
-                <div class="trust-card">
-                    <div class="trust-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" stroke="#4ade80" stroke-width="2"/>
-                            <path d="M8 12L11 15L16 9" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <p>Deep understanding of e-commerce operations and customer needs</p>
+                <div class="table-card">
+                    <table>
+                        <thead><tr><th>Priority</th><th>ID</th><th>Type</th><th>Client</th><th>Subject</th><th>Status</th><th>Assigned</th></tr></thead>
+                        <tbody>
+                            <tr onclick="openDetail(294)">
+                                <td>🔴 High</td><td>#294</td><td>Fix</td><td>John Doe</td><td>Mobile Menu Bug</td>
+                                <td><span class="badge b-overdue">Overdue</span></td><td>You</td>
+                            </tr>
+                            <tr onclick="openDetail(291)">
+                                <td>🟡 Med</td><td>#291</td><td>Project</td><td>Sarah Smith</td><td>Wholesale Plugin</td>
+                                <td><span class="badge b-waiting">Waiting</span></td><td>You</td>
+                            </tr>
+                            </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Final CTA Section -->
-    <section class="final-cta-section">
-        <div class="container">
-            <h2 class="final-cta-title">Ready to Fix Your Website or Build Something Amazing?</h2>
-            <p class="final-cta-subtitle">Get in touch today and let's discuss your project</p>
-
-            <div class="final-cta-buttons">
-                <button class="btn-emergency-cta">
-                    <span class="btn-title">Emergency Help Needed</span>
-                    <span class="btn-subtitle">Get a response in 2 hours</span>
-                </button>
-                <button class="btn-project-cta">
-                    <span class="btn-title">Plan a New Project</span>
-                    <span class="btn-subtitle">Free 15-minute consultation</span>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-col">
-                    <h3 class="footer-logo">AAKAARI</h3>
-                    <p class="footer-desc">Professional e-commerce website solutions. Emergency fixes to custom stores.</p>
-                    <div class="footer-location">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#9ca3af" stroke-width="2"/>
-                            <circle cx="12" cy="9" r="2.5" stroke="#9ca3af" stroke-width="2"/>
-                        </svg>
-                        <span>Mumbai, India</span>
+            <div id="view-detail" class="view-section">
+                <button class="btn btn-sm btn-ghost" onclick="nav('home')" style="color:#64748B; margin-bottom:16px;">← Back to Queue</button>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <div>
+                        <h2 style="font-size:1.4rem; margin-bottom:4px;">#294 Mobile Menu Bug</h2>
+                        <div style="font-size:0.9rem; color:#64748B;">Client: <strong>John Doe</strong> • Plan: <strong>Business Care</strong></div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn btn-sm" style="background:#FEF2F2; color:#EF4444;">Mark Overdue</button>
+                        <button class="btn btn-action">Complete Order ✓</button>
                     </div>
                 </div>
 
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="#portfolio">Portfolio</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#about">About Us</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Services</h4>
-                    <ul class="footer-links">
-                        <li><a href="services.html#services">Emergency Website Fixes</a></li>
-                        <li><a href="services.html#woocommerce">WooCommerce Development</a></li>
-                        <li><a href="services.html#shopify">Shopify Development</a></li>
-                        <li><a href="services.html#php">Custom PHP Development</a></li>
-                        <li><a href="services.html#maintenance">Monthly Maintenance</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Get In Touch</h4>
-                    <div class="footer-contact">
-                        <div class="contact-item">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="#9ca3af" stroke-width="2"/>
-                            </svg>
-                            <a href="mailto:contact@aakaari.com">contact@aakaari.com</a>
+                <div class="workspace-grid">
+                    <div class="ws-col">
+                        
+                        <div class="ws-card" style="background:#FFFFEB; border-color:#FEF08A;">
+                            <div class="ws-head" style="color:#854D0E;">🔐 Internal Admin Notes</div>
+                            <textarea style="width:100%; background:transparent; border:none; resize:vertical; font-size:0.9rem;" rows="3">Customer is using Elementor Pro. Check CSS conflict in customizer first.</textarea>
                         </div>
-                        <div class="contact-item">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke="#9ca3af" stroke-width="2"/>
-                            </svg>
-                            <a href="tel:+91XXXXXXXXXX">+91-XXXXXXXXXX</a>
+
+                        <div class="ws-card">
+                            <div class="ws-head">
+                                <span>🔐 Access Credentials</span>
+                                <span style="font-size:0.75rem; color:#94A3B8;">Encrypted & Logged</span>
+                            </div>
+                            <div class="cred-box">
+                                <span>WP Admin: admin_john</span>
+                                <span class="blur-text" onclick="this.classList.toggle('revealed')">P@ssw0rd123!</span>
+                            </div>
+                            <div class="cred-box">
+                                <span>SFTP Host: 192.168.1.1</span>
+                                <span class="blur-text" onclick="this.classList.toggle('revealed')">sftp_key_x9s</span>
+                            </div>
                         </div>
-                        <div class="contact-item">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" stroke="#9ca3af" stroke-width="2"/>
-                                <circle cx="4" cy="4" r="2" stroke="#9ca3af" stroke-width="2"/>
-                            </svg>
-                            <a href="#" target="_blank">LinkedIn</a>
+
+                        <div class="ws-card" style="flex:1; display:flex; flex-direction:column;">
+                            <div class="ws-head">Message Thread</div>
+                            <div class="admin-chat">
+                                <div class="chat-msgs">
+                                    <div class="msg msg-client"><strong>John:</strong> Menu is broken on iPhone Safari.</div>
+                                    <div class="msg msg-admin"><strong>You:</strong> Checking logs now. Do you have caching enabled?</div>
+                                    <div class="msg msg-client"><strong>John:</strong> Yes, WP Rocket.</div>
+                                </div>
+                                <div style="padding:12px; border-top:1px solid #E2E8F0; background:white;">
+                                    <textarea placeholder="Type reply (enters sent)..." style="width:100%; border:none; outline:none; resize:none;"></textarea>
+                                    <div style="display:flex; justify-content:space-between; margin-top:8px;">
+                                        <button class="btn btn-sm btn-ghost" style="color:#64748B;">📎 Attach</button>
+                                        <button class="btn btn-sm btn-action">Send Reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ws-col">
+                        <div class="ws-card">
+                            <div class="ws-head">Status & ETA</div>
+                            <select style="width:100%; padding:8px; border:1px solid #E2E8F0; border-radius:6px; margin-bottom:12px;">
+                                <option>In Progress</option>
+                                <option>Waiting for Client</option>
+                                <option>Review</option>
+                            </select>
+                            <label style="font-size:0.8rem; font-weight:600; color:#64748B;">Due Date</label>
+                            <input type="date" value="2026-01-26" style="width:100%; padding:8px; border:1px solid #E2E8F0; border-radius:6px;">
+                        </div>
+
+                        <div class="ws-card">
+                            <div class="ws-head">Standard Checklist</div>
+                            <div class="checklist-item"><input type="checkbox" checked> <span>Check Backup</span></div>
+                            <div class="checklist-item"><input type="checkbox"> <span>Reproduce Issue</span></div>
+                            <div class="checklist-item"><input type="checkbox"> <span>Fix on Staging</span></div>
+                            <div class="checklist-item"><input type="checkbox"> <span>Deploy to Live</span></div>
+                            <div class="checklist-item"><input type="checkbox"> <span>Update Client</span></div>
+                        </div>
+
+                        <div class="ws-card">
+                            <div class="ws-head">Deliverables</div>
+                            <div style="border:2px dashed #E2E8F0; padding:20px; text-align:center; border-radius:6px; color:#94A3B8; font-size:0.85rem;">
+                                Drag report PDF here
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="footer-bottom">
-                <p>&copy; 2026 AAKAARI. All rights reserved.</p>
+            <div id="view-inbox" class="view-section">
+                <h2 style="margin-bottom:20px;">Unified Inbox (5 Unread)</h2>
+                <div class="table-card">
+                    <div class="inbox-item unread" onclick="openDetail(294)">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span class="inbox-sub">Checkout Button Issue</span>
+                            <span style="font-size:0.75rem; color:#94A3B8;">10m ago</span>
+                        </div>
+                        <div class="inbox-snip"><strong>John Doe:</strong> Hey, just following up on this. Is it fixed yet?</div>
+                    </div>
+                    <div class="inbox-item unread">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span class="inbox-sub">Billing Question</span>
+                            <span style="font-size:0.75rem; color:#94A3B8;">1h ago</span>
+                        </div>
+                        <div class="inbox-snip"><strong>Sarah Smith:</strong> Can I get the PDF for last month?</div>
+                    </div>
+                    <div class="inbox-item">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span class="inbox-sub">New Order #290</span>
+                            <span style="font-size:0.75rem; color:#94A3B8;">Yesterday</span>
+                        </div>
+                        <div class="inbox-snip">System: New order received for Maintenance Plan.</div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </footer>
 
-    <div class="help-button">?</div>
+            <div id="view-customers" class="view-section"><h2>Customer Management</h2><p>Table of all clients...</p></div>
+            <div id="view-maintenance" class="view-section"><h2>Maintenance Console</h2><p>Update manager...</p></div>
+
+        </div>
+    </main>
+
+    <script>
+        function nav(viewId, el) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-' + viewId)?.classList.add('active');
+            
+            if (el) {
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                el.classList.add('active');
+            }
+        }
+
+        function openDetail(id) {
+            nav('detail');
+        }
+    </script>
 </body>
 </html>
