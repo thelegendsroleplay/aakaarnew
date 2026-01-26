@@ -68,6 +68,28 @@ function aakaari_enqueue_assets(): void {
         );
     }
 
+    if (is_page_template('page-build-solutions.php')) {
+        wp_enqueue_style(
+            'aakaari-build-fonts',
+            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap',
+            [],
+            null
+        );
+        wp_enqueue_style(
+            'aakaari-build-solutions',
+            get_template_directory_uri() . '/assets/css/build-solutions.css',
+            ['aakaari-main', 'aakaari-build-fonts'],
+            $theme_version
+        );
+        wp_enqueue_script(
+            'aakaari-build-solutions',
+            get_template_directory_uri() . '/assets/js/build-solutions.js',
+            [],
+            $theme_version,
+            true
+        );
+    }
+
     wp_enqueue_script(
         'aakaari-main',
         get_template_directory_uri() . '/assets/js/main.js',
@@ -87,6 +109,10 @@ function aakaari_create_required_pages(): void {
         'fix-an-issue' => [
             'title' => __('Fix an Issue', 'aakaari'),
             'template' => 'page-fix-an-issue.php',
+        ],
+        'build' => [
+            'title' => __('Build Solutions', 'aakaari'),
+            'template' => 'page-build-solutions.php',
         ],
     ];
 
