@@ -18,10 +18,9 @@ body.client-portal-page {
   background-color: var(--bg-body);
   color: var(--text-head);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 body.client-portal-page *,
@@ -33,12 +32,12 @@ body.client-portal-page *::after {
 }
 
 body.client-portal-page .sidebar {
-  width: 100%;
+  width: 220px;
   background-color: var(--sidebar-bg);
   color: white;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   flex-shrink: 0;
   border-right: 1px solid #1E293B;
 }
@@ -64,15 +63,20 @@ body.client-portal-page .brand-dot {
 
 body.client-portal-page .nav-scroll {
   flex: 1;
-  display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 12px;
-  gap: 8px;
 }
 
 body.client-portal-page .nav-header {
-  display: none;
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #64748B;
+  font-weight: 700;
+  margin: 16px 0 8px 12px;
+  letter-spacing: 0.5px;
 }
 
 body.client-portal-page .nav-item {
@@ -88,7 +92,7 @@ body.client-portal-page .nav-item {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 body.client-portal-page .nav-item:hover {
@@ -109,7 +113,11 @@ body.client-portal-page .nav-item svg {
 }
 
 body.client-portal-page .user-panel {
-  display: none;
+  padding: 16px;
+  border-top: 1px solid #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 body.client-portal-page .avatar {
@@ -418,45 +426,16 @@ body.client-portal-page .form-input {
 }
 
 @media (min-width: 1024px) {
-  body.client-portal-page {
-    flex-direction: row;
-    overflow: hidden;
-  }
-
   body.client-portal-page .sidebar {
     width: 260px;
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  body.client-portal-page .nav-scroll {
-    flex: 1;
-    display: block;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 20px 12px;
   }
 
   body.client-portal-page .nav-header {
-    display: block;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    color: #64748B;
-    font-weight: 700;
-    margin: 20px 0 8px 12px;
-    letter-spacing: 0.5px;
-  }
-
-  body.client-portal-page .nav-item {
-    white-space: normal;
+    margin-top: 20px;
   }
 
   body.client-portal-page .user-panel {
     padding: 20px;
-    border-top: 1px solid #1E293B;
-    display: flex;
-    align-items: center;
-    gap: 12px;
   }
 
   body.client-portal-page .header {
@@ -494,6 +473,10 @@ body.client-portal-page .form-input {
 
   body.client-portal-page .nav-scroll {
     padding: 8px;
+  }
+
+  body.client-portal-page .sidebar {
+    width: 200px;
   }
 
   body.client-portal-page .header {
