@@ -19,7 +19,8 @@ body.client-portal-page {
   color: var(--text-head);
   display: flex;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 body.client-portal-page *,
@@ -408,19 +409,5 @@ body.client-portal-page .form-input {
 }
 
 @media (max-width: 1024px) {
-  body.client-portal-page { flex-direction: column; }
-  body.client-portal-page .sidebar {
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    overflow-x: auto;
-  }
-  body.client-portal-page .nav-scroll { display: flex; overflow-x: auto; padding: 12px; }
-  body.client-portal-page .nav-header { display: none; }
-  body.client-portal-page .nav-item { margin-right: 8px; white-space: nowrap; }
-  body.client-portal-page .user-panel { display: none; }
   body.client-portal-page .ticket-grid { grid-template-columns: 1fr; }
-  body.client-portal-page .ticket-list { display: none; }
-  body.client-portal-page .ticket-list.mobile-show { display: block; }
-  body.client-portal-page .chat-area.mobile-hide { display: none; }
 }
