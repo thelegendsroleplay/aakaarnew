@@ -9,14 +9,14 @@ const clientPortal = (() => {
   };
 
   const nav = (viewId, el) => {
-    document.querySelectorAll('.client-portal-page .view-section')
+    document.querySelectorAll('body.client-portal-page .view-section')
       .forEach((section) => section.classList.remove('active'));
 
     const target = document.getElementById(`view-${viewId}`);
     if (target) target.classList.add('active');
 
     if (el) {
-      document.querySelectorAll('.client-portal-page .nav-item')
+      document.querySelectorAll('body.client-portal-page .nav-item')
         .forEach((item) => item.classList.remove('active'));
       el.classList.add('active');
     }
@@ -38,7 +38,7 @@ const clientPortal = (() => {
   };
 
   const loadTicket = (id) => {
-    const items = document.querySelectorAll('.client-portal-page .ticket-item');
+    const items = document.querySelectorAll('body.client-portal-page .ticket-item');
     items.forEach((item) => item.classList.remove('selected'));
     if (items[id - 1]) {
       items[id - 1].classList.add('selected');
