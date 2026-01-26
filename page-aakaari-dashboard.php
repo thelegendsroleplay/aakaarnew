@@ -1,0 +1,464 @@
+<?php
+/**
+ * Template Name: Aakaari Dashboard
+ */
+?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php bloginfo('name'); ?> | Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <?php wp_head(); ?>
+    <style>
+        /* --- 1. ADMIN DESIGN SYSTEM --- */
+        :root {
+            /* Brand */
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --accent: #F59E0B; /* Orange for Admin Alerts */
+
+            /* Dark Theme (Sidebar/Header) */
+            --sidebar-bg: #0F172A;
+            --sidebar-hover: #1E293B;
+
+            /* Light Theme (Content) */
+            --bg-body: #F1F5F9;
+            --bg-card: #FFFFFF;
+
+            /* Typography */
+            --text-head: #0F172A;
+            --text-body: #475569;
+            --text-muted: #94A3B8;
+
+            /* Status Colors */
+            --st-new: #3B82F6;
+            --st-waiting: #F59E0B;
+            --st-active: #8B5CF6;
+            --st-done: #10B981;
+            --st-overdue: #EF4444;
+
+            --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-head);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- 2. COMPACT SIDEBAR --- */
+        .sidebar {
+            width: 240px; background-color: var(--sidebar-bg); color: #CBD5E1;
+            display: flex; flex-direction: column; flex-shrink: 0; border-right: 1px solid #1E293B;
+        }
+        .brand {
+            padding: 20px; font-size: 1.1rem; font-weight: 800; letter-spacing: -0.5px;
+            color: white; border-bottom: 1px solid #1E293B; display: flex; align-items: center; gap: 10px;
+        }
+        .brand span { color: var(--accent); } /* "Admin" Text */
+
+        .nav-scroll { flex: 1; overflow-y: auto; padding: 16px 10px; }
+
+        .nav-header {
+            font-size: 0.7rem; text-transform: uppercase; color: #64748B;
+            font-weight: 700; margin: 20px 0 8px 12px; letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 6px; margin-bottom: 2px; color: #94A3B8; text-decoration: none;
+            font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.1s;
+        }
+        .nav-item:hover { background-color: var(--sidebar-hover); color: white; }
+        .nav-item.active { background-color: var(--primary); color: white; }
+
+        .nav-badge {
+            margin-left: auto; background: var(--accent); color: #FFF;
+            font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; font-weight: 700;
+        }
+
+        /* --- 3. MAIN AREA --- */
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Admin Header */
+        .header {
+            height: 60px; background: white; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 24px; flex-shrink: 0;
+        }
+        .search-bar {
+            background: #F1F5F9; border: 1px solid var(--border); border-radius: 6px;
+            padding: 8px 12px; width: 400px; display: flex; align-items: center; gap: 8px; color: #64748B;
+        }
+        .search-input { background: transparent; border: none; outline: none; width: 100%; font-size: 0.9rem; }
+
+        /* Content Scroll */
+        .content-scroll { flex: 1; overflow-y: auto; padding: 24px; }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        /* --- 4. DASHBOARD COMPONENTS --- */
+
+        /* KPI Cards */
+        .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: white; border: 1px solid var(--border); padding: 16px; border-radius: 8px; }
+        .kpi-val { font-size: 1.5rem; font-weight: 800; margin-top: 4px; color: var(--text-head); }
+        .kpi-label { font-size: 0.8rem; color: var(--text-body); font-weight: 600; text-transform: uppercase; }
+        .kpi-alert { color: var(--st-overdue); }
+        .text-green { color: var(--st-done); }
+
+        /* Priority Action Bar */
+        .action-bar {
+            background: #1E293B; color: white; padding: 16px 24px; border-radius: 8px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+            box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3);
+        }
+        .priority-text { font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .priority-dot { width: 10px; height: 10px; background: var(--st-overdue); border-radius: 50%; animation: pulse 1.5s infinite; }
+
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
+        /* Buttons */
+        .btn { padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-action { background: var(--primary); color: white; }
+        .btn-action:hover { background: var(--primary-dark); }
+        .btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; }
+        .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+        .btn-sm { padding: 4px 8px; font-size: 0.75rem; }
+
+        /* Tables (Work Queue) */
+        .table-card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .table-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px 16px; background: #F8FAFC; font-size: 0.75rem; text-transform: uppercase; color: var(--text-body); font-weight: 700; }
+        td { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 0.9rem; vertical-align: middle; }
+        tr:hover { background: #F8FAFC; cursor: pointer; }
+
+        /* Status Badges */
+        .badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .b-waiting { background: #FFF7ED; color: var(--st-waiting); border: 1px solid #FED7AA; }
+        .b-active { background: #EFF6FF; color: var(--st-active); border: 1px solid #DDD6FE; }
+        .b-overdue { background: #FEF2F2; color: var(--st-overdue); border: 1px solid #FECACA; }
+        .b-new { background: #EFF6FF; color: var(--st-new); border: 1px solid #BFDBFE; }
+
+        /* --- 5. WORKSPACE (Order Detail) --- */
+        .workspace-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; height: calc(100vh - 140px); }
+        .ws-col { display: flex; flex-direction: column; gap: 20px; overflow-y: auto; padding-right: 5px; }
+
+        .ws-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+        .ws-head { font-weight: 700; font-size: 0.95rem; margin-bottom: 16px; color: var(--text-head); display: flex; justify-content: space-between; }
+
+        /* Encrypted Credentials */
+        .cred-box { background: #1E293B; border-radius: 6px; padding: 12px; font-family: 'JetBrains Mono', monospace; color: #E2E8F0; font-size: 0.85rem; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .blur-text { filter: blur(5px); transition: 0.2s; cursor: pointer; user-select: none; }
+        .blur-text.revealed { filter: blur(0); }
+        .reveal-btn { font-size: 0.7rem; color: #94A3B8; cursor: pointer; text-decoration: underline; }
+
+        /* Internal Notes */
+        .note-box { background: #FEF9C3; border: 1px solid #FEF08A; padding: 12px; border-radius: 6px; margin-bottom: 10px; font-size: 0.9rem; color: #854D0E; }
+
+        /* Checklist */
+        .checklist-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F1F5F9; }
+        .checklist-item input { margin-top: 4px; cursor: pointer; }
+
+        /* Chat */
+        .admin-chat { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; height: 400px; display: flex; flex-direction: column; }
+        .chat-msgs { flex: 1; padding: 16px; overflow-y: auto; }
+        .msg { margin-bottom: 12px; padding: 10px; border-radius: 8px; font-size: 0.9rem; max-width: 85%; }
+        .msg-client { background: white; border: 1px solid var(--border); align-self: flex-start; }
+        .msg-admin { background: #DBEAFE; color: #1E3A8A; align-self: flex-end; margin-left: auto; text-align: right; }
+
+        /* Unified Inbox List */
+        .inbox-item { padding: 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.1s; }
+        .inbox-item:hover { background: #F8FAFC; }
+        .inbox-item.unread { background: #EFF6FF; border-left: 3px solid var(--primary); }
+        .inbox-sub { font-weight: 600; margin-bottom: 4px; font-size: 0.95rem; }
+        .inbox-snip { color: var(--text-body); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        @media (max-width: 1200px) {
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .workspace-grid { grid-template-columns: 1fr; height: auto; }
+        }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; height: auto; overflow: auto; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #1E293B; }
+            .header { flex-wrap: wrap; gap: 12px; height: auto; padding: 16px 24px; }
+            .search-bar { width: 100%; }
+            .content-scroll { padding: 16px; }
+        }
+    </style>
+</head>
+<body <?php body_class('aakaari-admin-dashboard'); ?>>
+<?php wp_body_open(); ?>
+
+    <aside class="sidebar">
+        <div class="brand">AAKAARI <span>ADMIN</span></div>
+        <div class="nav-scroll">
+            <div class="nav-header">Core</div>
+            <div class="nav-item active" onclick="nav('home', this)">🏠 Command Center</div>
+            <div class="nav-item" onclick="nav('queue', this)">⚡ Work Queue <span class="nav-badge">5</span></div>
+            <div class="nav-item" onclick="nav('inbox', this)">💬 Unified Inbox <span class="nav-badge" style="background:#EF4444">2</span></div>
+
+            <div class="nav-header">Management</div>
+            <div class="nav-item" onclick="nav('customers', this)">👥 Customers</div>
+            <div class="nav-item" onclick="nav('maintenance', this)">🔁 Console</div>
+            <div class="nav-item" onclick="nav('files', this)">📁 File Manager</div>
+
+            <div class="nav-header">Admin</div>
+            <div class="nav-item" onclick="nav('billing', this)">💳 Finance</div>
+            <div class="nav-item" onclick="nav('reports', this)">📊 Reports</div>
+            <div class="nav-item" onclick="nav('settings', this)">⚙️ Settings</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="header">
+            <div class="search-bar">
+                <span>🔍</span>
+                <input type="text" class="search-input" placeholder="Search orders, emails, domains (Cmd+K)">
+            </div>
+            <div style="display:flex; gap:16px; align-items:center;">
+                <button class="btn btn-sm btn-ghost" style="color:#64748B; border:1px solid #E2E8F0;" aria-label="Notifications">🔔</button>
+                <div style="width:32px; height:32px; background:#0F172A; border-radius:50%; color:white; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:700;" aria-label="Admin avatar">AD</div>
+            </div>
+        </header>
+
+        <div class="content-scroll">
+
+            <div id="view-home" class="view-section active">
+                <div class="action-bar">
+                    <div class="priority-text">
+                        <div class="priority-dot"></div>
+                        <span><strong>2 Overdue Orders</strong> require immediate attention.</span>
+                    </div>
+                    <button class="btn btn-action" onclick="openDetail(294)">Open Next Priority →</button>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Open Orders</div>
+                        <div class="kpi-val">12</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Overdue</div>
+                        <div class="kpi-val kpi-alert">2</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Unread Msgs</div>
+                        <div class="kpi-val">5</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Rev (Today)</div>
+                        <div class="kpi-val text-green">$358</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Rev (Month)</div>
+                        <div class="kpi-val">$4,250</div>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3 style="font-size:1rem;">Work Queue (Active)</h3>
+                        <div style="font-size:0.85rem; color:#64748B;">Sorted by: <strong>Due Date</strong></div>
+                    </div>
+                    <table>
+                        <thead><tr><th>ID</th><th>Client</th><th>Task</th><th>Status</th><th>Due</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr onclick="openDetail(294)">
+                                <td>#294</td><td><strong>John Doe</strong></td><td>Mobile Menu Fix</td>
+                                <td><span class="badge b-overdue">Overdue</span></td>
+                                <td style="color:#EF4444;">-2h</td>
+                                <td><button class="btn btn-sm btn-ghost" style="color:var(--primary); border:1px solid #E2E8F0;">Open</button></td>
+                            </tr>
+                            <tr onclick="openDetail(291)">
+                                <td>#291</td><td><strong>Sarah Smith</strong></td><td>Speed Opt</td>
+                                <td><span class="badge b-waiting">Waiting Info</span></td>
+                                <td>Today</td>
+                                <td><button class="btn btn-sm btn-ghost" style="color:var(--primary); border:1px solid #E2E8F0;">Open</button></td>
+                            </tr>
+                            <tr onclick="openDetail(288)">
+                                <td>#288</td><td><strong>Mike Ross</strong></td><td>Malware Scan</td>
+                                <td><span class="badge b-active">In Progress</span></td>
+                                <td>Tomorrow</td>
+                                <td><button class="btn btn-sm btn-ghost" style="color:var(--primary); border:1px solid #E2E8F0;">Open</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="view-queue" class="view-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+                    <h2 style="font-size:1.2rem;">Global Work Queue</h2>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn btn-sm" style="background:#E2E8F0;">All</button>
+                        <button class="btn btn-sm" style="background:white; border:1px solid #E2E8F0;">Due Today</button>
+                        <button class="btn btn-sm" style="background:white; border:1px solid #E2E8F0;">Waiting</button>
+                    </div>
+                </div>
+                <div class="table-card">
+                    <table>
+                        <thead><tr><th>Priority</th><th>ID</th><th>Type</th><th>Client</th><th>Subject</th><th>Status</th><th>Assigned</th></tr></thead>
+                        <tbody>
+                            <tr onclick="openDetail(294)">
+                                <td>🔴 High</td><td>#294</td><td>Fix</td><td>John Doe</td><td>Mobile Menu Bug</td>
+                                <td><span class="badge b-overdue">Overdue</span></td><td>You</td>
+                            </tr>
+                            <tr onclick="openDetail(291)">
+                                <td>🟡 Med</td><td>#291</td><td>Project</td><td>Sarah Smith</td><td>Wholesale Plugin</td>
+                                <td><span class="badge b-waiting">Waiting</span></td><td>You</td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="view-detail" class="view-section">
+                <button class="btn btn-sm btn-ghost" onclick="nav('home')" style="color:#64748B; margin-bottom:16px;">← Back to Queue</button>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <div>
+                        <h2 style="font-size:1.4rem; margin-bottom:4px;">#294 Mobile Menu Bug</h2>
+                        <div style="font-size:0.9rem; color:#64748B;">Client: <strong>John Doe</strong> • Plan: <strong>Business Care</strong></div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn btn-sm" style="background:#FEF2F2; color:#EF4444;">Mark Overdue</button>
+                        <button class="btn btn-action">Complete Order ✓</button>
+                    </div>
+                </div>
+
+                <div class="workspace-grid">
+                    <div class="ws-col">
+
+                        <div class="ws-card" style="background:#FFFFEB; border-color:#FEF08A;">
+                            <div class="ws-head" style="color:#854D0E;">🔐 Internal Admin Notes</div>
+                            <textarea style="width:100%; background:transparent; border:none; resize:vertical; font-size:0.9rem;" rows="3">Customer is using Elementor Pro. Check CSS conflict in customizer first.</textarea>
+                        </div>
+
+                        <div class="ws-card">
+                            <div class="ws-head">
+                                <span>🔐 Access Credentials</span>
+                                <span style="font-size:0.75rem; color:#94A3B8;">Encrypted & Logged</span>
+                            </div>
+                            <div class="cred-box">
+                                <span>WP Admin: admin_john</span>
+                                <span class="blur-text" onclick="this.classList.toggle('revealed')">P@ssw0rd123!</span>
+                            </div>
+                            <div class="cred-box">
+                                <span>SFTP Host: 192.168.1.1</span>
+                                <span class="blur-text" onclick="this.classList.toggle('revealed')">sftp_key_x9s</span>
+                            </div>
+                        </div>
+
+                        <div class="ws-card" style="flex:1; display:flex; flex-direction:column;">
+                            <div class="ws-head">Message Thread</div>
+                            <div class="admin-chat">
+                                <div class="chat-msgs">
+                                    <div class="msg msg-client"><strong>John:</strong> Menu is broken on iPhone Safari.</div>
+                                    <div class="msg msg-admin"><strong>You:</strong> Checking logs now. Do you have caching enabled?</div>
+                                    <div class="msg msg-client"><strong>John:</strong> Yes, WP Rocket.</div>
+                                </div>
+                                <div style="padding:12px; border-top:1px solid #E2E8F0; background:white;">
+                                    <textarea placeholder="Type reply (enters sent)..." style="width:100%; border:none; outline:none; resize:none;"></textarea>
+                                    <div style="display:flex; justify-content:space-between; margin-top:8px;">
+                                        <button class="btn btn-sm btn-ghost" style="color:#64748B;">📎 Attach</button>
+                                        <button class="btn btn-sm btn-action">Send Reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ws-col">
+                        <div class="ws-card">
+                            <div class="ws-head">Status & ETA</div>
+                            <select style="width:100%; padding:8px; border:1px solid #E2E8F0; border-radius:6px; margin-bottom:12px;">
+                                <option>In Progress</option>
+                                <option>Waiting for Client</option>
+                                <option>Review</option>
+                            </select>
+                            <label style="font-size:0.8rem; font-weight:600; color:#64748B;">Due Date</label>
+                            <input type="date" value="2026-01-26" style="width:100%; padding:8px; border:1px solid #E2E8F0; border-radius:6px;">
+                        </div>
+
+                        <div class="ws-card">
+                            <div class="ws-head">Standard Checklist</div>
+                            <div class="checklist-item"><input type="checkbox" checked> <span>Check Backup</span></div>
+                            <div class="checklist-item"><input type="checkbox"> <span>Reproduce Issue</span></div>
+                            <div class="checklist-item"><input type="checkbox"> <span>Fix on Staging</span></div>
+                            <div class="checklist-item"><input type="checkbox"> <span>Deploy to Live</span></div>
+                            <div class="checklist-item"><input type="checkbox"> <span>Update Client</span></div>
+                        </div>
+
+                        <div class="ws-card">
+                            <div class="ws-head">Deliverables</div>
+                            <div style="border:2px dashed #E2E8F0; padding:20px; text-align:center; border-radius:6px; color:#94A3B8; font-size:0.85rem;">
+                                Drag report PDF here
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-inbox" class="view-section">
+                <h2 style="margin-bottom:20px;">Unified Inbox (5 Unread)</h2>
+                <div class="table-card">
+                    <div class="inbox-item unread" onclick="openDetail(294)">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span class="inbox-sub">Checkout Button Issue</span>
+                            <span style="font-size:0.75rem; color:#94A3B8;">10m ago</span>
+                        </div>
+                        <div class="inbox-snip"><strong>John Doe:</strong> Hey, just following up on this. Is it fixed yet?</div>
+                    </div>
+                    <div class="inbox-item unread">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span class="inbox-sub">Billing Question</span>
+                            <span style="font-size:0.75rem; color:#94A3B8;">1h ago</span>
+                        </div>
+                        <div class="inbox-snip"><strong>Sarah Smith:</strong> Can I get the PDF for last month?</div>
+                    </div>
+                    <div class="inbox-item">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span class="inbox-sub">New Order #290</span>
+                            <span style="font-size:0.75rem; color:#94A3B8;">Yesterday</span>
+                        </div>
+                        <div class="inbox-snip">System: New order received for Maintenance Plan.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-customers" class="view-section"><h2>Customer Management</h2><p>Table of all clients...</p></div>
+            <div id="view-maintenance" class="view-section"><h2>Maintenance Console</h2><p>Update manager...</p></div>
+
+        </div>
+    </main>
+
+    <?php wp_footer(); ?>
+
+    <script>
+        function nav(viewId, el) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-' + viewId)?.classList.add('active');
+
+            if (el) {
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                el.classList.add('active');
+            }
+        }
+
+        function openDetail(id) {
+            nav('detail');
+        }
+    </script>
+</body>
+</html>
