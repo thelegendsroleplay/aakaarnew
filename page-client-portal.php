@@ -80,20 +80,20 @@
 
   <div class="content-scroll">
     <div id="view-home" class="view-section active">
-      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:24px; margin-bottom:32px;">
-        <div class="card" style="padding:24px; margin:0;">
+      <div class="stats-grid">
+        <div class="card stat-card">
           <div style="color:#64748B; font-weight:600; font-size:0.9rem;">Open Tickets</div>
           <div style="font-size:1.8rem; font-weight:800; margin-top:8px; color:var(--text-head);">2</div>
         </div>
-        <div class="card" style="padding:24px; margin:0;">
+        <div class="card stat-card">
           <div style="color:#64748B; font-weight:600; font-size:0.9rem;">Plan Usage</div>
           <div style="font-size:1.8rem; font-weight:800; margin-top:8px; color:var(--text-head);">1<span style="font-size:1rem; color:#94A3B8;">/2</span></div>
         </div>
-        <div class="card" style="padding:24px; margin:0;">
+        <div class="card stat-card">
           <div style="color:#64748B; font-weight:600; font-size:0.9rem;">Site Health</div>
           <div style="font-size:1.8rem; font-weight:800; margin-top:8px; color:var(--success);">100%</div>
         </div>
-        <div class="card" style="padding:24px; margin:0;">
+        <div class="card stat-card">
           <div style="color:#64748B; font-weight:600; font-size:0.9rem;">Next Invoice</div>
           <div style="font-size:1.8rem; font-weight:800; margin-top:8px; color:var(--text-head);">$179</div>
         </div>
