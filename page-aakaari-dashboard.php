@@ -320,6 +320,21 @@
                         <div class="action-meta">See open and resolved ticket work.</div>
                     </a>
                 </div>
+                <div style="margin-top:24px;">
+                    <?php if (current_user_can('manage_options') || current_user_can('aakaari_agent')): ?>
+                        <?php if (defined('AAKAARI_LEADS_PATH')): ?>
+                            <?php include AAKAARI_LEADS_PATH . 'templates/admin/chats.php'; ?>
+                        <?php else: ?>
+                            <div class="table-card" style="padding:16px;">
+                                <p style="color:#64748B;">Chat system is unavailable. Please ensure the Lead System plugin is active.</p>
+                            </div>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <div class="table-card" style="padding:16px;">
+                            <p style="color:#64748B;">You do not have access to chat management. Please contact an administrator.</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <div id="view-queue" class="view-section">
