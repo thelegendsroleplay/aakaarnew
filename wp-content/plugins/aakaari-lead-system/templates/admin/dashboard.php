@@ -46,9 +46,11 @@ if (!defined('ABSPATH')) {
         .aakaari-agent-status select { margin-left: auto; padding: 8px 12px; border-radius: 6px; border: 1px solid #e2e8f0; }
     </style>
 
+    <?php $is_agent_online = Aakaari_Admin::is_agent_online(); ?>
+
     <!-- Agent Status -->
     <div class="aakaari-agent-status">
-        <span class="dot <?php echo $this->is_agent_online() ? 'available' : 'offline'; ?>"></span>
+        <span class="dot <?php echo $is_agent_online ? 'available' : 'offline'; ?>"></span>
         <strong>Your Status:</strong>
         <select id="agent-status" onchange="updateAgentStatus(this.value)">
             <option value="available">Available</option>
@@ -56,6 +58,25 @@ if (!defined('ABSPATH')) {
             <option value="away">Away</option>
             <option value="offline">Offline</option>
         </select>
+    </div>
+
+    <div class="aakaari-section">
+        <h2>Chat Management</h2>
+        <p>Manage live conversations, convert chats to tickets, and keep leads moving through the pipeline.</p>
+        <div class="aakaari-quick-actions" style="margin-top: 16px;">
+            <a href="<?php echo admin_url('admin.php?page=aakaari-chats'); ?>">
+                <span class="dashicons dashicons-format-chat"></span>
+                Open Live Chats
+            </a>
+            <a href="<?php echo admin_url('admin.php?page=aakaari-chats'); ?>" class="secondary">
+                <span class="dashicons dashicons-clipboard"></span>
+                Convert Chat to Ticket
+            </a>
+            <a href="<?php echo admin_url('admin.php?page=aakaari-tickets'); ?>" class="secondary">
+                <span class="dashicons dashicons-tickets-alt"></span>
+                View Tickets
+            </a>
+        </div>
     </div>
 
     <!-- Stats Grid -->
