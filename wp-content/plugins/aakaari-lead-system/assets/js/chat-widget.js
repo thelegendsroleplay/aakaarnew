@@ -1,6 +1,6 @@
 /**
  * Aakaari Chat Widget
- * Lead conversion live chat system
+ * Lead conversion live chat system - Rebuilt with proper state management
  */
 
 (function() {
@@ -9,28 +9,28 @@
     // Configuration from WordPress
     const config = window.aakaariChat || {};
 
-    // State
+    // State - using closure for privacy
     const state = {
         isOpen: false,
-        isMinimized: false,
         conversationId: null,
         visitorId: null,
         lastMessageId: 0,
         isTyping: false,
         agentTyping: false,
         pollInterval: null,
-        triggerShown: false,
-        triggerId: null,
-        unreadCount: 0,
         status: 'idle', // idle, prechat, waiting, active, ended
         formData: {},
-        pagesVisited: 1,
-        scrollDepth: 0,
-        timeOnPage: 0
+        displayedMessageIds: new Set(),
+        unreadCount: 0,
+        triggerShown: false,
+        triggerId: null
     };
 
     // DOM Elements
     let widget, chatButton, chatWindow, triggerPopup;
+
+    // Storage keys
+    const STORAGE_KEY = 'aakaari_chat_session';
 
     /**
      * Initialize widget
@@ -40,11 +40,17 @@
 
         createWidget();
         bindEvents();
+
+        // Restore session from localStorage (persists across page refreshes)
+        restoreSession();
+
+        // Track visitor
         trackVisitor();
+
+        // Initialize triggers
         initTriggers();
 
-        // Restore session if exists
-        restoreSession();
+        console.log('Aakaari Chat Widget initialized');
     }
 
     /**
@@ -65,7 +71,7 @@
                 <p></p>
                 <div class="aakaari-trigger-actions">
                     <button class="aakaari-trigger-accept">${config.i18n?.startChat || 'Start Chat'}</button>
-                    <button class="aakaari-trigger-dismiss">×</button>
+                    <button class="aakaari-trigger-dismiss">&times;</button>
                 </div>
             </div>
 
@@ -374,20 +380,23 @@
             const result = await response.json();
 
             if (result.success || result.conversation_id) {
+                // Update state
                 state.conversationId = result.conversation_id;
                 state.visitorId = result.visitor_id;
-                state.status = result.agent_online ? 'waiting' : 'waiting';
+                state.status = 'waiting';
                 state.queuePosition = result.queue_position;
                 state.estimatedWait = result.estimated_wait;
                 state.formData = data;
+                state.lastMessageId = 0;
+                state.displayedMessageIds = new Set();
 
-                // Save session
+                // Save to localStorage for persistence
                 saveSession();
 
                 // Render chat interface
                 renderChatInterface();
 
-                // Start polling
+                // Start polling for messages
                 startPolling();
             } else {
                 throw new Error(result.message || 'Failed to start chat');
@@ -409,22 +418,23 @@
 
         if (!message || !state.conversationId) return;
 
-        // Clear input
+        // Clear input immediately
         input.value = '';
         input.style.height = 'auto';
         document.getElementById('aakaari-char-count').textContent = '0';
         document.getElementById('aakaari-send-btn').disabled = true;
 
-        // Generate a temporary ID for deduplication
-        const tempId = 'temp_' + Date.now();
-
         // Add message to UI immediately (optimistic update)
+        const tempId = 'temp_' + Date.now();
         addMessageToUI({
             id: tempId,
             sender_type: 'visitor',
             message_text: message,
             created_at: new Date().toISOString()
         });
+
+        // Stop typing indicator
+        handleTyping(false);
 
         // Send to server
         try {
@@ -443,24 +453,24 @@
 
             const result = await response.json();
 
-            // Track the real message ID to prevent duplication from polling
-            if (result.message_id) {
-                if (!state.displayedMessageIds) {
-                    state.displayedMessageIds = new Set();
-                }
+            if (result.success && result.message_id) {
+                // Track the real message ID to prevent duplication from polling
                 state.displayedMessageIds.add(parseInt(result.message_id));
 
-                // Update lastMessageId to ensure polling skips this message
-                if (result.message_id > state.lastMessageId) {
+                // Update lastMessageId
+                if (parseInt(result.message_id) > state.lastMessageId) {
                     state.lastMessageId = parseInt(result.message_id);
                 }
+
+                // Save session with updated lastMessageId
+                saveSession();
+            } else if (result.code === 'access_denied') {
+                console.error('Access denied - session may have expired');
+                alert('Your session has expired. Please refresh the page.');
             }
         } catch (error) {
             console.error('Send message error:', error);
         }
-
-        // Stop typing indicator
-        handleTyping(false);
     }
 
     /**
@@ -470,6 +480,17 @@
         const container = document.getElementById('aakaari-messages');
         if (!container) return;
 
+        // Skip if already displayed (for real IDs, not temp IDs)
+        const msgId = parseInt(message.id);
+        if (!isNaN(msgId) && state.displayedMessageIds.has(msgId)) {
+            return;
+        }
+
+        // Track real message IDs
+        if (!isNaN(msgId)) {
+            state.displayedMessageIds.add(msgId);
+        }
+
         // Remove typing indicator if present
         const typingIndicator = container.querySelector('.aakaari-typing-indicator');
         if (typingIndicator) {
@@ -478,6 +499,7 @@
 
         const div = document.createElement('div');
         div.className = `aakaari-message ${message.sender_type}`;
+        div.setAttribute('data-id', message.id);
 
         const time = new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -503,11 +525,6 @@
 
         // Scroll to bottom
         container.scrollTop = container.scrollHeight;
-
-        // Track last message ID
-        if (message.id) {
-            state.lastMessageId = Math.max(state.lastMessageId, parseInt(message.id));
-        }
     }
 
     /**
@@ -542,7 +559,7 @@
      * Handle typing indicator
      */
     async function handleTyping(isTyping) {
-        if (state.isTyping === isTyping) return;
+        if (state.isTyping === isTyping || !state.conversationId) return;
         state.isTyping = isTyping;
 
         try {
@@ -567,10 +584,8 @@
      * Start polling for messages
      */
     function startPolling() {
-        // Track message IDs we've already displayed to prevent duplicates
-        if (!state.displayedMessageIds) {
-            state.displayedMessageIds = new Set();
-        }
+        // Clear any existing poll
+        stopPolling();
 
         const poll = async () => {
             if (!state.conversationId || state.status === 'ended') {
@@ -579,26 +594,42 @@
             }
 
             try {
-                const response = await fetch(
-                    `${config.restUrl}chat/poll?conversation_id=${state.conversationId}&last_id=${state.lastMessageId}&visitor_id=${state.visitorId}`,
-                    {
-                        headers: { 'X-WP-Nonce': config.restNonce }
-                    }
-                );
+                const url = `${config.restUrl}chat/poll?conversation_id=${state.conversationId}&last_id=${state.lastMessageId}&visitor_id=${state.visitorId}`;
+
+                const response = await fetch(url, {
+                    headers: { 'X-WP-Nonce': config.restNonce }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
 
                 const data = await response.json();
 
-                // Update lastMessageId from server response for reliable tracking
-                if (data.last_id && data.last_id > state.lastMessageId) {
-                    state.lastMessageId = data.last_id;
+                // Handle error responses
+                if (data.code === 'access_denied') {
+                    console.error('Access denied - clearing session');
+                    clearSession();
+                    return;
                 }
 
-                // Add new messages (only non-visitor messages, skip already displayed)
+                // Process new messages
                 if (data.messages && data.messages.length > 0) {
-                    data.messages.forEach(msg => {
-                        // Skip visitor's own messages and already displayed messages
-                        if (msg.sender_type !== 'visitor' && msg.id && !state.displayedMessageIds.has(parseInt(msg.id))) {
-                            state.displayedMessageIds.add(parseInt(msg.id));
+                    // Sort by ID to ensure correct order
+                    const sortedMessages = data.messages.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+
+                    sortedMessages.forEach(msg => {
+                        const msgId = parseInt(msg.id);
+
+                        // Only display if not already shown
+                        if (!state.displayedMessageIds.has(msgId)) {
+                            // For visitor messages, skip if we sent them (they're already in UI)
+                            if (msg.sender_type === 'visitor') {
+                                state.displayedMessageIds.add(msgId);
+                                return;
+                            }
+
+                            // Add agent/system messages to UI
                             addMessageToUI(msg);
 
                             // Increment unread if not open
@@ -611,6 +642,12 @@
                     });
                 }
 
+                // Update last_id from server
+                if (data.last_id && data.last_id > state.lastMessageId) {
+                    state.lastMessageId = data.last_id;
+                    saveSession();
+                }
+
                 // Update typing indicator
                 if (data.agent_typing && !state.agentTyping) {
                     state.agentTyping = true;
@@ -621,35 +658,36 @@
                 }
 
                 // Update status
-                if (data.status === 'active' && state.status === 'waiting') {
-                    state.status = 'active';
-                    // Remove queue info
-                    const queueInfo = widget.querySelector('.aakaari-queue-info');
-                    if (queueInfo) queueInfo.remove();
+                if (data.status && data.status !== state.status) {
+                    state.status = data.status;
+                    saveSession();
 
-                    // Update header
-                    if (data.agent_name) {
-                        widget.querySelector('.aakaari-header-title').textContent = data.agent_name;
+                    if (data.status === 'active') {
+                        // Remove queue info
+                        const queueInfo = widget.querySelector('.aakaari-queue-info');
+                        if (queueInfo) queueInfo.remove();
+
+                        // Update header
+                        if (data.agent_name) {
+                            widget.querySelector('.aakaari-header-title').textContent = data.agent_name;
+                        }
                     }
-                }
 
-                if (data.status === 'ended') {
-                    state.status = 'ended';
-                    stopPolling();
-                    showChatEnded();
+                    if (data.status === 'ended') {
+                        stopPolling();
+                        showChatEnded();
+                        return;
+                    }
                 }
             } catch (error) {
                 console.error('Poll error:', error);
             }
 
-            if (state.pollInterval) {
-                clearTimeout(state.pollInterval);
-            }
-
-            // Poll every 1 second (non-blocking server-side now)
-            state.pollInterval = setTimeout(poll, 1000);
+            // Schedule next poll (1.5 seconds)
+            state.pollInterval = setTimeout(poll, 1500);
         };
 
+        // Start polling
         poll();
     }
 
@@ -660,6 +698,65 @@
         if (state.pollInterval) {
             clearTimeout(state.pollInterval);
             state.pollInterval = null;
+        }
+    }
+
+    /**
+     * Load all messages for current conversation
+     */
+    async function loadAllMessages() {
+        if (!state.conversationId || !state.visitorId) return;
+
+        try {
+            // Fetch all messages by passing last_id=0
+            const url = `${config.restUrl}chat/poll?conversation_id=${state.conversationId}&last_id=0&visitor_id=${state.visitorId}`;
+
+            const response = await fetch(url, {
+                headers: { 'X-WP-Nonce': config.restNonce }
+            });
+
+            const data = await response.json();
+
+            if (data.code === 'access_denied') {
+                console.error('Session expired');
+                clearSession();
+                return false;
+            }
+
+            if (data.messages && data.messages.length > 0) {
+                // Sort by ID
+                const sortedMessages = data.messages.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+
+                sortedMessages.forEach(msg => {
+                    addMessageToUI(msg);
+                });
+            }
+
+            // Update last_id
+            if (data.last_id) {
+                state.lastMessageId = data.last_id;
+            }
+
+            // Update status
+            if (data.status) {
+                state.status = data.status;
+
+                if (data.status === 'active' && data.agent_name) {
+                    widget.querySelector('.aakaari-header-title').textContent = data.agent_name;
+                    const queueInfo = widget.querySelector('.aakaari-queue-info');
+                    if (queueInfo) queueInfo.remove();
+                }
+
+                if (data.status === 'ended') {
+                    showChatEnded();
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (error) {
+            console.error('Error loading messages:', error);
+            return false;
         }
     }
 
@@ -698,10 +795,10 @@
      */
     function showChatEnded() {
         const body = widget.querySelector('.aakaari-chat-body');
-        const messages = document.getElementById('aakaari-messages');
 
         // Add ended message
         addMessageToUI({
+            id: 'system_ended',
             sender_type: 'system',
             message_text: config.i18n?.chatEnded || 'Chat ended. Thank you for contacting us!',
             created_at: new Date().toISOString()
@@ -719,7 +816,7 @@
         rating.innerHTML = `
             <p>How was your experience?</p>
             <div class="aakaari-stars">
-                ${[1,2,3,4,5].map(n => `<button data-rating="${n}">★</button>`).join('')}
+                ${[1,2,3,4,5].map(n => `<button data-rating="${n}">&#9733;</button>`).join('')}
             </div>
         `;
         body.appendChild(rating);
@@ -774,17 +871,90 @@
             });
 
             const data = await response.json();
-            if (data.visitor_id) {
+
+            // Only update visitor_id if we don't have a conversation
+            if (data.visitor_id && !state.conversationId) {
                 state.visitorId = data.visitor_id;
             }
-
-            // Track page visits
-            const visits = parseInt(sessionStorage.getItem('aakaari_pages') || '0') + 1;
-            sessionStorage.setItem('aakaari_pages', visits);
-            state.pagesVisited = visits;
         } catch (e) {
             // Ignore tracking errors
         }
+    }
+
+    /**
+     * Save session to localStorage
+     */
+    function saveSession() {
+        const sessionData = {
+            conversationId: state.conversationId,
+            visitorId: state.visitorId,
+            status: state.status,
+            lastMessageId: state.lastMessageId,
+            formData: state.formData,
+            savedAt: Date.now()
+        };
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
+    }
+
+    /**
+     * Restore session from localStorage
+     */
+    function restoreSession() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return;
+
+        try {
+            const data = JSON.parse(saved);
+
+            // Check if session is too old (24 hours)
+            const maxAge = 24 * 60 * 60 * 1000;
+            if (data.savedAt && Date.now() - data.savedAt > maxAge) {
+                clearSession();
+                return;
+            }
+
+            // Don't restore ended conversations
+            if (data.status === 'ended') {
+                clearSession();
+                return;
+            }
+
+            // Restore state
+            if (data.conversationId && data.visitorId) {
+                state.conversationId = data.conversationId;
+                state.visitorId = data.visitorId;
+                state.status = data.status || 'waiting';
+                state.lastMessageId = 0; // Start from 0 to load all messages
+                state.formData = data.formData || {};
+                state.displayedMessageIds = new Set();
+
+                // Render chat interface
+                renderChatInterface();
+
+                // Load all messages then start polling
+                loadAllMessages().then(success => {
+                    if (success) {
+                        startPolling();
+                    }
+                });
+            }
+        } catch (e) {
+            console.error('Error restoring session:', e);
+            clearSession();
+        }
+    }
+
+    /**
+     * Clear session
+     */
+    function clearSession() {
+        localStorage.removeItem(STORAGE_KEY);
+        state.conversationId = null;
+        state.visitorId = null;
+        state.status = 'idle';
+        state.lastMessageId = 0;
+        state.displayedMessageIds = new Set();
     }
 
     /**
@@ -793,17 +963,19 @@
     function initTriggers() {
         if (!config.triggers || sessionStorage.getItem('aakaari_trigger_dismissed')) return;
 
+        let timeOnPage = 0;
+        let scrollDepth = 0;
+
         // Track time on page
         setInterval(() => {
-            state.timeOnPage++;
-            checkTriggers();
+            timeOnPage++;
+            checkTriggers(timeOnPage, scrollDepth);
         }, 1000);
 
         // Track scroll depth
         document.addEventListener('scroll', () => {
             const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            state.scrollDepth = Math.round((window.scrollY / scrollHeight) * 100) || 0;
-            checkTriggers();
+            scrollDepth = Math.round((window.scrollY / scrollHeight) * 100) || 0;
         });
 
         // Exit intent (desktop only)
@@ -819,7 +991,7 @@
     /**
      * Check triggers
      */
-    function checkTriggers() {
+    function checkTriggers(timeOnPage, scrollDepth) {
         if (state.triggerShown || state.isOpen || state.conversationId) return;
 
         const triggers = config.triggers || [];
@@ -832,7 +1004,7 @@
 
             switch (trigger.trigger_type) {
                 case 'time':
-                    if (conditions.delay && state.timeOnPage >= conditions.delay) {
+                    if (conditions.delay && timeOnPage >= conditions.delay) {
                         if (conditions.page === 'homepage' && pageType === 'homepage') {
                             shouldTrigger = true;
                         } else if (conditions.page_contains && pageUrl.includes(conditions.page_contains)) {
@@ -844,26 +1016,8 @@
                     break;
 
                 case 'scroll':
-                    if (conditions.scroll_percent && state.scrollDepth >= conditions.scroll_percent) {
-                        if (!conditions.page_contains || pageUrl.includes(conditions.page_contains)) {
-                            shouldTrigger = true;
-                        }
-                    }
-                    break;
-
-                case 'return_visitor':
-                    if (conditions.min_visits && state.pagesVisited >= conditions.min_visits) {
-                        if (!conditions.delay || state.timeOnPage >= conditions.delay) {
-                            shouldTrigger = true;
-                        }
-                    }
-                    break;
-
-                case 'action_based':
-                    if (conditions.pages_visited && state.pagesVisited >= conditions.pages_visited) {
-                        if (!conditions.delay || state.timeOnPage >= conditions.delay) {
-                            shouldTrigger = true;
-                        }
+                    if (conditions.scroll_percent && scrollDepth >= conditions.scroll_percent) {
+                        shouldTrigger = true;
                     }
                     break;
             }
@@ -896,16 +1050,6 @@
 
         triggerPopup.querySelector('p').textContent = trigger.message;
         triggerPopup.classList.add('show');
-
-        // Record trigger shown
-        recordTriggerShown(trigger.id);
-    }
-
-    /**
-     * Record trigger shown
-     */
-    async function recordTriggerShown(triggerId) {
-        // Just track locally for now
     }
 
     /**
@@ -943,119 +1087,7 @@
      * Play notification sound
      */
     function playNotificationSound() {
-        // Optional: Add a subtle notification sound
-    }
-
-    /**
-     * Save session
-     */
-    function saveSession() {
-        sessionStorage.setItem('aakaari_session', JSON.stringify({
-            conversationId: state.conversationId,
-            visitorId: state.visitorId,
-            status: state.status,
-            formData: state.formData
-        }));
-    }
-
-    /**
-     * Restore session
-     */
-    function restoreSession() {
-        const saved = sessionStorage.getItem('aakaari_session');
-        if (!saved) return;
-
-        try {
-            const data = JSON.parse(saved);
-            if (data.conversationId && data.status !== 'ended') {
-                state.conversationId = data.conversationId;
-                state.visitorId = data.visitorId;
-                state.status = data.status;
-                state.formData = data.formData;
-
-                // Render chat interface
-                renderChatInterface();
-
-                // Load existing messages from server
-                loadExistingMessages().then(() => {
-                    // Start polling for new messages after loading existing ones
-                    startPolling();
-                });
-            }
-        } catch (e) {
-            clearSession();
-        }
-    }
-
-    /**
-     * Load existing messages for restored session
-     */
-    async function loadExistingMessages() {
-        if (!state.conversationId || !state.visitorId) return;
-
-        // Initialize displayedMessageIds set
-        if (!state.displayedMessageIds) {
-            state.displayedMessageIds = new Set();
-        }
-
-        try {
-            // Fetch all messages by passing last_id=0
-            const response = await fetch(
-                `${config.restUrl}chat/poll?conversation_id=${state.conversationId}&last_id=0&visitor_id=${state.visitorId}`,
-                {
-                    headers: { 'X-WP-Nonce': config.restNonce }
-                }
-            );
-
-            const data = await response.json();
-
-            if (data.messages && data.messages.length > 0) {
-                // Sort messages by ID to display in correct order
-                const sortedMessages = data.messages.sort((a, b) => parseInt(a.id) - parseInt(b.id));
-
-                sortedMessages.forEach(msg => {
-                    const msgId = parseInt(msg.id);
-                    if (!state.displayedMessageIds.has(msgId)) {
-                        state.displayedMessageIds.add(msgId);
-                        addMessageToUI(msg);
-                    }
-                });
-            }
-
-            // Update last_id from server response
-            if (data.last_id) {
-                state.lastMessageId = data.last_id;
-            }
-
-            // Update status
-            if (data.status) {
-                state.status = data.status;
-
-                if (data.status === 'active') {
-                    // Remove queue info if present
-                    const queueInfo = widget.querySelector('.aakaari-queue-info');
-                    if (queueInfo) queueInfo.remove();
-
-                    // Update header with agent name
-                    if (data.agent_name) {
-                        widget.querySelector('.aakaari-header-title').textContent = data.agent_name;
-                    }
-                }
-
-                if (data.status === 'ended') {
-                    showChatEnded();
-                }
-            }
-        } catch (error) {
-            console.error('Error loading existing messages:', error);
-        }
-    }
-
-    /**
-     * Clear session
-     */
-    function clearSession() {
-        sessionStorage.removeItem('aakaari_session');
+        // Optional: Add notification sound
     }
 
     /**
@@ -1076,6 +1108,7 @@
      * Escape HTML
      */
     function escapeHtml(text) {
+        if (!text) return '';
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
