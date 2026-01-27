@@ -309,6 +309,27 @@ class Aakaari_Chat_Handler {
     }
 
     /**
+     * Verify conversation access by visitor ID.
+     */
+    public static function verify_conversation_visitor($conversation_id, $visitor_id) {
+        global $wpdb;
+
+        if (!$conversation_id || !$visitor_id) {
+            return false;
+        }
+
+        $result = $wpdb->get_var($wpdb->prepare(
+            "SELECT c.id
+             FROM {$wpdb->prefix}aakaari_conversations c
+             WHERE c.id = %d AND c.visitor_id = %d",
+            $conversation_id,
+            $visitor_id
+        ));
+
+        return (bool) $result;
+    }
+
+    /**
      * Get queue info
      */
     public static function get_queue_info($conversation_id) {

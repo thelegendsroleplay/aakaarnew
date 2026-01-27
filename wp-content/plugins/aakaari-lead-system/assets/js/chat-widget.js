@@ -432,6 +432,7 @@
                 },
                 body: JSON.stringify({
                     conversation_id: state.conversationId,
+                    visitor_id: state.visitorId,
                     message: message
                 })
             });
@@ -534,6 +535,7 @@
                 },
                 body: JSON.stringify({
                     conversation_id: state.conversationId,
+                    visitor_id: state.visitorId,
                     is_typing: isTyping
                 })
             });
@@ -556,7 +558,7 @@
 
             try {
                 const response = await fetch(
-                    `${config.restUrl}chat/poll?conversation_id=${state.conversationId}&last_id=${state.lastMessageId}`,
+                    `${config.restUrl}chat/poll?conversation_id=${state.conversationId}&last_id=${state.lastMessageId}&visitor_id=${state.visitorId}`,
                     {
                         headers: { 'X-WP-Nonce': config.restNonce }
                     }
@@ -645,7 +647,8 @@
                     'X-WP-Nonce': config.restNonce
                 },
                 body: JSON.stringify({
-                    conversation_id: state.conversationId
+                    conversation_id: state.conversationId,
+                    visitor_id: state.visitorId
                 })
             });
 
@@ -712,6 +715,7 @@
                 },
                 body: JSON.stringify({
                     conversation_id: state.conversationId,
+                    visitor_id: state.visitorId,
                     rating: rating
                 })
             });
