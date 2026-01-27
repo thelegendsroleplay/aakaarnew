@@ -67,8 +67,6 @@
      * Start polling for updates
      */
     function startPolling() {
-        state.lastCheckTime = new Date().toISOString();
-
         const poll = async () => {
             if (state.pollInterval) {
                 clearTimeout(state.pollInterval);
@@ -87,8 +85,12 @@
      */
     async function pollForUpdates() {
         try {
+            const sinceParam = state.lastCheckTime
+                ? `?since=${encodeURIComponent(state.lastCheckTime)}`
+                : '';
+
             const response = await fetch(
-                `${config.restUrl}admin/poll?since=${encodeURIComponent(state.lastCheckTime)}`,
+                `${config.restUrl}admin/poll${sinceParam}`,
                 {
                     headers: { 'X-WP-Nonce': config.restNonce }
                 }

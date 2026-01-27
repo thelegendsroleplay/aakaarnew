@@ -158,6 +158,7 @@ const agentId = <?php echo get_current_user_id(); ?>;
 let currentChatId = null;
 let lastMessageId = 0;
 let pollInterval = null;
+let lastPollTimestamp = null;
 let cannedResponses = [];
 
 // Load canned responses
@@ -428,7 +429,11 @@ function startPolling() {
     pollInterval = setInterval(() => {
         if (!currentChatId) return;
 
-        fetch(restUrl + 'admin/poll?since=' + encodeURIComponent(new Date(Date.now() - 5000).toISOString()), {
+        const sinceParam = lastPollTimestamp
+            ? '?since=' + encodeURIComponent(lastPollTimestamp)
+            : '';
+
+        fetch(restUrl + 'admin/poll' + sinceParam, {
             headers: { 'X-WP-Nonce': restNonce }
         })
         .then(r => r.json())
@@ -463,6 +468,10 @@ function startPolling() {
                         icon: '/favicon.ico'
                     });
                 }
+            }
+
+            if (data.timestamp) {
+                lastPollTimestamp = data.timestamp;
             }
         });
     }, 3000);
