@@ -911,10 +911,10 @@ class Aakaari_REST_API {
         $agent_id = get_current_user_id();
         $last_check = $request->get_param('since');
 
-        // If no timestamp provided, use current time minus 30 seconds
-        // Use WordPress current_time for consistency with stored timestamps
+        // If no timestamp provided, use WordPress current_time for consistency
+        // Messages are stored with current_time('mysql'), so we must use the same timezone
         if (!$last_check) {
-            $last_check = gmdate('Y-m-d H:i:s', strtotime('-30 seconds'));
+            $last_check = date('Y-m-d H:i:s', strtotime('-30 seconds', strtotime(current_time('mysql'))));
         }
 
         // Update agent heartbeat
@@ -924,7 +924,7 @@ class Aakaari_REST_API {
         // Client handles polling interval - prevents PHP worker exhaustion
         $updates = Aakaari_Chat_Handler::get_updates_since($agent_id, $last_check);
 
-        // Always include current timestamp for next poll
+        // Always include current timestamp for next poll (WordPress timezone)
         $updates['timestamp'] = current_time('mysql');
 
         return rest_ensure_response($updates);

@@ -975,10 +975,79 @@
 
                 // Render chat interface
                 renderChatInterface();
-                startPolling();
+
+                // Load existing messages from server
+                loadExistingMessages().then(() => {
+                    // Start polling for new messages after loading existing ones
+                    startPolling();
+                });
             }
         } catch (e) {
             clearSession();
+        }
+    }
+
+    /**
+     * Load existing messages for restored session
+     */
+    async function loadExistingMessages() {
+        if (!state.conversationId || !state.visitorId) return;
+
+        // Initialize displayedMessageIds set
+        if (!state.displayedMessageIds) {
+            state.displayedMessageIds = new Set();
+        }
+
+        try {
+            // Fetch all messages by passing last_id=0
+            const response = await fetch(
+                `${config.restUrl}chat/poll?conversation_id=${state.conversationId}&last_id=0&visitor_id=${state.visitorId}`,
+                {
+                    headers: { 'X-WP-Nonce': config.restNonce }
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.messages && data.messages.length > 0) {
+                // Sort messages by ID to display in correct order
+                const sortedMessages = data.messages.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+
+                sortedMessages.forEach(msg => {
+                    const msgId = parseInt(msg.id);
+                    if (!state.displayedMessageIds.has(msgId)) {
+                        state.displayedMessageIds.add(msgId);
+                        addMessageToUI(msg);
+                    }
+                });
+            }
+
+            // Update last_id from server response
+            if (data.last_id) {
+                state.lastMessageId = data.last_id;
+            }
+
+            // Update status
+            if (data.status) {
+                state.status = data.status;
+
+                if (data.status === 'active') {
+                    // Remove queue info if present
+                    const queueInfo = widget.querySelector('.aakaari-queue-info');
+                    if (queueInfo) queueInfo.remove();
+
+                    // Update header with agent name
+                    if (data.agent_name) {
+                        widget.querySelector('.aakaari-header-title').textContent = data.agent_name;
+                    }
+                }
+
+                if (data.status === 'ended') {
+                    showChatEnded();
+                }
+            }
+        } catch (error) {
+            console.error('Error loading existing messages:', error);
         }
     }
 

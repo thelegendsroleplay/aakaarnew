@@ -446,8 +446,7 @@ function startPolling() {
     if (pollInterval) clearInterval(pollInterval);
 
     pollInterval = setInterval(() => {
-        if (!currentChatId) return;
-
+        // Always poll for new chats and messages, even if no chat is selected
         const sinceParam = lastPollTimestamp
             ? '?since=' + encodeURIComponent(lastPollTimestamp)
             : '';
@@ -457,12 +456,12 @@ function startPolling() {
         })
         .then(r => r.json())
         .then(data => {
-            // Handle new messages (with deduplication)
-            if (data.new_messages && data.new_messages.length > 0) {
+            // Handle new messages (with deduplication) - only if a chat is selected
+            if (currentChatId && data.new_messages && data.new_messages.length > 0) {
                 data.new_messages.forEach(msg => {
                     const msgId = parseInt(msg.id);
                     // Check if this message is for current chat and not already displayed
-                    if (msg.conversation_id == currentChatId && !displayedMessageIds.has(msgId)) {
+                    if (parseInt(msg.conversation_id) === parseInt(currentChatId) && !displayedMessageIds.has(msgId)) {
                         displayedMessageIds.add(msgId);
                         const container = document.getElementById('messages-container');
                         if (container) {
@@ -480,7 +479,7 @@ function startPolling() {
                 });
             }
 
-            // Handle new chats
+            // Handle new chats - always process even if no chat selected
             if (data.new_chats && data.new_chats.length > 0) {
                 refreshChatList();
                 // Play notification sound
@@ -489,6 +488,17 @@ function startPolling() {
                         body: data.new_chats[0].visitor_name + ' is waiting',
                         icon: '/favicon.ico'
                     });
+                }
+            }
+
+            // Update chat list badge count if there are messages for other chats
+            if (data.new_messages && data.new_messages.length > 0) {
+                const otherChatMessages = data.new_messages.filter(
+                    msg => !currentChatId || parseInt(msg.conversation_id) !== parseInt(currentChatId)
+                );
+                if (otherChatMessages.length > 0) {
+                    // Refresh chat list to show unread indicators
+                    refreshChatList();
                 }
             }
 
