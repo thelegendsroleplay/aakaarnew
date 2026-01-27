@@ -141,6 +141,11 @@
         th { text-align: left; padding: 12px 16px; background: #F8FAFC; font-size: 0.75rem; text-transform: uppercase; color: var(--text-body); font-weight: 700; }
         td { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 0.9rem; vertical-align: middle; }
         tr:hover { background: #F8FAFC; cursor: pointer; }
+        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+        .action-card { border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: #F8FAFC; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 6px; transition: 0.2s; }
+        .action-card:hover { border-color: var(--primary); background: #EFF6FF; }
+        .action-title { font-weight: 700; font-size: 0.95rem; color: var(--text-head); }
+        .action-meta { font-size: 0.8rem; color: var(--text-body); }
 
         /* Status Badges */
         .badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
@@ -210,6 +215,7 @@
 
             <div class="nav-header">Management</div>
             <div class="nav-item" onclick="nav('customers', this)">👥 Customers</div>
+            <div class="nav-item" onclick="nav('chat', this)">💬 Chat Management</div>
             <div class="nav-item" onclick="nav('maintenance', this)">🔁 Console</div>
             <div class="nav-item" onclick="nav('files', this)">📁 File Manager</div>
 
@@ -294,6 +300,40 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <div id="view-chat" class="view-section">
+                <h2 style="font-size:1.2rem; margin-bottom:8px;">Chat Management</h2>
+                <p style="color:#64748B; margin-bottom:16px;">Open live conversations, convert chats to tickets, and track support follow-ups from the lead system.</p>
+                <div class="action-grid">
+                    <a class="action-card" href="<?php echo esc_url(admin_url('admin.php?page=aakaari-chats')); ?>">
+                        <div class="action-title">Open Live Chats</div>
+                        <div class="action-meta">View waiting and active conversations.</div>
+                    </a>
+                    <a class="action-card" href="<?php echo esc_url(admin_url('admin.php?page=aakaari-chats')); ?>">
+                        <div class="action-title">Convert Chat to Ticket</div>
+                        <div class="action-meta">Jump into a chat and create a ticket.</div>
+                    </a>
+                    <a class="action-card" href="<?php echo esc_url(admin_url('admin.php?page=aakaari-tickets')); ?>">
+                        <div class="action-title">View Tickets</div>
+                        <div class="action-meta">See open and resolved ticket work.</div>
+                    </a>
+                </div>
+                <div style="margin-top:24px;">
+                    <?php if (current_user_can('manage_options') || current_user_can('aakaari_agent')): ?>
+                        <?php if (defined('AAKAARI_LEADS_PATH')): ?>
+                            <?php include AAKAARI_LEADS_PATH . 'templates/admin/chats.php'; ?>
+                        <?php else: ?>
+                            <div class="table-card" style="padding:16px;">
+                                <p style="color:#64748B;">Chat system is unavailable. Please ensure the Lead System plugin is active.</p>
+                            </div>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <div class="table-card" style="padding:16px;">
+                            <p style="color:#64748B;">You do not have access to chat management. Please contact an administrator.</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 

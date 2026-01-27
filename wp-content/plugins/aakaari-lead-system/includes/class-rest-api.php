@@ -113,6 +113,12 @@ class Aakaari_REST_API {
             'permission_callback' => [__CLASS__, 'admin_permission'],
         ]);
 
+        register_rest_route(self::$namespace, '/admin/conversation/(?P<id>\d+)/reject', [
+            'methods' => 'POST',
+            'callback' => [__CLASS__, 'admin_reject_chat'],
+            'permission_callback' => [__CLASS__, 'admin_permission'],
+        ]);
+
         register_rest_route(self::$namespace, '/admin/conversation/(?P<id>\d+)/message', [
             'methods' => 'POST',
             'callback' => [__CLASS__, 'admin_send_message'],
@@ -718,6 +724,22 @@ class Aakaari_REST_API {
 
         if (!$result) {
             return new WP_Error('accept_failed', 'Failed to accept chat', ['status' => 400]);
+        }
+
+        return rest_ensure_response(['success' => true]);
+    }
+
+    /**
+     * Reject chat
+     */
+    public static function admin_reject_chat(WP_REST_Request $request) {
+        $id = $request->get_param('id');
+        $agent_id = get_current_user_id();
+
+        $result = Aakaari_Chat_Handler::reject_conversation($id, $agent_id);
+
+        if (!$result) {
+            return new WP_Error('reject_failed', 'Failed to reject chat', ['status' => 400]);
         }
 
         return rest_ensure_response(['success' => true]);

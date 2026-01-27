@@ -28,6 +28,10 @@ class Aakaari_Email_Handler {
 
         // Email tracking pixel
         add_action('init', [__CLASS__, 'handle_tracking_pixel']);
+
+        // Chat notifications
+        add_action('aakaari_new_chat', [__CLASS__, 'notify_admin_new_chat']);
+        add_action('aakaari_new_chat_message', [__CLASS__, 'notify_admin_new_chat_message'], 10, 2);
     }
 
     /**
@@ -56,6 +60,68 @@ class Aakaari_Email_Handler {
         return self::send_email($to, $subject, $body, [
             'lead_id' => $conversation['lead_id'],
             'type' => 'transcript'
+        ]);
+    }
+
+    /**
+     * Notify admin of new chat
+     */
+    public static function notify_admin_new_chat($conversation_id) {
+        $conversation = Aakaari_Chat_Handler::get_conversation_full($conversation_id);
+
+        if (!$conversation) {
+            return false;
+        }
+
+        $admin_email = get_option('admin_email');
+        $visitor = $conversation['visitor'] ?? [];
+        $name = $visitor['name'] ?? 'Visitor';
+        $email = $visitor['email'] ?? 'No email';
+
+        $subject = sprintf('New chat request from %s', $name);
+        $body = sprintf(
+            '<p>A new chat request is waiting.</p><p><strong>Name:</strong> %s<br><strong>Email:</strong> %s</p><p><a href="%s">Open Live Chats</a></p>',
+            esc_html($name),
+            esc_html($email),
+            esc_url(admin_url('admin.php?page=aakaari-chats'))
+        );
+
+        return self::send_email($admin_email, $subject, $body, [
+            'lead_id' => $conversation['lead_id'],
+            'type' => 'chat_notification'
+        ]);
+    }
+
+    /**
+     * Notify admin of new visitor message
+     */
+    public static function notify_admin_new_chat_message($conversation_id, $message_id) {
+        $conversation = Aakaari_Chat_Handler::get_conversation_full($conversation_id);
+
+        if (!$conversation) {
+            return false;
+        }
+
+        $admin_email = get_option('admin_email');
+        $visitor = $conversation['visitor'] ?? [];
+        $name = $visitor['name'] ?? 'Visitor';
+        $latest = $conversation['messages'][count($conversation['messages']) - 1] ?? null;
+
+        if (!$latest || (int) $latest['id'] !== (int) $message_id) {
+            return false;
+        }
+
+        $subject = sprintf('New chat message from %s', $name);
+        $body = sprintf(
+            '<p>You received a new chat message.</p><p><strong>From:</strong> %s</p><p>%s</p><p><a href="%s">Open Live Chats</a></p>',
+            esc_html($name),
+            esc_html($latest['message_text']),
+            esc_url(admin_url('admin.php?page=aakaari-chats'))
+        );
+
+        return self::send_email($admin_email, $subject, $body, [
+            'lead_id' => $conversation['lead_id'],
+            'type' => 'chat_message'
         ]);
     }
 

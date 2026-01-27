@@ -181,6 +181,10 @@ class Aakaari_Chat_Handler {
             $data['conversation_id']
         ));
 
+        if ($data['sender_type'] === 'visitor') {
+            do_action('aakaari_new_chat_message', $data['conversation_id'], $message_id);
+        }
+
         return $message_id;
     }
 
@@ -343,11 +347,19 @@ class Aakaari_Chat_Handler {
 
         // Check if already accepted
         $current = $wpdb->get_row($wpdb->prepare(
-            "SELECT status, started_at FROM $table WHERE id = %d",
+            "SELECT status, started_at, agent_id FROM $table WHERE id = %d",
             $id
         ));
 
-        if (!$current || $current->status !== 'waiting') {
+        if (!$current) {
+            return false;
+        }
+
+        if ($current->status === 'active' && (int) $current->agent_id === (int) $agent_id) {
+            return true;
+        }
+
+        if ($current->status !== 'waiting') {
             return false;
         }
 
@@ -363,7 +375,10 @@ class Aakaari_Chat_Handler {
                 'wait_time' => $wait_time,
                 'updated_at' => current_time('mysql')
             ],
-            ['id' => $id]
+            [
+                'id' => $id,
+                'status' => 'waiting'
+            ]
         );
 
         if ($result) {
@@ -377,11 +392,59 @@ class Aakaari_Chat_Handler {
 
             // Update agent chat count
             self::increment_agent_chats($agent_id);
+        } elseif ($result === 0) {
+            $updated = $wpdb->get_row($wpdb->prepare(
+                "SELECT status, agent_id FROM $table WHERE id = %d",
+                $id
+            ));
+
+            if ($updated && $updated->status === 'active' && (int) $updated->agent_id === (int) $agent_id) {
+                return true;
+            }
         }
 
         return (bool) $result;
     }
 
+    /**
+     * Reject waiting conversation
+     */
+    public static function reject_conversation($id, $agent_id) {
+        global $wpdb;
+        $table = $wpdb->prefix . 'aakaari_conversations';
+
+        $current = $wpdb->get_row($wpdb->prepare(
+            "SELECT status FROM $table WHERE id = %d",
+            $id
+        ));
+
+        if (!$current || $current->status !== 'waiting') {
+            return false;
+        }
+
+        $result = $wpdb->update(
+            $table,
+            [
+                'agent_id' => $agent_id,
+                'status' => 'abandoned',
+                'ended_at' => current_time('mysql'),
+                'ended_by' => 'agent',
+                'updated_at' => current_time('mysql')
+            ],
+            ['id' => $id]
+        );
+
+        if ($result) {
+            self::add_message([
+                'conversation_id' => $id,
+                'sender_type' => 'system',
+                'message_text' => 'Chat request was declined by an agent.',
+                'message_type' => 'system_notification'
+            ]);
+        }
+
+        return (bool) $result;
+    }
     /**
      * End conversation
      */
