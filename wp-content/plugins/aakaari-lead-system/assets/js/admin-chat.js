@@ -67,18 +67,18 @@
      * Start polling for updates
      */
     function startPolling() {
-        if (state.pollInterval) return;
-
         state.lastCheckTime = new Date().toISOString();
 
-        const poll = () => {
-            pollForUpdates();
+        const poll = async () => {
+            if (state.pollInterval) {
+                clearTimeout(state.pollInterval);
+            }
+
+            await pollForUpdates();
+
+            state.pollInterval = setTimeout(poll, config.pollInterval || 1000);
         };
 
-        // Poll every 3 seconds
-        state.pollInterval = setInterval(poll, config.pollInterval || 3000);
-
-        // Also poll immediately
         poll();
     }
 

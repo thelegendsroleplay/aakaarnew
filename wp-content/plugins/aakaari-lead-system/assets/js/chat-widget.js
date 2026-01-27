@@ -548,8 +548,6 @@
      * Start polling for messages
      */
     function startPolling() {
-        if (state.pollInterval) return;
-
         const poll = async () => {
             if (!state.conversationId || state.status === 'ended') {
                 stopPolling();
@@ -612,13 +610,15 @@
             } catch (error) {
                 console.error('Poll error:', error);
             }
+
+            if (state.pollInterval) {
+                clearTimeout(state.pollInterval);
+            }
+
+            state.pollInterval = setTimeout(poll, 500);
         };
 
-        // Initial poll immediately
         poll();
-
-        // Then poll every 3 seconds
-        state.pollInterval = setInterval(poll, 3000);
     }
 
     /**
@@ -626,7 +626,7 @@
      */
     function stopPolling() {
         if (state.pollInterval) {
-            clearInterval(state.pollInterval);
+            clearTimeout(state.pollInterval);
             state.pollInterval = null;
         }
     }
