@@ -67,18 +67,16 @@
      * Start polling for updates
      */
     function startPolling() {
-        if (state.pollInterval) return;
+        const poll = async () => {
+            if (state.pollInterval) {
+                clearTimeout(state.pollInterval);
+            }
 
-        state.lastCheckTime = new Date().toISOString();
+            await pollForUpdates();
 
-        const poll = () => {
-            pollForUpdates();
+            state.pollInterval = setTimeout(poll, config.pollInterval || 1000);
         };
 
-        // Poll every 3 seconds
-        state.pollInterval = setInterval(poll, config.pollInterval || 3000);
-
-        // Also poll immediately
         poll();
     }
 
@@ -87,8 +85,12 @@
      */
     async function pollForUpdates() {
         try {
+            const sinceParam = state.lastCheckTime
+                ? `?since=${encodeURIComponent(state.lastCheckTime)}`
+                : '';
+
             const response = await fetch(
-                `${config.restUrl}admin/poll?since=${encodeURIComponent(state.lastCheckTime)}`,
+                `${config.restUrl}admin/poll${sinceParam}`,
                 {
                     headers: { 'X-WP-Nonce': config.restNonce }
                 }

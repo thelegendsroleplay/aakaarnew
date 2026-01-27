@@ -432,6 +432,7 @@
                 },
                 body: JSON.stringify({
                     conversation_id: state.conversationId,
+                    visitor_id: state.visitorId,
                     message: message
                 })
             });
@@ -534,6 +535,7 @@
                 },
                 body: JSON.stringify({
                     conversation_id: state.conversationId,
+                    visitor_id: state.visitorId,
                     is_typing: isTyping
                 })
             });
@@ -546,8 +548,6 @@
      * Start polling for messages
      */
     function startPolling() {
-        if (state.pollInterval) return;
-
         const poll = async () => {
             if (!state.conversationId || state.status === 'ended') {
                 stopPolling();
@@ -556,7 +556,7 @@
 
             try {
                 const response = await fetch(
-                    `${config.restUrl}chat/poll?conversation_id=${state.conversationId}&last_id=${state.lastMessageId}`,
+                    `${config.restUrl}chat/poll?conversation_id=${state.conversationId}&last_id=${state.lastMessageId}&visitor_id=${state.visitorId}`,
                     {
                         headers: { 'X-WP-Nonce': config.restNonce }
                     }
@@ -610,13 +610,15 @@
             } catch (error) {
                 console.error('Poll error:', error);
             }
+
+            if (state.pollInterval) {
+                clearTimeout(state.pollInterval);
+            }
+
+            state.pollInterval = setTimeout(poll, 500);
         };
 
-        // Initial poll immediately
         poll();
-
-        // Then poll every 3 seconds
-        state.pollInterval = setInterval(poll, 3000);
     }
 
     /**
@@ -624,7 +626,7 @@
      */
     function stopPolling() {
         if (state.pollInterval) {
-            clearInterval(state.pollInterval);
+            clearTimeout(state.pollInterval);
             state.pollInterval = null;
         }
     }
@@ -645,7 +647,8 @@
                     'X-WP-Nonce': config.restNonce
                 },
                 body: JSON.stringify({
-                    conversation_id: state.conversationId
+                    conversation_id: state.conversationId,
+                    visitor_id: state.visitorId
                 })
             });
 
@@ -712,6 +715,7 @@
                 },
                 body: JSON.stringify({
                     conversation_id: state.conversationId,
+                    visitor_id: state.visitorId,
                     rating: rating
                 })
             });

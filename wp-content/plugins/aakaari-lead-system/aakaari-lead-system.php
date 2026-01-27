@@ -147,7 +147,7 @@ final class Aakaari_Lead_System {
             'nonce' => wp_create_nonce('aakaari_admin_nonce'),
             'restNonce' => wp_create_nonce('wp_rest'),
             'agentId' => get_current_user_id(),
-            'pollInterval' => 3000,
+            'pollInterval' => 1000,
             'i18n' => $this->get_admin_translations()
         ]);
     }

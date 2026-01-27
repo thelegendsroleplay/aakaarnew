@@ -132,6 +132,14 @@
     visibility: visible;
 }
 
+.aakaari-chat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
 /* Header */
 .aakaari-chat-header {
     background: var(--aakaari-primary);
@@ -298,6 +306,7 @@
     overflow-y: auto;
     padding: 20px;
     background: var(--aakaari-gray-50);
+    min-height: 0;
 }
 
 .aakaari-message {

@@ -158,6 +158,7 @@ const agentId = <?php echo get_current_user_id(); ?>;
 let currentChatId = null;
 let lastMessageId = 0;
 let pollInterval = null;
+let lastPollTimestamp = null;
 let cannedResponses = [];
 
 // Load canned responses
@@ -194,7 +195,8 @@ function renderChatDetail(chat) {
         <div class="aakaari-chat-detail-header">
             <h2>${escapeHtml(visitor.name || 'Visitor')}</h2>
             <div class="aakaari-chat-detail-actions">
-                ${isWaiting ? `<button class="primary" onclick="acceptChat(${chat.id})">Accept Chat</button>` : ''}
+                ${isWaiting ? `<button class="primary" onclick="acceptChat(${chat.id})">Accept Chat</button>
+                <button class="danger" onclick="rejectChat(${chat.id})">Reject Chat</button>` : ''}
                 <button onclick="convertToTicket(${chat.id})">Create Ticket</button>
                 <button class="danger" onclick="endChat(${chat.id})">End Chat</button>
             </div>
@@ -311,6 +313,26 @@ function acceptChat(id) {
     });
 }
 
+function rejectChat(id) {
+    if (!confirm('Reject this chat request?')) return;
+
+    fetch(restUrl + 'admin/conversation/' + id + '/reject', {
+        method: 'POST',
+        headers: { 'X-WP-Nonce': restNonce }
+    })
+    .then(r => r.json())
+    .then(() => {
+        currentChatId = null;
+        document.getElementById('chat-detail').innerHTML = `
+            <div class="aakaari-empty-state">
+                <span class="dashicons dashicons-dismiss"></span>
+                <p>Chat request rejected</p>
+            </div>
+        `;
+        refreshChatList();
+    });
+}
+
 function sendMessage() {
     const input = document.getElementById('message-input');
     const message = input.value.trim();
@@ -407,7 +429,11 @@ function startPolling() {
     pollInterval = setInterval(() => {
         if (!currentChatId) return;
 
-        fetch(restUrl + 'admin/poll?since=' + encodeURIComponent(new Date(Date.now() - 5000).toISOString()), {
+        const sinceParam = lastPollTimestamp
+            ? '?since=' + encodeURIComponent(lastPollTimestamp)
+            : '';
+
+        fetch(restUrl + 'admin/poll' + sinceParam, {
             headers: { 'X-WP-Nonce': restNonce }
         })
         .then(r => r.json())
@@ -442,6 +468,10 @@ function startPolling() {
                         icon: '/favicon.ico'
                     });
                 }
+            }
+
+            if (data.timestamp) {
+                lastPollTimestamp = data.timestamp;
             }
         });
     }, 3000);
