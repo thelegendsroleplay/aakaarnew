@@ -347,11 +347,19 @@ class Aakaari_Chat_Handler {
 
         // Check if already accepted
         $current = $wpdb->get_row($wpdb->prepare(
-            "SELECT status, started_at FROM $table WHERE id = %d",
+            "SELECT status, started_at, agent_id FROM $table WHERE id = %d",
             $id
         ));
 
-        if (!$current || $current->status !== 'waiting') {
+        if (!$current) {
+            return false;
+        }
+
+        if ($current->status === 'active' && (int) $current->agent_id === (int) $agent_id) {
+            return true;
+        }
+
+        if ($current->status !== 'waiting') {
             return false;
         }
 
@@ -367,7 +375,10 @@ class Aakaari_Chat_Handler {
                 'wait_time' => $wait_time,
                 'updated_at' => current_time('mysql')
             ],
-            ['id' => $id]
+            [
+                'id' => $id,
+                'status' => 'waiting'
+            ]
         );
 
         if ($result) {
@@ -381,6 +392,15 @@ class Aakaari_Chat_Handler {
 
             // Update agent chat count
             self::increment_agent_chats($agent_id);
+        } elseif ($result === 0) {
+            $updated = $wpdb->get_row($wpdb->prepare(
+                "SELECT status, agent_id FROM $table WHERE id = %d",
+                $id
+            ));
+
+            if ($updated && $updated->status === 'active' && (int) $updated->agent_id === (int) $agent_id) {
+                return true;
+            }
         }
 
         return (bool) $result;
