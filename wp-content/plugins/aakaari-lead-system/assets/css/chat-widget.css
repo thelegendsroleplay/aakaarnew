@@ -1,0 +1,764 @@
+/**
+ * Aakaari Chat Widget Styles
+ * Clean, modern design with white and blue theme
+ */
+
+/* CSS Variables */
+:root {
+    --aakaari-primary: #2563EB;
+    --aakaari-primary-dark: #1d4ed8;
+    --aakaari-primary-light: #dbeafe;
+    --aakaari-white: #ffffff;
+    --aakaari-gray-50: #f9fafb;
+    --aakaari-gray-100: #f3f4f6;
+    --aakaari-gray-200: #e5e7eb;
+    --aakaari-gray-300: #d1d5db;
+    --aakaari-gray-400: #9ca3af;
+    --aakaari-gray-500: #6b7280;
+    --aakaari-gray-600: #4b5563;
+    --aakaari-gray-700: #374151;
+    --aakaari-gray-800: #1f2937;
+    --aakaari-gray-900: #111827;
+    --aakaari-success: #10b981;
+    --aakaari-error: #ef4444;
+    --aakaari-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    --aakaari-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --aakaari-radius: 16px;
+    --aakaari-radius-sm: 8px;
+    --aakaari-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Widget Container */
+#aakaari-chat-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    font-family: var(--aakaari-font);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Chat Button */
+.aakaari-chat-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--aakaari-primary);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--aakaari-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.aakaari-chat-button:hover {
+    background: var(--aakaari-primary-dark);
+    transform: scale(1.05);
+}
+
+.aakaari-chat-button svg {
+    width: 28px;
+    height: 28px;
+    fill: var(--aakaari-white);
+    transition: transform 0.3s ease;
+}
+
+.aakaari-chat-button.open svg {
+    transform: rotate(90deg);
+}
+
+/* Pulse animation */
+.aakaari-chat-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--aakaari-primary);
+    animation: aakaari-pulse 2s infinite;
+    z-index: -1;
+}
+
+@keyframes aakaari-pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Unread badge */
+.aakaari-unread-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--aakaari-error);
+    color: var(--aakaari-white);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--aakaari-white);
+}
+
+/* Chat Window */
+.aakaari-chat-window {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 380px;
+    height: 550px;
+    background: var(--aakaari-white);
+    border-radius: var(--aakaari-radius);
+    box-shadow: var(--aakaari-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    transform-origin: bottom right;
+}
+
+.aakaari-chat-window.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Header */
+.aakaari-chat-header {
+    background: var(--aakaari-primary);
+    color: var(--aakaari-white);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.aakaari-header-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.aakaari-header-info {
+    flex: 1;
+}
+
+.aakaari-header-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0 0 2px;
+}
+
+.aakaari-header-status {
+    font-size: 12px;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.aakaari-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--aakaari-success);
+}
+
+.aakaari-status-dot.offline {
+    background: var(--aakaari-gray-400);
+}
+
+.aakaari-close-btn {
+    background: none;
+    border: none;
+    color: var(--aakaari-white);
+    cursor: pointer;
+    padding: 5px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.aakaari-close-btn:hover {
+    opacity: 1;
+}
+
+/* Pre-chat Form */
+.aakaari-prechat-form {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+}
+
+.aakaari-prechat-form h3 {
+    margin: 0 0 20px;
+    font-size: 18px;
+    color: var(--aakaari-gray-800);
+}
+
+.aakaari-form-group {
+    margin-bottom: 16px;
+}
+
+.aakaari-form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--aakaari-gray-700);
+    margin-bottom: 6px;
+}
+
+.aakaari-form-group label .required {
+    color: var(--aakaari-error);
+}
+
+.aakaari-form-group input,
+.aakaari-form-group select,
+.aakaari-form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--aakaari-gray-300);
+    border-radius: var(--aakaari-radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.aakaari-form-group input:focus,
+.aakaari-form-group select:focus,
+.aakaari-form-group textarea:focus {
+    outline: none;
+    border-color: var(--aakaari-primary);
+    box-shadow: 0 0 0 3px var(--aakaari-primary-light);
+}
+
+.aakaari-form-group textarea {
+    resize: none;
+    height: 80px;
+}
+
+.aakaari-form-group .error-message {
+    color: var(--aakaari-error);
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+.aakaari-form-group.has-error input,
+.aakaari-form-group.has-error select,
+.aakaari-form-group.has-error textarea {
+    border-color: var(--aakaari-error);
+}
+
+.aakaari-form-group.has-error .error-message {
+    display: block;
+}
+
+.aakaari-form-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--aakaari-primary);
+    color: var(--aakaari-white);
+    border: none;
+    border-radius: var(--aakaari-radius-sm);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.aakaari-form-submit:hover {
+    background: var(--aakaari-primary-dark);
+}
+
+.aakaari-form-submit:disabled {
+    background: var(--aakaari-gray-300);
+    cursor: not-allowed;
+}
+
+/* Messages Area */
+.aakaari-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: var(--aakaari-gray-50);
+}
+
+.aakaari-message {
+    max-width: 85%;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.aakaari-message.visitor {
+    margin-left: auto;
+    align-items: flex-end;
+}
+
+.aakaari-message.agent,
+.aakaari-message.bot,
+.aakaari-message.system {
+    margin-right: auto;
+    align-items: flex-start;
+}
+
+.aakaari-message-bubble {
+    padding: 12px 16px;
+    border-radius: 16px;
+    word-wrap: break-word;
+}
+
+.aakaari-message.visitor .aakaari-message-bubble {
+    background: var(--aakaari-primary);
+    color: var(--aakaari-white);
+    border-bottom-right-radius: 4px;
+}
+
+.aakaari-message.agent .aakaari-message-bubble,
+.aakaari-message.bot .aakaari-message-bubble {
+    background: var(--aakaari-white);
+    color: var(--aakaari-gray-800);
+    border: 1px solid var(--aakaari-gray-200);
+    border-bottom-left-radius: 4px;
+}
+
+.aakaari-message.system .aakaari-message-bubble {
+    background: var(--aakaari-gray-100);
+    color: var(--aakaari-gray-600);
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--aakaari-radius-sm);
+}
+
+.aakaari-message-sender {
+    font-size: 11px;
+    color: var(--aakaari-gray-500);
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.aakaari-message-time {
+    font-size: 10px;
+    color: var(--aakaari-gray-400);
+    margin-top: 4px;
+}
+
+.aakaari-message.visitor .aakaari-message-time {
+    text-align: right;
+}
+
+/* Typing indicator */
+.aakaari-typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    background: var(--aakaari-white);
+    border-radius: 16px;
+    border: 1px solid var(--aakaari-gray-200);
+    width: fit-content;
+}
+
+.aakaari-typing-indicator span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--aakaari-gray-400);
+    animation: aakaari-typing 1.4s infinite;
+}
+
+.aakaari-typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.aakaari-typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes aakaari-typing {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+}
+
+/* Input Area */
+.aakaari-chat-input {
+    padding: 16px;
+    background: var(--aakaari-white);
+    border-top: 1px solid var(--aakaari-gray-200);
+}
+
+.aakaari-input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.aakaari-input-wrapper textarea {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid var(--aakaari-gray-300);
+    border-radius: 24px;
+    resize: none;
+    font-family: inherit;
+    font-size: 14px;
+    max-height: 120px;
+    min-height: 44px;
+    line-height: 1.4;
+}
+
+.aakaari-input-wrapper textarea:focus {
+    outline: none;
+    border-color: var(--aakaari-primary);
+}
+
+.aakaari-send-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--aakaari-primary);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.aakaari-send-btn:hover {
+    background: var(--aakaari-primary-dark);
+}
+
+.aakaari-send-btn:disabled {
+    background: var(--aakaari-gray-300);
+    cursor: not-allowed;
+}
+
+.aakaari-send-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--aakaari-white);
+}
+
+.aakaari-char-count {
+    font-size: 11px;
+    color: var(--aakaari-gray-400);
+    text-align: right;
+    margin-top: 4px;
+}
+
+/* File upload button */
+.aakaari-upload-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--aakaari-gray-500);
+    transition: color 0.2s;
+}
+
+.aakaari-upload-btn:hover {
+    color: var(--aakaari-primary);
+}
+
+/* Queue info */
+.aakaari-queue-info {
+    padding: 12px 16px;
+    background: var(--aakaari-primary-light);
+    text-align: center;
+    font-size: 13px;
+    color: var(--aakaari-primary-dark);
+}
+
+/* End chat */
+.aakaari-end-chat {
+    padding: 12px;
+    text-align: center;
+    border-top: 1px solid var(--aakaari-gray-200);
+}
+
+.aakaari-end-chat button {
+    background: none;
+    border: 1px solid var(--aakaari-gray-300);
+    padding: 8px 16px;
+    border-radius: var(--aakaari-radius-sm);
+    font-size: 13px;
+    color: var(--aakaari-gray-600);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.aakaari-end-chat button:hover {
+    border-color: var(--aakaari-error);
+    color: var(--aakaari-error);
+}
+
+/* Proactive trigger popup */
+.aakaari-trigger-popup {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 300px;
+    background: var(--aakaari-white);
+    border-radius: var(--aakaari-radius);
+    box-shadow: var(--aakaari-shadow);
+    padding: 20px;
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    transform-origin: bottom right;
+}
+
+.aakaari-trigger-popup.show {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.aakaari-trigger-popup p {
+    margin: 0 0 15px;
+    color: var(--aakaari-gray-700);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.aakaari-trigger-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.aakaari-trigger-accept {
+    flex: 1;
+    padding: 10px;
+    background: var(--aakaari-primary);
+    color: var(--aakaari-white);
+    border: none;
+    border-radius: var(--aakaari-radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.aakaari-trigger-accept:hover {
+    background: var(--aakaari-primary-dark);
+}
+
+.aakaari-trigger-dismiss {
+    padding: 10px 15px;
+    background: none;
+    border: 1px solid var(--aakaari-gray-300);
+    border-radius: var(--aakaari-radius-sm);
+    color: var(--aakaari-gray-600);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.aakaari-trigger-dismiss:hover {
+    background: var(--aakaari-gray-100);
+}
+
+/* Offline mode */
+.aakaari-offline-notice {
+    padding: 20px;
+    text-align: center;
+    background: var(--aakaari-gray-50);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.aakaari-offline-notice h4 {
+    margin: 0 0 10px;
+    color: var(--aakaari-gray-800);
+}
+
+.aakaari-offline-notice p {
+    margin: 0;
+    color: var(--aakaari-gray-600);
+    font-size: 13px;
+}
+
+/* Rating */
+.aakaari-rating {
+    padding: 20px;
+    text-align: center;
+    background: var(--aakaari-gray-50);
+}
+
+.aakaari-rating p {
+    margin: 0 0 15px;
+    color: var(--aakaari-gray-700);
+}
+
+.aakaari-stars {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.aakaari-stars button {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--aakaari-gray-300);
+    transition: color 0.2s, transform 0.2s;
+}
+
+.aakaari-stars button:hover,
+.aakaari-stars button.active {
+    color: #fbbf24;
+    transform: scale(1.1);
+}
+
+/* File preview */
+.aakaari-file-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: var(--aakaari-gray-100);
+    border-radius: var(--aakaari-radius-sm);
+    margin-top: 10px;
+}
+
+.aakaari-file-preview img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.aakaari-file-preview .file-info {
+    flex: 1;
+}
+
+.aakaari-file-preview .file-name {
+    font-size: 13px;
+    color: var(--aakaari-gray-700);
+}
+
+.aakaari-file-preview .file-size {
+    font-size: 11px;
+    color: var(--aakaari-gray-500);
+}
+
+.aakaari-file-preview .remove-file {
+    background: none;
+    border: none;
+    color: var(--aakaari-gray-500);
+    cursor: pointer;
+}
+
+/* Message with image */
+.aakaari-message-image {
+    max-width: 200px;
+    border-radius: var(--aakaari-radius-sm);
+    margin-top: 8px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    #aakaari-chat-widget {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .aakaari-chat-window {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        transform: translateY(100%);
+    }
+
+    .aakaari-chat-window.open {
+        transform: translateY(0);
+    }
+
+    .aakaari-trigger-popup {
+        right: 10px;
+        left: 10px;
+        width: auto;
+    }
+
+    .aakaari-chat-button {
+        width: 56px;
+        height: 56px;
+    }
+}
+
+/* Print hidden */
+@media print {
+    #aakaari-chat-widget {
+        display: none !important;
+    }
+}
+
+/* Accessibility */
+.aakaari-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus styles */
+.aakaari-chat-button:focus,
+.aakaari-send-btn:focus,
+.aakaari-form-submit:focus,
+.aakaari-trigger-accept:focus,
+.aakaari-trigger-dismiss:focus {
+    outline: 2px solid var(--aakaari-primary);
+    outline-offset: 2px;
+}
+
+/* Loading spinner */
+.aakaari-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: var(--aakaari-white);
+    animation: aakaari-spin 0.8s linear infinite;
+}
+
+@keyframes aakaari-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Honeypot field - hidden */
+.aakaari-hp {
+    position: absolute;
+    left: -9999px;
+}

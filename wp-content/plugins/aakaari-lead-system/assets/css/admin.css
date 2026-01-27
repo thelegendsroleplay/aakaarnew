@@ -1,0 +1,179 @@
+/**
+ * Aakaari Lead System Admin Styles
+ */
+
+/* Admin notification bell in dashboard header */
+.aakaari-notification-bell {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.aakaari-notification-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 18px;
+    height: 18px;
+    background: #ef4444;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+}
+
+/* Dashboard integration styles */
+.aakaari-dashboard-widget {
+    padding: 0;
+}
+
+.aakaari-widget-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.aakaari-widget-stat:last-child {
+    border-bottom: none;
+}
+
+.aakaari-widget-stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.aakaari-widget-stat-icon.chats {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.aakaari-widget-stat-icon.tickets {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.aakaari-widget-stat-icon.leads {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.aakaari-widget-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.aakaari-widget-stat-label {
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* Toast notifications */
+.aakaari-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #1e293b;
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 99999;
+    animation: slideIn 0.3s ease;
+}
+
+.aakaari-toast.success {
+    background: #059669;
+}
+
+.aakaari-toast.error {
+    background: #dc2626;
+}
+
+.aakaari-toast.warning {
+    background: #d97706;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Quick action buttons */
+.aakaari-quick-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #2563eb;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.aakaari-quick-action:hover {
+    background: #1d4ed8;
+    color: #fff;
+}
+
+.aakaari-quick-action.secondary {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.aakaari-quick-action.secondary:hover {
+    background: #e2e8f0;
+}
+
+/* Status indicators */
+.aakaari-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.aakaari-status-indicator::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #94a3b8;
+}
+
+.aakaari-status-indicator.online::before {
+    background: #10b981;
+}
+
+.aakaari-status-indicator.busy::before {
+    background: #f59e0b;
+}
+
+.aakaari-status-indicator.offline::before {
+    background: #94a3b8;
+}
