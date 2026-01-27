@@ -415,8 +415,12 @@
         document.getElementById('aakaari-char-count').textContent = '0';
         document.getElementById('aakaari-send-btn').disabled = true;
 
-        // Add message to UI immediately
+        // Generate a temporary ID for deduplication
+        const tempId = 'temp_' + Date.now();
+
+        // Add message to UI immediately (optimistic update)
         addMessageToUI({
+            id: tempId,
             sender_type: 'visitor',
             message_text: message,
             created_at: new Date().toISOString()
@@ -424,7 +428,7 @@
 
         // Send to server
         try {
-            await fetch(`${config.restUrl}chat/message`, {
+            const response = await fetch(`${config.restUrl}chat/message`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -436,6 +440,21 @@
                     message: message
                 })
             });
+
+            const result = await response.json();
+
+            // Track the real message ID to prevent duplication from polling
+            if (result.message_id) {
+                if (!state.displayedMessageIds) {
+                    state.displayedMessageIds = new Set();
+                }
+                state.displayedMessageIds.add(parseInt(result.message_id));
+
+                // Update lastMessageId to ensure polling skips this message
+                if (result.message_id > state.lastMessageId) {
+                    state.lastMessageId = parseInt(result.message_id);
+                }
+            }
         } catch (error) {
             console.error('Send message error:', error);
         }
@@ -548,6 +567,11 @@
      * Start polling for messages
      */
     function startPolling() {
+        // Track message IDs we've already displayed to prevent duplicates
+        if (!state.displayedMessageIds) {
+            state.displayedMessageIds = new Set();
+        }
+
         const poll = async () => {
             if (!state.conversationId || state.status === 'ended') {
                 stopPolling();
@@ -564,10 +588,17 @@
 
                 const data = await response.json();
 
-                // Add new messages
+                // Update lastMessageId from server response for reliable tracking
+                if (data.last_id && data.last_id > state.lastMessageId) {
+                    state.lastMessageId = data.last_id;
+                }
+
+                // Add new messages (only non-visitor messages, skip already displayed)
                 if (data.messages && data.messages.length > 0) {
                     data.messages.forEach(msg => {
-                        if (msg.sender_type !== 'visitor') {
+                        // Skip visitor's own messages and already displayed messages
+                        if (msg.sender_type !== 'visitor' && msg.id && !state.displayedMessageIds.has(parseInt(msg.id))) {
+                            state.displayedMessageIds.add(parseInt(msg.id));
                             addMessageToUI(msg);
 
                             // Increment unread if not open
@@ -615,7 +646,8 @@
                 clearTimeout(state.pollInterval);
             }
 
-            state.pollInterval = setTimeout(poll, 500);
+            // Poll every 1 second (non-blocking server-side now)
+            state.pollInterval = setTimeout(poll, 1000);
         };
 
         poll();

@@ -587,30 +587,66 @@ class Aakaari_Chat_Handler {
     public static function get_updates_since($agent_id, $since) {
         global $wpdb;
 
-        // New waiting chats
+        // Ensure proper timestamp format for comparison
+        $since_formatted = date('Y-m-d H:i:s', strtotime($since));
+
+        // New waiting chats (any waiting chats the admin hasn't seen)
         $new_chats = $wpdb->get_results($wpdb->prepare(
             "SELECT c.*, v.name as visitor_name, v.email as visitor_email
              FROM {$wpdb->prefix}aakaari_conversations c
              JOIN {$wpdb->prefix}aakaari_visitors v ON c.visitor_id = v.id
              WHERE c.status = 'waiting' AND c.created_at > %s
              ORDER BY c.created_at ASC",
-            $since
+            $since_formatted
         ), ARRAY_A);
 
-        // New messages in agent's active chats
+        // New messages in agent's active chats (visitor messages only)
         $new_messages = $wpdb->get_results($wpdb->prepare(
-            "SELECT m.*, c.id as conversation_id
+            "SELECT m.*, m.conversation_id
              FROM {$wpdb->prefix}aakaari_messages m
              JOIN {$wpdb->prefix}aakaari_conversations c ON m.conversation_id = c.id
-             WHERE c.agent_id = %d AND m.sender_type = 'visitor' AND m.created_at > %s
+             WHERE c.agent_id = %d
+             AND c.status = 'active'
+             AND m.sender_type = 'visitor'
+             AND m.created_at > %s
              ORDER BY m.created_at ASC",
             $agent_id,
-            $since
+            $since_formatted
         ), ARRAY_A);
+
+        // Also get messages from waiting chats that admin is viewing
+        $waiting_messages = $wpdb->get_results($wpdb->prepare(
+            "SELECT m.*, m.conversation_id
+             FROM {$wpdb->prefix}aakaari_messages m
+             JOIN {$wpdb->prefix}aakaari_conversations c ON m.conversation_id = c.id
+             WHERE c.status = 'waiting'
+             AND m.sender_type = 'visitor'
+             AND m.created_at > %s
+             ORDER BY m.created_at ASC",
+            $since_formatted
+        ), ARRAY_A);
+
+        // Merge new messages from both active and waiting chats
+        $all_new_messages = array_merge($new_messages, $waiting_messages);
+
+        // Remove duplicates based on message ID
+        $unique_messages = [];
+        $seen_ids = [];
+        foreach ($all_new_messages as $msg) {
+            if (!in_array($msg['id'], $seen_ids)) {
+                $seen_ids[] = $msg['id'];
+                $unique_messages[] = $msg;
+            }
+        }
+
+        // Sort by created_at
+        usort($unique_messages, function($a, $b) {
+            return strtotime($a['created_at']) - strtotime($b['created_at']);
+        });
 
         return [
             'new_chats' => $new_chats,
-            'new_messages' => $new_messages,
+            'new_messages' => $unique_messages,
             'timestamp' => current_time('mysql')
         ];
     }

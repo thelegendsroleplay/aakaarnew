@@ -160,6 +160,7 @@ let lastMessageId = 0;
 let pollInterval = null;
 let lastPollTimestamp = null;
 let cannedResponses = [];
+let displayedMessageIds = new Set();
 
 // Load canned responses
 fetch(restUrl + 'admin/canned', {
@@ -171,6 +172,7 @@ fetch(restUrl + 'admin/canned', {
 function loadChat(id) {
     currentChatId = id;
     lastMessageId = 0;
+    displayedMessageIds = new Set(); // Reset displayed messages for new chat
 
     // Update active state
     document.querySelectorAll('.aakaari-chat-item').forEach(el => el.classList.remove('active'));
@@ -182,6 +184,12 @@ function loadChat(id) {
     .then(r => r.json())
     .then(chat => {
         renderChatDetail(chat);
+        // Track all existing message IDs to prevent duplicates
+        if (chat.messages) {
+            chat.messages.forEach(msg => {
+                displayedMessageIds.add(parseInt(msg.id));
+            });
+        }
         startPolling();
     });
 }
@@ -359,6 +367,17 @@ function sendMessage() {
             'X-WP-Nonce': restNonce
         },
         body: JSON.stringify({ message: message })
+    })
+    .then(r => r.json())
+    .then(data => {
+        // Track the sent message ID to prevent duplication
+        if (data.message_id) {
+            displayedMessageIds.add(parseInt(data.message_id));
+            lastMessageId = Math.max(lastMessageId, parseInt(data.message_id));
+        }
+    })
+    .catch(error => {
+        console.error('Send message error:', error);
     });
 }
 
@@ -438,10 +457,13 @@ function startPolling() {
         })
         .then(r => r.json())
         .then(data => {
-            // Handle new messages
-            if (data.new_messages) {
+            // Handle new messages (with deduplication)
+            if (data.new_messages && data.new_messages.length > 0) {
                 data.new_messages.forEach(msg => {
-                    if (msg.conversation_id == currentChatId && parseInt(msg.id) > lastMessageId) {
+                    const msgId = parseInt(msg.id);
+                    // Check if this message is for current chat and not already displayed
+                    if (msg.conversation_id == currentChatId && !displayedMessageIds.has(msgId)) {
+                        displayedMessageIds.add(msgId);
                         const container = document.getElementById('messages-container');
                         if (container) {
                             const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -452,7 +474,7 @@ function startPolling() {
                                 </div>
                             `;
                             container.scrollTop = container.scrollHeight;
-                            lastMessageId = parseInt(msg.id);
+                            lastMessageId = Math.max(lastMessageId, msgId);
                         }
                     }
                 });
@@ -470,11 +492,15 @@ function startPolling() {
                 }
             }
 
+            // Always update timestamp from server response
             if (data.timestamp) {
                 lastPollTimestamp = data.timestamp;
             }
+        })
+        .catch(error => {
+            console.error('Poll error:', error);
         });
-    }, 3000);
+    }, 2000); // Poll every 2 seconds (non-blocking server-side now)
 }
 
 function refreshChatList() {

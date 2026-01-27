@@ -311,10 +311,23 @@ class Aakaari_REST_API {
             return new WP_Error('invalid_params', 'Invalid parameters', ['status' => 400]);
         }
 
-        // Verify conversation belongs to this session
-        $session_id = Aakaari_Security::get_session_id();
-        if (!Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)
-            && !Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
+        // Verify conversation access - check visitor_id first (more reliable than session)
+        $has_access = false;
+
+        // Primary check: visitor_id from request
+        if ($visitor_id && Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
+            $has_access = true;
+        }
+
+        // Fallback: session-based check
+        if (!$has_access) {
+            $session_id = Aakaari_Security::get_session_id();
+            if (Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)) {
+                $has_access = true;
+            }
+        }
+
+        if (!$has_access) {
             return new WP_Error('access_denied', 'Invalid conversation', ['status' => 403]);
         }
 
@@ -333,7 +346,7 @@ class Aakaari_REST_API {
     }
 
     /**
-     * Poll for new messages (long-polling)
+     * Poll for new messages (non-blocking for better performance)
      */
     public static function poll_messages(WP_REST_Request $request) {
         $conversation_id = absint($request->get_param('conversation_id'));
@@ -344,38 +357,47 @@ class Aakaari_REST_API {
             return new WP_Error('invalid_params', 'Invalid parameters', ['status' => 400]);
         }
 
-        // Verify conversation access
-        $session_id = Aakaari_Security::get_session_id();
-        if (!Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)
-            && !Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
+        // Verify conversation access - check visitor_id first (more reliable than session)
+        $has_access = false;
+
+        // Primary check: visitor_id from request
+        if ($visitor_id && Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
+            $has_access = true;
+        }
+
+        // Fallback: session-based check
+        if (!$has_access) {
+            $session_id = Aakaari_Security::get_session_id();
+            if (Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)) {
+                $has_access = true;
+            }
+        }
+
+        if (!$has_access) {
             return new WP_Error('access_denied', 'Invalid conversation', ['status' => 403]);
         }
 
-        // Long-polling: wait up to 25 seconds for new messages
-        $timeout = 25;
-        $start = time();
-        $messages = [];
-
-        while (time() - $start < $timeout) {
-            $messages = Aakaari_Chat_Handler::get_messages_since($conversation_id, $last_message_id);
-
-            if (!empty($messages)) {
-                break;
-            }
-
-            // Wait 1 second before checking again
-            sleep(1);
-        }
+        // Non-blocking: immediately fetch messages without sleep loop
+        // Client handles polling interval - prevents PHP worker exhaustion
+        $messages = Aakaari_Chat_Handler::get_messages_since($conversation_id, $last_message_id);
 
         // Get conversation status
         $conversation = Aakaari_Chat_Handler::get_conversation($conversation_id);
         $typing = Aakaari_Chat_Handler::get_typing_status($conversation_id, 'agent');
 
+        // Calculate new last_id from returned messages
+        $new_last_id = $last_message_id;
+        if (!empty($messages)) {
+            $new_last_id = max(array_map(function($m) { return (int)$m['id']; }, $messages));
+        }
+
         return rest_ensure_response([
             'messages' => $messages,
             'status' => $conversation['status'],
             'agent_typing' => $typing,
-            'agent_name' => $conversation['agent_name'] ?? null
+            'agent_name' => $conversation['agent_name'] ?? null,
+            'last_id' => $new_last_id,
+            'timestamp' => current_time('mysql')
         ]);
     }
 
@@ -385,10 +407,16 @@ class Aakaari_REST_API {
     public static function set_typing(WP_REST_Request $request) {
         $params = $request->get_json_params();
         $conversation_id = absint($params['conversation_id'] ?? 0);
+        $visitor_id = absint($params['visitor_id'] ?? 0);
         $is_typing = (bool) ($params['is_typing'] ?? false);
 
         if (!$conversation_id) {
             return new WP_Error('invalid_params', 'Invalid parameters', ['status' => 400]);
+        }
+
+        // Verify conversation access (lightweight check)
+        if ($visitor_id && !Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
+            return new WP_Error('access_denied', 'Invalid conversation', ['status' => 403]);
         }
 
         Aakaari_Chat_Handler::set_typing($conversation_id, 'visitor', $is_typing);
@@ -409,10 +437,23 @@ class Aakaari_REST_API {
             return new WP_Error('invalid_params', 'Invalid parameters', ['status' => 400]);
         }
 
-        // Verify access
-        $session_id = Aakaari_Security::get_session_id();
-        if (!Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)
-            && !Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
+        // Verify conversation access - check visitor_id first (more reliable than session)
+        $has_access = false;
+
+        // Primary check: visitor_id from request
+        if ($visitor_id && Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
+            $has_access = true;
+        }
+
+        // Fallback: session-based check
+        if (!$has_access) {
+            $session_id = Aakaari_Security::get_session_id();
+            if (Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)) {
+                $has_access = true;
+            }
+        }
+
+        if (!$has_access) {
             return new WP_Error('access_denied', 'Invalid conversation', ['status' => 403]);
         }
 
@@ -434,9 +475,25 @@ class Aakaari_REST_API {
 
         $files = $request->get_file_params();
         $conversation_id = absint($request->get_param('conversation_id'));
+        $visitor_id = absint($request->get_param('visitor_id') ?? 0);
 
         if (empty($files['file']) || !$conversation_id) {
             return new WP_Error('invalid_params', 'Missing file or conversation', ['status' => 400]);
+        }
+
+        // Verify conversation access
+        $has_access = false;
+        if ($visitor_id && Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
+            $has_access = true;
+        }
+        if (!$has_access) {
+            $session_id = Aakaari_Security::get_session_id();
+            if (Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)) {
+                $has_access = true;
+            }
+        }
+        if (!$has_access) {
+            return new WP_Error('access_denied', 'Invalid conversation', ['status' => 403]);
         }
 
         $validation = Aakaari_Security::validate_file_upload($files['file'], 5242880);
@@ -848,29 +905,27 @@ class Aakaari_REST_API {
     }
 
     /**
-     * Admin long-poll for updates
+     * Admin poll for updates (non-blocking for better performance)
      */
     public static function admin_poll(WP_REST_Request $request) {
         $agent_id = get_current_user_id();
-        $last_check = $request->get_param('since') ?? date('Y-m-d H:i:s', strtotime('-30 seconds'));
+        $last_check = $request->get_param('since');
+
+        // If no timestamp provided, use current time minus 30 seconds
+        // Use WordPress current_time for consistency with stored timestamps
+        if (!$last_check) {
+            $last_check = gmdate('Y-m-d H:i:s', strtotime('-30 seconds'));
+        }
 
         // Update agent heartbeat
         Aakaari_Chat_Handler::update_agent_heartbeat($agent_id);
 
-        // Long poll for 20 seconds
-        $timeout = 20;
-        $start = time();
-        $updates = [];
+        // Non-blocking: immediately fetch updates without sleep loop
+        // Client handles polling interval - prevents PHP worker exhaustion
+        $updates = Aakaari_Chat_Handler::get_updates_since($agent_id, $last_check);
 
-        while (time() - $start < $timeout) {
-            $updates = Aakaari_Chat_Handler::get_updates_since($agent_id, $last_check);
-
-            if (!empty($updates['new_chats']) || !empty($updates['new_messages'])) {
-                break;
-            }
-
-            sleep(1);
-        }
+        // Always include current timestamp for next poll
+        $updates['timestamp'] = current_time('mysql');
 
         return rest_ensure_response($updates);
     }
