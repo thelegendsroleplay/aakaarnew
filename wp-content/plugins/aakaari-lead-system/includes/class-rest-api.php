@@ -113,6 +113,12 @@ class Aakaari_REST_API {
             'permission_callback' => [__CLASS__, 'admin_permission'],
         ]);
 
+        register_rest_route(self::$namespace, '/admin/conversation/(?P<id>\d+)/reject', [
+            'methods' => 'POST',
+            'callback' => [__CLASS__, 'admin_reject_chat'],
+            'permission_callback' => [__CLASS__, 'admin_permission'],
+        ]);
+
         register_rest_route(self::$namespace, '/admin/conversation/(?P<id>\d+)/message', [
             'methods' => 'POST',
             'callback' => [__CLASS__, 'admin_send_message'],
@@ -298,6 +304,7 @@ class Aakaari_REST_API {
 
         $params = $request->get_json_params();
         $conversation_id = absint($params['conversation_id'] ?? 0);
+        $visitor_id = absint($params['visitor_id'] ?? 0);
         $message = Aakaari_Security::sanitize_string($params['message'] ?? '', 1000);
 
         if (!$conversation_id || !$message) {
@@ -306,7 +313,8 @@ class Aakaari_REST_API {
 
         // Verify conversation belongs to this session
         $session_id = Aakaari_Security::get_session_id();
-        if (!Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)) {
+        if (!Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)
+            && !Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
             return new WP_Error('access_denied', 'Invalid conversation', ['status' => 403]);
         }
 
@@ -330,6 +338,7 @@ class Aakaari_REST_API {
     public static function poll_messages(WP_REST_Request $request) {
         $conversation_id = absint($request->get_param('conversation_id'));
         $last_message_id = absint($request->get_param('last_id') ?? 0);
+        $visitor_id = absint($request->get_param('visitor_id') ?? 0);
 
         if (!$conversation_id) {
             return new WP_Error('invalid_params', 'Invalid parameters', ['status' => 400]);
@@ -337,7 +346,8 @@ class Aakaari_REST_API {
 
         // Verify conversation access
         $session_id = Aakaari_Security::get_session_id();
-        if (!Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)) {
+        if (!Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)
+            && !Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
             return new WP_Error('access_denied', 'Invalid conversation', ['status' => 403]);
         }
 
@@ -392,6 +402,7 @@ class Aakaari_REST_API {
     public static function end_chat(WP_REST_Request $request) {
         $params = $request->get_json_params();
         $conversation_id = absint($params['conversation_id'] ?? 0);
+        $visitor_id = absint($params['visitor_id'] ?? 0);
         $rating = absint($params['rating'] ?? 0);
 
         if (!$conversation_id) {
@@ -400,7 +411,8 @@ class Aakaari_REST_API {
 
         // Verify access
         $session_id = Aakaari_Security::get_session_id();
-        if (!Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)) {
+        if (!Aakaari_Chat_Handler::verify_conversation_access($conversation_id, $session_id)
+            && !Aakaari_Chat_Handler::verify_conversation_visitor($conversation_id, $visitor_id)) {
             return new WP_Error('access_denied', 'Invalid conversation', ['status' => 403]);
         }
 
@@ -718,6 +730,22 @@ class Aakaari_REST_API {
 
         if (!$result) {
             return new WP_Error('accept_failed', 'Failed to accept chat', ['status' => 400]);
+        }
+
+        return rest_ensure_response(['success' => true]);
+    }
+
+    /**
+     * Reject chat
+     */
+    public static function admin_reject_chat(WP_REST_Request $request) {
+        $id = $request->get_param('id');
+        $agent_id = get_current_user_id();
+
+        $result = Aakaari_Chat_Handler::reject_conversation($id, $agent_id);
+
+        if (!$result) {
+            return new WP_Error('reject_failed', 'Failed to reject chat', ['status' => 400]);
         }
 
         return rest_ensure_response(['success' => true]);

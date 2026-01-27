@@ -194,7 +194,8 @@ function renderChatDetail(chat) {
         <div class="aakaari-chat-detail-header">
             <h2>${escapeHtml(visitor.name || 'Visitor')}</h2>
             <div class="aakaari-chat-detail-actions">
-                ${isWaiting ? `<button class="primary" onclick="acceptChat(${chat.id})">Accept Chat</button>` : ''}
+                ${isWaiting ? `<button class="primary" onclick="acceptChat(${chat.id})">Accept Chat</button>
+                <button class="danger" onclick="rejectChat(${chat.id})">Reject Chat</button>` : ''}
                 <button onclick="convertToTicket(${chat.id})">Create Ticket</button>
                 <button class="danger" onclick="endChat(${chat.id})">End Chat</button>
             </div>
@@ -307,6 +308,26 @@ function acceptChat(id) {
     .then(r => r.json())
     .then(() => {
         loadChat(id);
+        refreshChatList();
+    });
+}
+
+function rejectChat(id) {
+    if (!confirm('Reject this chat request?')) return;
+
+    fetch(restUrl + 'admin/conversation/' + id + '/reject', {
+        method: 'POST',
+        headers: { 'X-WP-Nonce': restNonce }
+    })
+    .then(r => r.json())
+    .then(() => {
+        currentChatId = null;
+        document.getElementById('chat-detail').innerHTML = `
+            <div class="aakaari-empty-state">
+                <span class="dashicons dashicons-dismiss"></span>
+                <p>Chat request rejected</p>
+            </div>
+        `;
         refreshChatList();
     });
 }
