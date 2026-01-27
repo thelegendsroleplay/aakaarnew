@@ -34,11 +34,13 @@ class Aakaari_Admin {
      * Add admin menu
      */
     public static function add_admin_menu() {
+        $menu_capability = 'aakaari_agent';
+
         // Main menu
         add_menu_page(
             __('Lead System', 'aakaari-leads'),
             __('Lead System', 'aakaari-leads'),
-            'manage_options',
+            $menu_capability,
             'aakaari-leads',
             [__CLASS__, 'render_dashboard_page'],
             'dashicons-format-chat',
@@ -50,7 +52,7 @@ class Aakaari_Admin {
             'aakaari-leads',
             __('Dashboard', 'aakaari-leads'),
             __('Dashboard', 'aakaari-leads'),
-            'manage_options',
+            $menu_capability,
             'aakaari-leads',
             [__CLASS__, 'render_dashboard_page']
         );
@@ -59,7 +61,7 @@ class Aakaari_Admin {
             'aakaari-leads',
             __('Live Chats', 'aakaari-leads'),
             __('Live Chats', 'aakaari-leads'),
-            'manage_options',
+            $menu_capability,
             'aakaari-chats',
             [__CLASS__, 'render_chats_page']
         );
@@ -68,7 +70,7 @@ class Aakaari_Admin {
             'aakaari-leads',
             __('Tickets', 'aakaari-leads'),
             __('Tickets', 'aakaari-leads'),
-            'manage_options',
+            $menu_capability,
             'aakaari-tickets',
             [__CLASS__, 'render_tickets_page']
         );
@@ -77,7 +79,7 @@ class Aakaari_Admin {
             'aakaari-leads',
             __('Leads', 'aakaari-leads'),
             __('Leads', 'aakaari-leads'),
-            'manage_options',
+            $menu_capability,
             'aakaari-leads-list',
             [__CLASS__, 'render_leads_page']
         );
@@ -86,7 +88,7 @@ class Aakaari_Admin {
             'aakaari-leads',
             __('Triggers', 'aakaari-leads'),
             __('Triggers', 'aakaari-leads'),
-            'manage_options',
+            $menu_capability,
             'aakaari-triggers',
             [__CLASS__, 'render_triggers_page']
         );
@@ -95,7 +97,7 @@ class Aakaari_Admin {
             'aakaari-leads',
             __('Canned Responses', 'aakaari-leads'),
             __('Canned Responses', 'aakaari-leads'),
-            'manage_options',
+            $menu_capability,
             'aakaari-canned',
             [__CLASS__, 'render_canned_page']
         );
@@ -141,6 +143,24 @@ class Aakaari_Admin {
                 'aakaari_agent' => true
             ]);
         }
+    }
+
+    /**
+     * Check if any agent is online.
+     */
+    public static function is_agent_online() {
+        global $wpdb;
+        $table = $wpdb->prefix . 'aakaari_agent_status';
+
+        if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table)) !== $table) {
+            return false;
+        }
+
+        $online_agents = $wpdb->get_var(
+            "SELECT COUNT(*) FROM $table WHERE status = 'available' AND last_seen > DATE_SUB(NOW(), INTERVAL 5 MINUTE)"
+        );
+
+        return $online_agents > 0;
     }
 
     /**
