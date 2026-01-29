@@ -25,7 +25,7 @@
 
   /* Layout */
   --max-w: 1280px;
-  --section-gap: 8rem;
+  --section-gap: 4.5rem;
   --radius: 12px;
 
   /* Effects */
@@ -102,7 +102,12 @@
   letter-spacing: -0.025em;
   line-height: 1.15;
 }
-.maintenance-plans-page p { font-size: 1.125rem; }
+.maintenance-plans-page p { font-size: 1rem; }
+
+@media (min-width: 1024px) {
+  .maintenance-plans-page { --section-gap: 8rem; }
+  .maintenance-plans-page p { font-size: 1.125rem; }
+}
 
 @media (prefers-reduced-motion: reduce){
   .maintenance-plans-page *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
@@ -130,22 +135,22 @@
 .maintenance-plans-page .container {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 16px;
   width: 100%;
 }
 
 .maintenance-plans-page .section-wrap { padding: var(--section-gap) 0; }
 .maintenance-plans-page .bg-offset { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
-.maintenance-plans-page .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-.maintenance-plans-page .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-.maintenance-plans-page .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.maintenance-plans-page .grid-2 { display: grid; grid-template-columns: 1fr; gap: 2.25rem; }
+.maintenance-plans-page .grid-3 { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+.maintenance-plans-page .grid-4 { display: grid; grid-template-columns: 1fr; gap: 2rem; }
 
-@media(max-width: 1024px) {
-  .maintenance-plans-page .grid-2,
-  .maintenance-plans-page .grid-3,
-  .maintenance-plans-page .grid-4 { grid-template-columns: 1fr; gap: 2.25rem; }
-  .maintenance-plans-page .container{ padding: 0 20px; }
+@media (min-width: 1024px) {
+  .maintenance-plans-page .grid-2 { grid-template-columns: 1fr 1fr; gap: 4rem; }
+  .maintenance-plans-page .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .maintenance-plans-page .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .maintenance-plans-page .container { padding: 0 32px; }
 }
 
 .maintenance-plans-page .header-center {

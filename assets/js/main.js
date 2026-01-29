@@ -11,6 +11,29 @@
 
     window.addEventListener('scroll', addShadow);
     addShadow();
+
+    const navToggle = header.querySelector('.nav-toggle');
+    const headerCollapse = header.querySelector('#header-collapse');
+
+    if (navToggle && headerCollapse) {
+      const setOpen = (open) => {
+        header.classList.toggle('is-nav-open', open);
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+
+      navToggle.addEventListener('click', () => {
+        setOpen(!header.classList.contains('is-nav-open'));
+      });
+
+      headerCollapse.addEventListener('click', (event) => {
+        const link = event.target.closest('a');
+        if (link) setOpen(false);
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.matchMedia('(min-width: 768px)').matches) setOpen(false);
+      });
+    }
   }
 
   const filterWrapper = document.querySelector('[data-issue-filters]');

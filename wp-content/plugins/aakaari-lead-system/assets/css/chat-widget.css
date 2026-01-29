@@ -53,6 +53,7 @@
     box-shadow: var(--aakaari-shadow);
     transition: all 0.3s ease;
     position: relative;
+    z-index: 20;
 }
 
 .aakaari-chat-button:hover {
@@ -113,6 +114,7 @@
     right: 0;
     width: 380px;
     height: 550px;
+    max-height: calc(100vh - 120px);
     background: var(--aakaari-white);
     border-radius: var(--aakaari-radius);
     box-shadow: var(--aakaari-shadow);
@@ -124,6 +126,7 @@
     visibility: hidden;
     transition: all 0.3s ease;
     transform-origin: bottom right;
+    z-index: 10;
 }
 
 .aakaari-chat-window.open {
@@ -525,16 +528,19 @@
     position: absolute;
     bottom: 80px;
     right: 0;
-    width: 300px;
+    width: 280px;
+    max-width: calc(100vw - 32px);
     background: var(--aakaari-white);
     border-radius: var(--aakaari-radius);
     box-shadow: var(--aakaari-shadow);
-    padding: 20px;
+    padding: 16px;
     transform: scale(0.8) translateY(20px);
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
     transform-origin: bottom right;
+    box-sizing: border-box;
+    z-index: 15;
 }
 
 .aakaari-trigger-popup.show {
@@ -544,15 +550,15 @@
 }
 
 .aakaari-trigger-popup p {
-    margin: 0 0 15px;
+    margin: 0 0 12px;
     color: var(--aakaari-gray-700);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
 .aakaari-trigger-actions {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
 .aakaari-trigger-accept {
@@ -689,35 +695,100 @@
 /* Mobile responsive */
 @media (max-width: 768px) {
     #aakaari-chat-widget {
-        bottom: 10px;
-        right: 10px;
-    }
-
-    .aakaari-chat-window {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-        transform: translateY(100%);
-    }
-
-    .aakaari-chat-window.open {
-        transform: translateY(0);
-    }
-
-    .aakaari-trigger-popup {
-        right: 10px;
-        left: 10px;
+        bottom: 16px;
+        right: 16px;
+        left: 16px; /* Ensure widget container has bounds on mobile */
         width: auto;
+        pointer-events: none; /* Let clicks pass through container, re-enable on children */
     }
 
     .aakaari-chat-button {
         width: 56px;
         height: 56px;
+        z-index: 100001;
+        pointer-events: auto; /* Re-enable clicks */
+        margin-left: auto; /* Push to right */
+    }
+
+    .aakaari-trigger-popup {
+        position: fixed;
+        bottom: 90px;
+        right: 16px;
+        left: 16px;
+        margin-bottom: 0;
+        width: auto;
+        max-width: calc(100vw - 32px);
+        min-width: 240px;
+        pointer-events: auto;
+        transform: translateY(10px);
+        z-index: 100002;
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
+        transform-origin: center bottom;
+    }
+
+    .aakaari-trigger-popup.show {
+        transform: translateY(0);
+    }
+
+    .aakaari-chat-window {
+        position: fixed;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        max-height: 100dvh;
+        border-radius: 0;
+        transform: translateY(100%);
+        box-shadow: none;
+        z-index: 100000;
+        pointer-events: auto;
+    }
+
+    .aakaari-chat-window.open {
+        transform: translateY(0);
+    }
+    
+    .aakaari-chat-body {
+        height: 100%;
+    }
+    
+    /* Hide button when chat is open on mobile to avoid overlap/confusion */
+    .aakaari-chat-button.open {
+        opacity: 0;
+        pointer-events: none;
+    }
+    
+    /* Add a close button specifically for mobile header if needed, 
+       but we already have a close button in the header. */
+}
+
+/* Extra small mobile screens */
+@media (max-width: 360px) {
+    .aakaari-trigger-popup {
+        right: 8px;
+        left: 8px;
+        max-width: calc(100vw - 16px);
+        min-width: 200px;
+        padding: 12px;
+    }
+    
+    .aakaari-trigger-popup p {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+    
+    .aakaari-trigger-actions {
+        gap: 6px;
+    }
+    
+    .aakaari-trigger-accept,
+    .aakaari-trigger-dismiss {
+        padding: 8px;
+        font-size: 13px;
     }
 }
 
