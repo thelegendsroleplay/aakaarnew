@@ -897,10 +897,26 @@ class Aakaari_REST_API {
 
         $ticket = Aakaari_Ticket_Handler::create_from_conversation($id, $params);
 
+        if (!$ticket) {
+            return new WP_Error('ticket_creation_failed', 'Failed to create ticket', ['status' => 500]);
+        }
+
+        // End the chat after converting to ticket
+        Aakaari_Chat_Handler::end_conversation($id, 'agent');
+
+        // Add system message about ticket creation
+        Aakaari_Chat_Handler::add_message([
+            'conversation_id' => $id,
+            'sender_type' => 'system',
+            'message_text' => 'This chat has been converted to ticket #' . $ticket['ticket_number'],
+            'message_type' => 'system_notification'
+        ]);
+
         return rest_ensure_response([
             'success' => true,
             'ticket_id' => $ticket['id'],
-            'ticket_number' => $ticket['ticket_number']
+            'ticket_number' => $ticket['ticket_number'],
+            'chat_ended' => true
         ]);
     }
 

@@ -60,8 +60,8 @@ $conversations = Aakaari_Chat_Handler::get_admin_conversations('active');
         .aakaari-message.visitor { margin-right: auto; }
         .aakaari-message.agent { margin-left: auto; }
         .aakaari-message-bubble { padding: 12px 16px; border-radius: 12px; }
-        .aakaari-message.visitor .aakaari-message-bubble { background: #fff; border: 1px solid #e2e8f0; }
-        .aakaari-message.agent .aakaari-message-bubble { background: #2563eb; color: #fff; }
+        .aakaari-message.visitor .aakaari-message-bubble { background: #2563eb; color: #fff; border-radius: 12px 12px 12px 4px; }
+        .aakaari-message.agent .aakaari-message-bubble { background: #fff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 12px 12px 4px 12px; }
         .aakaari-message.system .aakaari-message-bubble { background: #f1f5f9; color: #64748b; text-align: center; max-width: 100%; font-size: 13px; }
         .aakaari-message-time { font-size: 11px; color: #94a3b8; margin-top: 4px; }
         .aakaari-message.agent .aakaari-message-time { text-align: right; }
@@ -418,7 +418,27 @@ function convertToTicket(id) {
     })
     .then(r => r.json())
     .then(data => {
-        alert('Ticket created: #' + data.ticket_number);
+        if (data.success) {
+            alert('Ticket created: #' + data.ticket_number + '\n\nThe chat has been ended.');
+
+            // Clear current chat view
+            currentChatId = null;
+            document.getElementById('chat-detail').innerHTML = `
+                <div class="aakaari-empty-state">
+                    <span class="dashicons dashicons-tickets-alt"></span>
+                    <p>Chat converted to ticket #${data.ticket_number}</p>
+                </div>
+            `;
+
+            // Refresh chat list
+            refreshChatList();
+        } else {
+            alert('Failed to create ticket: ' + (data.message || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Convert to ticket error:', error);
+        alert('Failed to create ticket. Please try again.');
     });
 }
 
