@@ -1,139 +1,721 @@
 <?php
 get_header();
 
-$issue_cards = [
-    [
-        'category' => __('WordPress Core', 'aakaari'),
-        'title' => __('White Screen of Death (WSOD)', 'aakaari'),
-        'description' => __('Your WordPress site displays a blank white screen with no error messages.', 'aakaari'),
-        'symptoms' => [
-            __('Blank white screen on frontend', 'aakaari'),
-            __('White screen on admin dashboard', 'aakaari'),
-            __('+2 more...', 'aakaari'),
-        ],
-        'price' => '$79',
-        'eta' => __('ETA: 24 hours', 'aakaari'),
-    ],
-    [
-        'category' => __('WooCommerce', 'aakaari'),
-        'title' => __('WooCommerce Checkout Not Working', 'aakaari'),
-        'description' => __('Customers cannot complete purchases on your WooCommerce store.', 'aakaari'),
-        'symptoms' => [
-            __('Place order button not working', 'aakaari'),
-            __('Payment gateway errors', 'aakaari'),
-            __('+2 more...', 'aakaari'),
-        ],
-        'price' => '$99',
-        'eta' => __('ETA: 24 hours', 'aakaari'),
-    ],
-    [
-        'category' => __('Performance', 'aakaari'),
-        'title' => __('Slow Loading Website', 'aakaari'),
-        'description' => __('Your WordPress site takes too long to load, affecting user experience and SEO.', 'aakaari'),
-        'symptoms' => [
-            __('Pages take more than 3 seconds to load', 'aakaari'),
-            __('High bounce rates', 'aakaari'),
-            __('+2 more...', 'aakaari'),
-        ],
-        'price' => '$129',
-        'eta' => __('ETA: 48 hours', 'aakaari'),
-    ],
-    [
-        'category' => __('Security', 'aakaari'),
-        'title' => __('Hacked Site / Malware Removal', 'aakaari'),
-        'description' => __('Your site has been compromised with malware or hacked content.', 'aakaari'),
-        'symptoms' => [
-            __('Google safe browsing warning', 'aakaari'),
-            __('Redirects to spam sites', 'aakaari'),
-            __('+2 more...', 'aakaari'),
-        ],
-        'price' => '$199',
-        'eta' => __('ETA: 48 hours', 'aakaari'),
-    ],
-    [
-        'category' => __('Custom Code / PHP', 'aakaari'),
-        'title' => __('PHP Fatal Error', 'aakaari'),
-        'description' => __('Your site shows PHP errors or stops working due to code issues.', 'aakaari'),
-        'symptoms' => [
-            __('PHP error messages on screen', 'aakaari'),
-            __('Site partially broken', 'aakaari'),
-            __('+2 more...', 'aakaari'),
-        ],
-        'price' => '$89',
-        'eta' => __('ETA: 24 hours', 'aakaari'),
-    ],
-    [
-        'category' => __('WordPress Core', 'aakaari'),
-        'title' => __('My Issue Is Not Listed', 'aakaari'),
-        'description' => __('Describe your unique WordPress or WooCommerce problem.', 'aakaari'),
-        'symptoms' => [
-            __('Custom issue', 'aakaari'),
-            __('Unique problem', 'aakaari'),
-            __('+1 more...', 'aakaari'),
-        ],
-        'price' => '$49',
-        'eta' => __('ETA: 24 hours', 'aakaari'),
-    ],
-];
+if (!function_exists('aakaari_fix_wc_is_active')) {
+  function aakaari_fix_wc_is_active() {
+    return class_exists('WooCommerce') && function_exists('wc_get_product');
+  }
+}
+
+if (!function_exists('aakaari_fix_product_for_slug')) {
+  function aakaari_fix_product_for_slug($slug) {
+    if (!aakaari_fix_wc_is_active()) {
+      return null;
+    }
+
+    $slug = sanitize_title((string) $slug);
+    if ($slug === '') {
+      return null;
+    }
+
+    $post = get_page_by_path($slug, OBJECT, 'product');
+    if (!$post) {
+      return null;
+    }
+
+    $product = wc_get_product($post->ID);
+    return $product ? $product : null;
+  }
+}
+
+if (!function_exists('aakaari_fix_issue_slug')) {
+  function aakaari_fix_issue_slug($issue) {
+    if (!empty($issue['product_slug'])) {
+      return (string) $issue['product_slug'];
+    }
+
+    return sanitize_title((string) ($issue['title'] ?? ''));
+  }
+}
+
+if (!function_exists('aakaari_fix_money')) {
+  function aakaari_fix_money($amount) {
+    $amount = (float) $amount;
+
+    if (function_exists('wc_price')) {
+      return wp_strip_all_tags(wc_price($amount));
+    }
+
+    return '$' . number_format_i18n($amount, 0);
+  }
+}
+
+if (!function_exists('aakaari_fix_issue_price_text')) {
+  function aakaari_fix_issue_price_text($issue) {
+    $fallback = isset($issue['from']) ? (float) $issue['from'] : 0.0;
+    $fallback_text = $fallback > 0 ? ('From ' . aakaari_fix_money($fallback)) : 'View pricing';
+
+    $product = aakaari_fix_product_for_slug(aakaari_fix_issue_slug($issue));
+    if (!$product) {
+      return $fallback_text;
+    }
+
+    $price = $product->get_price();
+    if ($price === '' || $price === null) {
+      return $fallback_text;
+    }
+
+    $min_price = $product->is_type('variable')
+      ? (float) $product->get_variation_price('min', true)
+      : (float) $price;
+
+    return 'From ' . aakaari_fix_money($min_price);
+  }
+}
+
+if (!function_exists('aakaari_fix_issue_urls')) {
+  function aakaari_fix_issue_urls($issue) {
+    $contact_url = home_url('/contact/');
+    $checkout_base = function_exists('wc_get_checkout_url') ? wc_get_checkout_url() : home_url('/checkout/');
+
+    $product = aakaari_fix_product_for_slug(aakaari_fix_issue_slug($issue));
+    if (!$product) {
+      return array(
+        'product' => $contact_url,
+        'checkout' => $contact_url,
+        'contact' => $contact_url,
+      );
+    }
+
+    $product_id = (int) $product->get_id();
+    $product_url = get_permalink($product_id);
+    $checkout_url = add_query_arg('add-to-cart', $product_id, $checkout_base);
+
+    return array(
+      'product' => $product_url,
+      'checkout' => $checkout_url,
+      'contact' => $contact_url,
+    );
+  }
+}
+
+$sections = array(
+  array(
+    'id' => 'core',
+    'accent' => '59 130 246',
+    'icon' => 'code-xml',
+    'title' => 'WordPress Core Issues',
+    'subtitle' => 'Downtime, errors, and broken functionality in WordPress.',
+    'issues' => array(
+      array(
+        'title' => 'Website Not Opening / Site Down',
+        'from' => 19,
+        'icon' => 'alert-triangle',
+        'desc' => 'Your site is down, stuck loading, or showing an error page.',
+        'includes' => array(
+          'Server + WordPress diagnostics to find the root cause',
+          'Fix the issue and restore the site safely',
+          'Basic checks to prevent the same failure again',
+        ),
+      ),
+      array(
+        'title' => 'White Screen of Death',
+        'from' => 19,
+        'icon' => 'monitor-x',
+        'desc' => 'Blank page caused by fatal errors, memory limits, or conflicts.',
+        'includes' => array(
+          'Identify the exact error via logs + debug',
+          'Resolve theme/plugin conflict or PHP issue',
+          'Bring the site back online without data loss',
+        ),
+      ),
+      array(
+        'title' => 'Plugin Conflict',
+        'from' => 19,
+        'icon' => 'puzzle',
+        'desc' => 'Broken features after plugin updates or compatibility issues.',
+        'includes' => array(
+          'Isolate the conflicting plugin(s) quickly',
+          'Safe rollback or patch to restore compatibility',
+          'Functional test after fix to confirm stability',
+        ),
+      ),
+      array(
+        'title' => 'Forms Not Working',
+        'from' => 15,
+        'icon' => 'mail',
+        'desc' => 'Contact forms not sending, not saving, or failing silently.',
+        'includes' => array(
+          'Fix mail delivery / SMTP setup (if required)',
+          'Test submission end-to-end (admin + inbox)',
+          'Basic anti-spam + validation improvements',
+        ),
+      ),
+    ),
+  ),
+  array(
+    'id' => 'hosting',
+    'accent' => '139 92 246',
+    'icon' => 'server',
+    'title' => 'Infrastructure & Hosting',
+    'subtitle' => 'Server errors, DNS issues, migrations, and hosting setup.',
+    'issues' => array(
+      array(
+        'title' => '500 Internal Server Error',
+        'from' => 19,
+        'icon' => 'server-crash',
+        'desc' => 'Server returns 500 due to config, PHP, or permission issues.',
+        'includes' => array(
+          'Audit logs + configuration (htaccess/nginx/php)',
+          'Fix permissions, memory, or rewrite issues',
+          'Confirm site loads and key pages work',
+        ),
+      ),
+      array(
+        'title' => 'Database Connection Error',
+        'from' => 19,
+        'icon' => 'database',
+        'desc' => 'Database credentials, corrupted tables, or a down DB server.',
+        'includes' => array(
+          'Verify DB connection + server health',
+          'Repair tables / fix wp-config settings',
+          'Validate admin + frontend after recovery',
+        ),
+      ),
+      array(
+        'title' => 'Email Not Sending',
+        'from' => 15,
+        'icon' => 'mail-x',
+        'desc' => 'WP emails not delivered (password reset, orders, notifications).',
+        'includes' => array(
+          'Diagnose delivery + server mail settings',
+          'Configure SMTP/provider if needed',
+          'Test common email flows on your site',
+        ),
+      ),
+      array(
+        'title' => 'Server Configuration Issue',
+        'from' => 39,
+        'icon' => 'settings',
+        'desc' => 'PHP, caching, SSL, redirects, or server rules misconfigured.',
+        'includes' => array(
+          'Review server setup and current configuration',
+          'Apply correct settings for WordPress + WooCommerce',
+          'Confirm performance and stability after changes',
+        ),
+      ),
+      array(
+        'title' => 'DNS / Domain Issue',
+        'from' => 15,
+        'icon' => 'globe',
+        'desc' => 'Domain not pointing correctly, propagation, or SSL mismatch.',
+        'includes' => array(
+          'Fix DNS records and verify propagation',
+          'Resolve redirects / WWW / HTTPS alignment',
+          'Confirm site and email records are correct',
+        ),
+      ),
+      array(
+        'title' => 'Backup / Migration',
+        'from' => 29,
+        'icon' => 'hard-drive',
+        'desc' => 'Move your site to a new host or restore from backups.',
+        'includes' => array(
+          'Full backup + migration plan (safe steps)',
+          'Move files + DB and update URLs',
+          'Post-migration checks: links, forms, checkout',
+        ),
+      ),
+    ),
+  ),
+  array(
+    'id' => 'security',
+    'accent' => '239 68 68',
+    'icon' => 'shield-alert',
+    'title' => 'Security & Hacking',
+    'subtitle' => 'Malware cleanup, redirects, SSL problems, and hardening.',
+    'issues' => array(
+      array(
+        'title' => 'Website Hacked / Malware',
+        'from' => 39,
+        'icon' => 'skull',
+        'desc' => 'Unexpected changes, warnings, or malicious files/requests.',
+        'includes' => array(
+          'Malware scan + removal (core/theme/plugin review)',
+          'Close the vulnerability and patch the entry point',
+          'Basic hardening + post-cleanup verification',
+        ),
+      ),
+      array(
+        'title' => 'Virus / Spam Injection',
+        'from' => 29,
+        'icon' => 'bug',
+        'desc' => 'Spam links/content injected into pages or database.',
+        'includes' => array(
+          'Clean injected content from DB + files',
+          'Fix the source (plugin/theme vulnerabilities)',
+          'Verify search + sitemap health after cleanup',
+        ),
+      ),
+      array(
+        'title' => 'Redirect Hack',
+        'from' => 29,
+        'icon' => 'external-link',
+        'desc' => 'Users are redirected to spam or malicious websites.',
+        'includes' => array(
+          'Trace redirects to the exact origin',
+          'Remove malicious rules/scripts',
+          'Lock down access and re-test from clean devices',
+        ),
+      ),
+      array(
+        'title' => 'SSL Error',
+        'from' => 15,
+        'icon' => 'lock',
+        'desc' => 'HTTPS certificate errors or incorrect forced redirects.',
+        'includes' => array(
+          'Fix certificate chain / install verification',
+          'Correct HTTPS redirects and canonical URLs',
+          'Confirm checkout + login work securely',
+        ),
+      ),
+      array(
+        'title' => 'Mixed Content',
+        'from' => 15,
+        'icon' => 'shield-off',
+        'desc' => 'HTTPS page loading insecure assets and showing warnings.',
+        'includes' => array(
+          'Replace insecure URLs and assets site-wide',
+          'Fix theme/plugin sources causing mixed content',
+          'Verify padlock + key pages after changes',
+        ),
+      ),
+    ),
+  ),
+  array(
+    'id' => 'commerce',
+    'accent' => '16 185 129',
+    'icon' => 'shopping-cart',
+    'title' => 'WooCommerce & eCommerce',
+    'subtitle' => 'Payments, checkout issues, and order processing fixes.',
+    'issues' => array(
+      array(
+        'title' => 'Payment Gateway',
+        'from' => 39,
+        'icon' => 'credit-card',
+        'desc' => 'Payment failures, gateway errors, or missing payment options.',
+        'includes' => array(
+          'Diagnose gateway errors and logs',
+          'Fix gateway configuration + checkout flow',
+          'Test order + payment end-to-end',
+        ),
+      ),
+      array(
+        'title' => 'Checkout Issue',
+        'from' => 29,
+        'icon' => 'shopping-bag',
+        'desc' => 'Checkout not loading, fields broken, or checkout not completing.',
+        'includes' => array(
+          'Fix checkout UI + validation problems',
+          'Resolve conflicts with plugins/themes',
+          'Confirm order creation and email triggers',
+        ),
+      ),
+      array(
+        'title' => 'Order Not Processing',
+        'from' => 25,
+        'icon' => 'package',
+        'desc' => 'Orders stuck, statuses not updating, or webhooks failing.',
+        'includes' => array(
+          'Review payment/webhook + order status pipeline',
+          'Fix automation + plugin conflicts',
+          'Verify notifications and order lifecycle',
+        ),
+      ),
+    ),
+  ),
+  array(
+    'id' => 'performance',
+    'accent' => '245 158 11',
+    'icon' => 'zap',
+    'title' => 'Performance Optimization',
+    'subtitle' => 'Speed fixes, Core Web Vitals improvements, mobile tuning.',
+    'issues' => array(
+      array(
+        'title' => 'Slow Website',
+        'from' => 29,
+        'icon' => 'gauge',
+        'desc' => 'Slow loading pages, timeouts, or heavy scripts/plugins.',
+        'includes' => array(
+          'Find bottlenecks (plugins, queries, assets)',
+          'Apply safe optimizations (cache, images, CSS/JS)',
+          'Re-test key pages and report improvements',
+        ),
+      ),
+      array(
+        'title' => 'Core Web Vitals',
+        'from' => 35,
+        'icon' => 'activity',
+        'desc' => 'Improve LCP, CLS, and INP for better SEO and UX.',
+        'includes' => array(
+          'Audit CWV metrics and identify causes',
+          'Fix layout shifts + render-blocking resources',
+          'Validate improvements on desktop and mobile',
+        ),
+      ),
+      array(
+        'title' => 'Mobile Responsive',
+        'from' => 19,
+        'icon' => 'smartphone',
+        'desc' => 'Layout issues on phones/tablets, overflow, or broken menus.',
+        'includes' => array(
+          'Fix responsive CSS and common breakpoints',
+          'Improve tap targets + spacing for mobile UX',
+          'Test on mobile, tablet, and desktop widths',
+        ),
+      ),
+    ),
+  ),
+  array(
+    'id' => 'auth',
+    'accent' => '99 102 241',
+    'icon' => 'key',
+    'title' => 'Authentication & Access',
+    'subtitle' => 'Login errors, admin access issues, and role problems.',
+    'issues' => array(
+      array(
+        'title' => 'Login Not Working',
+        'from' => 15,
+        'icon' => 'log-in',
+        'desc' => 'Login loops, errors, or users can\'t sign in.',
+        'includes' => array(
+          'Fix login loop/cookie/redirect issues',
+          'Check plugins and security rules affecting auth',
+          'Confirm login works for affected roles',
+        ),
+      ),
+      array(
+        'title' => 'Admin Panel Not Accessible',
+        'from' => 19,
+        'icon' => 'user-x',
+        'desc' => 'wp-admin blocked, permission errors, or white screens.',
+        'includes' => array(
+          'Restore admin access safely',
+          'Fix permission rules and plugin conflicts',
+          'Validate dashboard + critical settings pages',
+        ),
+      ),
+    ),
+  ),
+  array(
+    'id' => 'design',
+    'accent' => '236 72 153',
+    'icon' => 'layout',
+    'title' => 'Design & Layout',
+    'subtitle' => 'Broken layouts, theme issues, and UI fixes.',
+    'issues' => array(
+      array(
+        'title' => 'Theme / Layout Broken',
+        'from' => 19,
+        'icon' => 'layers',
+        'desc' => 'UI broken after updates, CSS issues, or missing components.',
+        'includes' => array(
+          'Identify theme/CSS breakage or conflicts',
+          'Fix layout and component rendering issues',
+          'Test across desktop, tablet, and mobile',
+        ),
+      ),
+    ),
+  ),
+);
 ?>
 
-<section class="section issue-hero">
-    <div class="container issue-hero-inner" data-animate>
-        <h1>Fix an Issue</h1>
-        <p class="lead">Select your specific problem and get a fixed price instantly. Pay first, share details after.</p>
-        <div class="issue-filters" data-issue-filters>
-            <button class="filter-pill is-active" type="button" data-filter="all">All Issues</button>
-            <button class="filter-pill" type="button" data-filter="wordpress-core">WordPress Core</button>
-            <button class="filter-pill" type="button" data-filter="woocommerce">WooCommerce</button>
-            <button class="filter-pill" type="button" data-filter="performance">Performance</button>
-            <button class="filter-pill" type="button" data-filter="security">Security</button>
-            <button class="filter-pill" type="button" data-filter="custom-code-php">Custom Code / PHP</button>
-        </div>
-    </div>
-</section>
+<div class="fix-page">
+  <!-- SVG Sprite Definitions -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="fix-svg-sprite" aria-hidden="true">
+    <defs>
+      <linearGradient id="fix-gradient-hero" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#667eea"/>
+        <stop offset="50%" stop-color="#764ba2"/>
+        <stop offset="100%" stop-color="#f093fb"/>
+      </linearGradient>
+    </defs>
 
-<section class="section">
-    <div class="container" data-animate>
-        <div class="grid grid-3 issue-detail-grid">
-            <?php foreach ($issue_cards as $card) : ?>
-                <?php $category_slug = sanitize_title($card['category']); ?>
-                <div class="card issue-detail-card" data-animate data-category="<?php echo esc_attr($category_slug); ?>">
-                    <span class="issue-tag"><?php echo esc_html($card['category']); ?></span>
-                    <h3><?php echo esc_html($card['title']); ?></h3>
-                    <p class="muted"><?php echo esc_html($card['description']); ?></p>
-                    <div class="issue-symptoms">
-                        <strong>Common symptoms:</strong>
-                        <ul>
-                            <?php foreach ($card['symptoms'] as $symptom) : ?>
-                                <li><?php echo esc_html($symptom); ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                    <div class="issue-pricing">
-                        <div>
-                            <span class="price-label">Starting from</span>
-                            <span class="issue-eta"><?php echo esc_html($card['eta']); ?></span>
-                        </div>
-                        <span class="issue-price"><?php echo esc_html($card['price']); ?></span>
-                    </div>
-                    <a class="btn btn-primary issue-action" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">
-                        Select &amp; Choose Tier
-                        <span aria-hidden="true">→</span>
-                    </a>
-                </div>
-            <?php endforeach; ?>
+    <!-- Icons -->
+    <symbol id="fix-icon-code-xml" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>
+    </symbol>
+    <symbol id="fix-icon-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/>
+    </symbol>
+    <symbol id="fix-icon-shield-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/>
+    </symbol>
+    <symbol id="fix-icon-shopping-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+    </symbol>
+    <symbol id="fix-icon-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.9 6.02a1 1 0 0 0 .95 1.33h6.43a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.9-6.02A1 1 0 0 0 11.4 14z"/>
+    </symbol>
+    <symbol id="fix-icon-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>
+    </symbol>
+    <symbol id="fix-icon-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+    </symbol>
+    <symbol id="fix-icon-alert-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>
+    </symbol>
+    <symbol id="fix-icon-monitor-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.5 12.5 10 8"/><path d="m10 12.5 4.5-4.5"/><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/>
+    </symbol>
+    <symbol id="fix-icon-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15.39 4.39a1 1 0 0 0 0 1.68l.39.39H14a2 2 0 0 0-2 2v1.78l-.39-.39a1 1 0 0 0-1.68 0l-.39.39a1 1 0 0 0 0 1.68l.39.39H8a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1.78l-.39.39a1 1 0 0 0 0 1.68l.39.39a1 1 0 0 0 1.68 0l.39-.39H14a2 2 0 0 0 2-2v-1.78l.39.39a1 1 0 0 0 1.68 0l.39-.39a1 1 0 0 0 0-1.68l-.39-.39H20a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-1.78l.39-.39a1 1 0 0 0 0-1.68l-.39-.39a1 1 0 0 0-1.68 0l-.39.39V6a2 2 0 0 0-2-2h-2"/>
+    </symbol>
+    <symbol id="fix-icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+    </symbol>
+    <symbol id="fix-icon-server-crash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><path d="M6 14H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2"/><path d="M6 6h.01"/><path d="M6 18h.01"/><path d="m13 6-4 6h6l-4 6"/>
+    </symbol>
+    <symbol id="fix-icon-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>
+    </symbol>
+    <symbol id="fix-icon-mail-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h9"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="m17 17 4 4"/><path d="m21 17-4 4"/>
+    </symbol>
+    <symbol id="fix-icon-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
+    </symbol>
+    <symbol id="fix-icon-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
+    </symbol>
+    <symbol id="fix-icon-hard-drive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/>
+    </symbol>
+    <symbol id="fix-icon-skull" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M8 20v2h8v-2"/><path d="m12.5 17-.5-1-.5 1h1z"/><path d="M16 20a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20"/>
+    </symbol>
+    <symbol id="fix-icon-bug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/>
+    </symbol>
+    <symbol id="fix-icon-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    </symbol>
+    <symbol id="fix-icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </symbol>
+    <symbol id="fix-icon-shield-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m2 2 20 20"/><path d="M5 5a1 1 0 0 0-1 1v7c0 5 3.5 7.5 7.67 8.94a1 1 0 0 0 .67.01c2.35-.82 4.48-1.97 5.9-3.71"/><path d="M9.309 3.652A12.252 12.252 0 0 0 11.24 2.28a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1v7a9.784 9.784 0 0 1-.08 1.264"/>
+    </symbol>
+    <symbol id="fix-icon-credit-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
+    </symbol>
+    <symbol id="fix-icon-shopping-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+    </symbol>
+    <symbol id="fix-icon-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+    </symbol>
+    <symbol id="fix-icon-gauge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>
+    </symbol>
+    <symbol id="fix-icon-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
+    </symbol>
+    <symbol id="fix-icon-smartphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>
+    </symbol>
+    <symbol id="fix-icon-log-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/>
+    </symbol>
+    <symbol id="fix-icon-user-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/>
+    </symbol>
+    <symbol id="fix-icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+    </symbol>
+    <symbol id="fix-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 6 9 17l-5-5"/>
+    </symbol>
+    <symbol id="fix-icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m6 9 6 6 6-6"/>
+    </symbol>
+    <symbol id="fix-icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+    </symbol>
+    <symbol id="fix-icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </symbol>
+    <symbol id="fix-icon-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>
+    </symbol>
+    <symbol id="fix-icon-dollar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+    </symbol>
+    <symbol id="fix-icon-message-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+    </symbol>
+  </svg>
+
+  <!-- Hero Section -->
+  <section class="fix-hero">
+    <div class="fix-hero-bg">
+      <div class="fix-hero-gradient"></div>
+      <div class="fix-hero-pattern"></div>
+      <div class="fix-hero-orbs">
+        <div class="fix-hero-orb fix-hero-orb-1"></div>
+        <div class="fix-hero-orb fix-hero-orb-2"></div>
+        <div class="fix-hero-orb fix-hero-orb-3"></div>
+      </div>
+    </div>
+
+    <div class="fix-container">
+      <div class="fix-hero-content">
+        <div class="fix-hero-badge">
+          <svg class="fix-hero-badge-icon"><use href="#fix-icon-zap"/></svg>
+          <span>Fast & Professional Support</span>
         </div>
-        <div class="card issue-callout" data-animate>
-            <div>
-                <h3>Can't find your issue?</h3>
-                <p class="muted">Select "My Issue Is Not Listed" for a diagnostic analysis. We'll provide a fixed price quote after reviewing your specific problem.</p>
+
+        <h1 class="fix-hero-title">
+          What Needs <span class="fix-hero-title-highlight">Fixing?</span>
+        </h1>
+
+        <p class="fix-hero-subtitle">
+          Select your issue below and get expert help. Transparent pricing, fast turnaround, and satisfaction guaranteed.
+        </p>
+
+        <div class="fix-hero-stats">
+          <div class="fix-hero-stat">
+            <div class="fix-hero-stat-icon">
+              <svg><use href="#fix-icon-headphones"/></svg>
             </div>
-            <a class="btn btn-outline" href="<?php echo esc_url(home_url('/contact/')); ?>">
-                Describe Your Issue
-                <span aria-hidden="true">→</span>
-            </a>
+            <div class="fix-hero-stat-content">
+              <span class="fix-hero-stat-value">24/7</span>
+              <span class="fix-hero-stat-label">Expert Support</span>
+            </div>
+          </div>
+          <div class="fix-hero-stat">
+            <div class="fix-hero-stat-icon">
+              <svg><use href="#fix-icon-clock"/></svg>
+            </div>
+            <div class="fix-hero-stat-content">
+              <span class="fix-hero-stat-value">&lt; 2 hrs</span>
+              <span class="fix-hero-stat-label">Avg Response</span>
+            </div>
+          </div>
+          <div class="fix-hero-stat">
+            <div class="fix-hero-stat-icon">
+              <svg><use href="#fix-icon-dollar"/></svg>
+            </div>
+            <div class="fix-hero-stat-content">
+              <span class="fix-hero-stat-value">Fixed</span>
+              <span class="fix-hero-stat-label">Pricing</span>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<?php get_footer(); ?>
+  <!-- Category Navigation -->
+  <nav class="fix-nav" aria-label="Issue categories">
+    <div class="fix-container">
+      <div class="fix-nav-scroll">
+        <?php foreach ($sections as $section) { ?>
+          <a class="fix-nav-item" href="#fix-<?php echo esc_attr($section['id']); ?>" style="--accent: <?php echo esc_attr($section['accent']); ?>;">
+            <span class="fix-nav-item-dot"></span>
+            <span class="fix-nav-item-text"><?php echo esc_html($section['title']); ?></span>
+          </a>
+        <?php } ?>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="fix-main">
+    <div class="fix-container">
+      <?php foreach ($sections as $section) { ?>
+        <section id="fix-<?php echo esc_attr($section['id']); ?>" class="fix-section" style="--accent: <?php echo esc_attr($section['accent']); ?>;">
+          <header class="fix-section-header">
+            <div class="fix-section-icon-wrap">
+              <div class="fix-section-icon">
+                <svg><use href="#fix-icon-<?php echo esc_attr($section['icon']); ?>"/></svg>
+              </div>
+              <div class="fix-section-icon-glow"></div>
+            </div>
+            <div class="fix-section-info">
+              <h2 class="fix-section-title"><?php echo esc_html($section['title']); ?></h2>
+              <p class="fix-section-desc"><?php echo esc_html($section['subtitle']); ?></p>
+            </div>
+          </header>
+
+          <div class="fix-cards">
+            <?php foreach ($section['issues'] as $issue) { ?>
+              <?php
+              $price_text = aakaari_fix_issue_price_text($issue);
+              $urls = aakaari_fix_issue_urls($issue);
+              ?>
+              <article class="fix-card">
+                <div class="fix-card-header">
+                  <div class="fix-card-icon">
+                    <svg><use href="#fix-icon-<?php echo esc_attr($issue['icon']); ?>"/></svg>
+                  </div>
+                  <div class="fix-card-badge"><?php echo esc_html($price_text); ?></div>
+                </div>
+
+                <div class="fix-card-content">
+                  <h3 class="fix-card-title"><?php echo esc_html($issue['title']); ?></h3>
+                  <p class="fix-card-desc"><?php echo esc_html($issue['desc']); ?></p>
+                </div>
+
+                <div class="fix-card-features">
+                  <div class="fix-card-features-label">What's included:</div>
+                  <ul class="fix-card-features-list">
+                    <?php foreach ($issue['includes'] as $item) { ?>
+                      <li>
+                        <svg class="fix-card-check"><use href="#fix-icon-check"/></svg>
+                        <span><?php echo esc_html($item); ?></span>
+                      </li>
+                    <?php } ?>
+                  </ul>
+                </div>
+
+                <div class="fix-card-actions">
+                  <a class="fix-card-btn fix-card-btn-primary" href="<?php echo esc_url($urls['checkout']); ?>">
+                    <span>Select &amp; Checkout</span>
+                    <svg><use href="#fix-icon-arrow-right"/></svg>
+                  </a>
+                  <a class="fix-card-btn fix-card-btn-secondary" href="<?php echo esc_url($urls['product']); ?>">
+                    View Details
+                  </a>
+                </div>
+              </article>
+            <?php } ?>
+          </div>
+        </section>
+      <?php } ?>
+
+      <!-- Help CTA Section -->
+      <section class="fix-help">
+        <div class="fix-help-content">
+          <div class="fix-help-icon">
+            <svg><use href="#fix-icon-message-circle"/></svg>
+          </div>
+          <div class="fix-help-text">
+            <h3 class="fix-help-title">Not sure which issue to pick?</h3>
+            <p class="fix-help-desc">Tell us what you're experiencing and we'll route you to the right expert.</p>
+          </div>
+        </div>
+        <a class="fix-help-btn" href="<?php echo esc_url(home_url('/contact/')); ?>">
+          <span>Contact Support</span>
+          <svg><use href="#fix-icon-arrow-right"/></svg>
+        </a>
+      </section>
+    </div>
+  </main>
+</div>
+
+<?php
+get_footer();
+?>

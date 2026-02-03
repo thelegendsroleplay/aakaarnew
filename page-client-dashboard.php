@@ -1,0 +1,486 @@
+<?php
+get_header();
+?>
+<div class="min-h-screen bg-gray-50">
+<div class="flex">
+<aside class="hidden lg:flex w-64 flex-col fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white border-r border-gray-200">
+<div class="p-6 border-b border-gray-200">
+<div class="flex items-center">
+<span data-slot="avatar" class="relative flex size-10 shrink-0 overflow-hidden rounded-full h-12 w-12 mr-3">
+<span data-slot="avatar-fallback" class="flex size-full items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-500 text-white">JD</span>
+</span>
+<div class="flex-1">
+<p class="font-medium text-gray-900">John Doe</p>
+<p class="text-sm text-gray-600">john@example.com</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 p-4 overflow-y-auto">
+<div class="space-y-1">
+<button class="w-full flex items-center px-4 py-3 rounded-xl text-sm transition-colors bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard h-5 w-5 mr-3">
+<rect width="7" height="9" x="3" y="3" rx="1">
+</rect>
+<rect width="7" height="5" x="14" y="3" rx="1">
+</rect>
+<rect width="7" height="9" x="14" y="12" rx="1">
+</rect>
+<rect width="7" height="5" x="3" y="16" rx="1">
+</rect>
+</svg>Overview</button>
+<button class="w-full flex items-center px-4 py-3 rounded-xl text-sm transition-colors text-gray-700 hover:bg-gray-100">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket h-5 w-5 mr-3">
+<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z">
+</path>
+<path d="M13 5v2">
+</path>
+<path d="M13 17v2">
+</path>
+<path d="M13 11v2">
+</path>
+</svg>My Tickets<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&amp;]:hover:bg-primary/90 ml-auto bg-red-500 text-white">3</span>
+</button>
+<button class="w-full flex items-center px-4 py-3 rounded-xl text-sm transition-colors text-gray-700 hover:bg-gray-100">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text h-5 w-5 mr-3">
+<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z">
+</path>
+<path d="M14 2v4a2 2 0 0 0 2 2h4">
+</path>
+<path d="M10 9H8">
+</path>
+<path d="M16 13H8">
+</path>
+<path d="M16 17H8">
+</path>
+</svg>Orders</button>
+<button class="w-full flex items-center px-4 py-3 rounded-xl text-sm transition-colors text-gray-700 hover:bg-gray-100">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card h-5 w-5 mr-3">
+<rect width="20" height="14" x="2" y="5" rx="2">
+</rect>
+<line x1="2" x2="22" y1="10" y2="10">
+</line>
+</svg>Payments</button>
+<button class="w-full flex items-center px-4 py-3 rounded-xl text-sm transition-colors text-gray-700 hover:bg-gray-100">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square h-5 w-5 mr-3">
+<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z">
+</path>
+</svg>Live Chat<span class="ml-auto h-2 w-2 bg-green-500 rounded-full">
+</span>
+</button>
+<button class="w-full flex items-center px-4 py-3 rounded-xl text-sm transition-colors text-gray-700 hover:bg-gray-100">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield h-5 w-5 mr-3">
+<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
+</path>
+</svg>Access Management</button>
+<button class="w-full flex items-center px-4 py-3 rounded-xl text-sm transition-colors text-gray-700 hover:bg-gray-100">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings h-5 w-5 mr-3">
+<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+</path>
+<circle cx="12" cy="12" r="3">
+</circle>
+</svg>Settings</button>
+</div>
+</nav>
+<div class="p-4 border-t border-gray-200">
+<button data-slot="button" class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out h-5 w-5 mr-3">
+<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4">
+</path>
+<polyline points="16 17 21 12 16 7">
+</polyline>
+<line x1="21" x2="9" y1="12" y2="12">
+</line>
+</svg>Logout</button>
+</div>
+</aside>
+<main class="flex-1 lg:ml-64 p-6 mt-16">
+<div class="lg:hidden mb-6 flex items-center justify-between">
+<h1 class="text-2xl font-bold text-gray-900">Client Dashboard</h1>
+<button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 rounded-md">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu h-6 w-6">
+<line x1="4" x2="20" y1="12" y2="12">
+</line>
+<line x1="4" x2="20" y1="6" y2="6">
+</line>
+<line x1="4" x2="20" y1="18" y2="18">
+</line>
+</svg>
+</button>
+</div>
+<div class="max-w-7xl mx-auto">
+<div class="space-y-6">
+<?php if (function_exists('aakaari_build_render_client_projects')) { echo aakaari_build_render_client_projects(); } ?>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border">
+<div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-muted-foreground mb-1">Open Tickets</p>
+<p class="text-3xl font-bold">3</p>
+</div>
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket h-6 w-6 text-blue-600">
+<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z">
+</path>
+<path d="M13 5v2">
+</path>
+<path d="M13 17v2">
+</path>
+<path d="M13 11v2">
+</path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border">
+<div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-muted-foreground mb-1">In Progress</p>
+<p class="text-3xl font-bold">2</p>
+</div>
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-50">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-6 w-6 text-orange-600">
+<circle cx="12" cy="12" r="10">
+</circle>
+<polyline points="12 6 12 12 16 14">
+</polyline>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border">
+<div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-muted-foreground mb-1">Completed</p>
+<p class="text-3xl font-bold">12</p>
+</div>
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-green-50">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-green-600">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border">
+<div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-muted-foreground mb-1">Active Plans</p>
+<p class="text-3xl font-bold">1</p>
+</div>
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-50">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar h-6 w-6 text-purple-600">
+<path d="M8 2v4">
+</path>
+<path d="M16 2v4">
+</path>
+<rect width="18" height="18" x="3" y="4" rx="2">
+</rect>
+<path d="M3 10h18">
+</path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border lg:col-span-2">
+<div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
+<div class="flex items-center justify-between">
+<h4 data-slot="card-title" class="leading-none">Recent Tickets</h4>
+<button data-slot="button" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5">View All</button>
+</div>
+</div>
+<div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
+<div class="space-y-4">
+<div class="flex items-start justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-sm font-mono text-muted-foreground">#TKT-1234</span>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&amp;]:hover:bg-secondary/90 bg-orange-100 text-orange-800">in-progress</span>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground bg-red-100 text-red-800">high</span>
+</div>
+<h4 class="mb-2">Plugin conflict causing 500 error</h4>
+<div class="flex items-center gap-4 text-sm text-muted-foreground">
+<span class="flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user h-3 w-3 mr-1">
+<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2">
+</path>
+<circle cx="12" cy="7" r="4">
+</circle>
+</svg>John Smith</span>
+<span class="flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-3 w-3 mr-1">
+<circle cx="12" cy="12" r="10">
+</circle>
+<polyline points="12 6 12 12 16 14">
+</polyline>
+</svg>Updated 3 hours ago</span>
+</div>
+</div>
+<button data-slot="button" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5">View</button>
+</div>
+<div class="flex items-start justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-sm font-mono text-muted-foreground">#TKT-1235</span>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&amp;]:hover:bg-secondary/90 bg-blue-100 text-blue-800">open</span>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground bg-yellow-100 text-yellow-800">medium</span>
+</div>
+<h4 class="mb-2">Slow page load times</h4>
+<div class="flex items-center gap-4 text-sm text-muted-foreground">
+<span class="flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user h-3 w-3 mr-1">
+<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2">
+</path>
+<circle cx="12" cy="7" r="4">
+</circle>
+</svg>Unassigned</span>
+<span class="flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-3 w-3 mr-1">
+<circle cx="12" cy="12" r="10">
+</circle>
+<polyline points="12 6 12 12 16 14">
+</polyline>
+</svg>Updated 1 day ago</span>
+</div>
+</div>
+<button data-slot="button" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5">View</button>
+</div>
+<div class="flex items-start justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-sm font-mono text-muted-foreground">#TKT-1232</span>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&amp;]:hover:bg-secondary/90 bg-green-100 text-green-800">completed</span>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground bg-red-100 text-red-800">high</span>
+</div>
+<h4 class="mb-2">Contact form not sending emails</h4>
+<div class="flex items-center gap-4 text-sm text-muted-foreground">
+<span class="flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user h-3 w-3 mr-1">
+<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2">
+</path>
+<circle cx="12" cy="7" r="4">
+</circle>
+</svg>Sarah Johnson</span>
+<span class="flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-3 w-3 mr-1">
+<circle cx="12" cy="12" r="10">
+</circle>
+<polyline points="12 6 12 12 16 14">
+</polyline>
+</svg>Updated 2 days ago</span>
+</div>
+</div>
+<button data-slot="button" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5">View</button>
+</div>
+</div>
+</div>
+</div>
+<div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border">
+<div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
+<h4 data-slot="card-title" class="leading-none">Upcoming Tasks</h4>
+<p data-slot="card-description" class="text-muted-foreground">Scheduled maintenance &amp; updates</p>
+</div>
+<div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
+<div class="space-y-4">
+<div class="flex items-start">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mr-3 flex-shrink-0">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar h-5 w-5 text-primary">
+<path d="M8 2v4">
+</path>
+<path d="M16 2v4">
+</path>
+<rect width="18" height="18" x="3" y="4" rx="2">
+</rect>
+<path d="M3 10h18">
+</path>
+</svg>
+</div>
+<div>
+<p class="font-medium text-sm">WordPress core update to 6.5</p>
+<p class="text-xs text-muted-foreground">Feb 5, 2026</p>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground text-xs mt-1">Maintenance</span>
+</div>
+</div>
+<div class="flex items-start">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mr-3 flex-shrink-0">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar h-5 w-5 text-primary">
+<path d="M8 2v4">
+</path>
+<path d="M16 2v4">
+</path>
+<rect width="18" height="18" x="3" y="4" rx="2">
+</rect>
+<path d="M3 10h18">
+</path>
+</svg>
+</div>
+<div>
+<p class="font-medium text-sm">Security scan scheduled</p>
+<p class="text-xs text-muted-foreground">Feb 8, 2026</p>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground text-xs mt-1">Security</span>
+</div>
+</div>
+<div class="flex items-start">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mr-3 flex-shrink-0">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar h-5 w-5 text-primary">
+<path d="M8 2v4">
+</path>
+<path d="M16 2v4">
+</path>
+<rect width="18" height="18" x="3" y="4" rx="2">
+</rect>
+<path d="M3 10h18">
+</path>
+</svg>
+</div>
+<div>
+<p class="font-medium text-sm">Monthly backup verification</p>
+<p class="text-xs text-muted-foreground">Feb 10, 2026</p>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground text-xs mt-1">Backup</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border">
+<div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
+<h4 data-slot="card-title" class="leading-none">Ticket Trends</h4>
+<p data-slot="card-description" class="text-muted-foreground">Last 5 months</p>
+</div>
+<div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
+<div class="recharts-responsive-container" style="width:100%;height:250px;min-width:0">
+</div>
+</div>
+</div>
+<div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border">
+<div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
+<h4 data-slot="card-title" class="leading-none">Ticket Status</h4>
+<p data-slot="card-description" class="text-muted-foreground">Distribution of all tickets</p>
+</div>
+<div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
+<div class="flex items-center justify-between">
+<div class="recharts-responsive-container" style="width:50%;height:200px;min-width:0">
+</div>
+<div class="space-y-2">
+<div class="flex items-center">
+<div class="h-3 w-3 rounded-full mr-2" style="background-color:#10b981">
+</div>
+<span class="text-sm">Completed</span>
+<span class="text-sm font-medium ml-auto">12</span>
+</div>
+<div class="flex items-center">
+<div class="h-3 w-3 rounded-full mr-2" style="background-color:#f59e0b">
+</div>
+<span class="text-sm">In Progress</span>
+<span class="text-sm font-medium ml-auto">2</span>
+</div>
+<div class="flex items-center">
+<div class="h-3 w-3 rounded-full mr-2" style="background-color:#0066FF">
+</div>
+<span class="text-sm">Open</span>
+<span class="text-sm font-medium ml-auto">3</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border border-primary">
+<div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
+<div class="flex items-center justify-between">
+<div>
+<h4 data-slot="card-title" class="leading-none">Active Maintenance Plan</h4>
+<p data-slot="card-description" class="text-muted-foreground">Pro Plan - Renews Feb 28, 2026</p>
+</div>
+<span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent text-primary-foreground [a&amp;]:hover:bg-primary/90 bg-primary">Active</span>
+</div>
+</div>
+<div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div>
+<p class="text-sm text-muted-foreground mb-2">Support Hours Used</p>
+<div aria-valuemax="100" aria-valuemin="0" role="progressbar" data-state="indeterminate" data-max="100" data-slot="progress" class="bg-primary/20 relative h-2 w-full overflow-hidden rounded-full mb-2">
+<div data-state="indeterminate" data-max="100" data-slot="progress-indicator" class="bg-primary h-full w-full flex-1 transition-all" style="transform:translateX(-40%)">
+</div>
+</div>
+<p class="text-sm font-medium">3 of 5 hours used</p>
+</div>
+<div>
+<p class="text-sm text-muted-foreground mb-2">Content Updates</p>
+<div aria-valuemax="100" aria-valuemin="0" role="progressbar" data-state="indeterminate" data-max="100" data-slot="progress" class="bg-primary/20 relative h-2 w-full overflow-hidden rounded-full mb-2">
+<div data-state="indeterminate" data-max="100" data-slot="progress-indicator" class="bg-primary h-full w-full flex-1 transition-all" style="transform:translateX(-80%)">
+</div>
+</div>
+<p class="text-sm font-medium">12 of 60 minutes used</p>
+</div>
+<div class="flex items-center">
+<button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full">Upgrade Plan</button>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 has-[&gt;svg]:px-3 h-auto py-4 flex-col">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket h-6 w-6 mb-2">
+<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z">
+</path>
+<path d="M13 5v2">
+</path>
+<path d="M13 17v2">
+</path>
+<path d="M13 11v2">
+</path>
+</svg>
+<span>Submit New Ticket</span>
+</button>
+<button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 has-[&gt;svg]:px-3 h-auto py-4 flex-col">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square h-6 w-6 mb-2">
+<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z">
+</path>
+</svg>
+<span>Start Live Chat</span>
+</button>
+<button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 has-[&gt;svg]:px-3 h-auto py-4 flex-col">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text h-6 w-6 mb-2">
+<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z">
+</path>
+<path d="M14 2v4a2 2 0 0 0 2 2h4">
+</path>
+<path d="M10 9H8">
+</path>
+<path d="M16 13H8">
+</path>
+<path d="M16 17H8">
+</path>
+</svg>
+<span>View Invoices</span>
+</button>
+<button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 has-[&gt;svg]:px-3 h-auto py-4 flex-col">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield h-6 w-6 mb-2">
+<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
+</path>
+</svg>
+<span>Manage Access</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+<?php
+get_footer('minimal');
+?>

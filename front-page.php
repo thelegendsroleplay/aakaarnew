@@ -1,347 +1,1330 @@
 <?php
 get_header();
-
-$issue_products = aakaari_get_issue_products(6);
-$placeholders = [
-    [
-        'title' => __('White Screen of Death (WSOD)', 'aakaari'),
-        'price' => __('From $79', 'aakaari'),
-        'duration' => __('24 hours', 'aakaari'),
-        'description' => __('Your WordPress site displays a blank white screen with no error message.', 'aakaari'),
-        'badge' => __('Popular', 'aakaari'),
-    ],
-    [
-        'title' => __('WooCommerce Checkout Not Working', 'aakaari'),
-        'price' => __('From $99', 'aakaari'),
-        'duration' => __('24 hours', 'aakaari'),
-        'description' => __('Customers cannot complete purchases on your WooCommerce checkout.', 'aakaari'),
-        'badge' => __('Popular', 'aakaari'),
-    ],
-    [
-        'title' => __('Slow Loading Website', 'aakaari'),
-        'price' => __('From $129', 'aakaari'),
-        'duration' => __('48 hours', 'aakaari'),
-        'description' => __('Your WordPress site takes too long to load, affecting user experience.', 'aakaari'),
-        'badge' => __('Popular', 'aakaari'),
-    ],
-    [
-        'title' => __('Hacked Site / Malware Removal', 'aakaari'),
-        'price' => __('From $199', 'aakaari'),
-        'duration' => __('48 hours', 'aakaari'),
-        'description' => __('Your site has been compromised with malware or hacked content.', 'aakaari'),
-        'badge' => __('Popular', 'aakaari'),
-    ],
-    [
-        'title' => __('PHP Fatal Error', 'aakaari'),
-        'price' => __('From $89', 'aakaari'),
-        'duration' => __('24 hours', 'aakaari'),
-        'description' => __('Your site shows PHP errors or stops working due to code issues.', 'aakaari'),
-        'badge' => __('Popular', 'aakaari'),
-    ],
-    [
-        'title' => __('My Issue Is Not Listed', 'aakaari'),
-        'price' => __('From $49', 'aakaari'),
-        'duration' => __('24 hours', 'aakaari'),
-        'description' => __('Describe your unique WordPress or WooCommerce problem.', 'aakaari'),
-        'badge' => __('Popular', 'aakaari'),
-    ],
-];
 ?>
-
-<section class="section hero hero-centered">
-    <div class="container hero-content hero-animate" data-animate>
-        <div class="hero-pill">
-            <span class="pill-dot"></span>
-            Premium WordPress &amp; WooCommerce Support Platform
-        </div>
-        <h1 class="hero-title">
-            Fix WordPress Issues
-            <span class="hero-highlight">Fast &amp; Fair</span>
-        </h1>
-        <p class="hero-subtitle">Choose your issue. Pay a fixed price. Share details. Get it fixed.</p>
-        <p class="hero-note">No bidding. No surprises. No delays.</p>
-        <div class="button-group hero-actions">
-            <a class="btn btn-primary" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">
-                Fix an Issue Now
-                <span aria-hidden="true">→</span>
-            </a>
-            <a class="btn btn-outline" href="<?php echo esc_url(home_url('/plans/')); ?>">View Maintenance Plans</a>
-        </div>
-        <div class="trust-cards" data-animate>
-            <div class="trust-card">
-                <span class="trust-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" role="img">
-                        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
-                        <path d="M8 12.5l2.5 2.5L16 9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <span>Fixed Pricing</span>
-            </div>
-            <div class="trust-card">
-                <span class="trust-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" role="img">
-                        <path d="M12 3v4m0 10v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <path d="M6 7a7 7 0 1 1-1 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <path d="M5 14l-1.5 3.5L7 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <span>Upgrade or Refund</span>
-            </div>
-            <div class="trust-card">
-                <span class="trust-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" role="img">
-                        <rect x="6" y="11" width="12" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2" />
-                        <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                </span>
-                <span>Secure Payments</span>
-            </div>
-            <div class="trust-card">
-                <span class="trust-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" role="img">
-                        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
-                        <path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <span>Delivery Tracking</span>
-            </div>
-        </div>
-    </div>
+<div class="w-full pt-24 overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+<section class="relative py-20 md:py-32 px-4">
+<div class="container mx-auto relative z-10">
+<div class="max-w-5xl mx-auto text-center">
+<div>
+<span data-slot="badge" class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 mb-6 px-4 py-2 rounded-full bg-blue-50 text-blue-600 border-blue-200">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles h-4 w-4 mr-2">
+<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z">
+</path>
+<path d="M20 3v4">
+</path>
+<path d="M22 5h-4">
+</path>
+<path d="M4 17v2">
+</path>
+<path d="M5 18H3">
+</path>
+</svg>Handled by Real Experts</span>
+<h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-gray-900 leading-tight">Website Issues<br/>
+<span class="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">Fixed by Professionals</span>
+</h1>
+<p class="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">Professional WordPress support from experienced engineers. Get your website fixed fast with transparent pricing and secure access handling.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<a href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground hover:bg-primary/90 h-10 has-[&gt;svg]:px-4 rounded-full px-8 py-6 text-lg bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-xl shadow-blue-500/30 group">Get Help Now<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform">
+<path d="M5 12h14">
+</path>
+<path d="m12 5 7 7-7 7">
+</path>
+</svg>
+</a>
+<a href="<?php echo esc_url(home_url('/maintenance/')); ?>" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 has-[&gt;svg]:px-4 rounded-full px-8 py-6 text-lg border-2">View Maintenance Plans</a>
+</div>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 text-center hover:shadow-xl transition-all border-gray-200 bg-white">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-8 w-8 mx-auto mb-3 text-blue-600">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<div class="text-3xl md:text-4xl font-bold text-gray-900 mb-1">2,500+</div>
+<div class="text-gray-600 text-sm">Issues Fixed</div>
+</div>
+</div>
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 text-center hover:shadow-xl transition-all border-gray-200 bg-white">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up h-8 w-8 mx-auto mb-3 text-blue-600">
+<polyline points="22 7 13.5 15.5 8.5 10.5 2 17">
+</polyline>
+<polyline points="16 7 22 7 22 13">
+</polyline>
+</svg>
+<div class="text-3xl md:text-4xl font-bold text-gray-900 mb-1">98%</div>
+<div class="text-gray-600 text-sm">Success Rate</div>
+</div>
+</div>
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 text-center hover:shadow-xl transition-all border-gray-200 bg-white">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-8 w-8 mx-auto mb-3 text-blue-600">
+<circle cx="12" cy="12" r="10">
+</circle>
+<polyline points="12 6 12 12 16 14">
+</polyline>
+</svg>
+<div class="text-3xl md:text-4xl font-bold text-gray-900 mb-1">&lt; 2hrs</div>
+<div class="text-gray-600 text-sm">Avg Response</div>
+</div>
+</div>
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 text-center hover:shadow-xl transition-all border-gray-200 bg-white">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users h-8 w-8 mx-auto mb-3 text-blue-600">
+<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2">
+</path>
+<circle cx="9" cy="7" r="4">
+</circle>
+<path d="M22 21v-2a4 4 0 0 0-3-3.87">
+</path>
+<path d="M16 3.13a4 4 0 0 1 0 7.75">
+</path>
+</svg>
+<div class="text-3xl md:text-4xl font-bold text-gray-900 mb-1">500+</div>
+<div class="text-gray-600 text-sm">Happy Clients</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<section class="section section-muted">
-    <div class="container" data-animate>
-        <div class="section-heading center issues-heading">
-            <h2>Popular Issues We Fix</h2>
-            <p class="muted">Browse our most common fixes with transparent, fixed pricing</p>
-        </div>
-        <div class="grid grid-3 issues-grid">
-            <?php for ($i = 0; $i < 6; $i++) : ?>
-                <?php $product = $issue_products[$i] ?? null; ?>
-                <div class="card issue-card issue-card-alt" data-animate>
-                    <div class="issue-card-header">
-                        <div class="issue-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" role="img">
-                                <path d="M13 2L3 14h7l-1 8 12-14h-7l1-8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <span class="issue-badge"><?php echo esc_html($placeholders[$i]['badge']); ?></span>
-                    </div>
-                    <div class="issue-card-body">
-                        <h3>
-                            <?php if ($product) : ?>
-                                <?php echo esc_html($product->get_name()); ?>
-                            <?php else : ?>
-                                <?php echo esc_html($placeholders[$i]['title']); ?>
-                            <?php endif; ?>
-                        </h3>
-                        <p class="muted">
-                            <?php
-                            if ($product && $product->get_short_description()) {
-                                echo wp_kses_post(wp_trim_words($product->get_short_description(), 18));
-                            } else {
-                                echo esc_html($placeholders[$i]['description']);
-                            }
-                            ?>
-                        </p>
-                    </div>
-                    <div class="issue-card-price">
-                        <span class="price-label">Starting at</span>
-                        <span class="price-amount">
-                            <?php if ($product && $product->get_price()) : ?>
-                                <?php echo wp_kses_post(wc_price($product->get_price())); ?>
-                            <?php else : ?>
-                                <?php echo esc_html(str_replace('From ', '', $placeholders[$i]['price'])); ?>
-                            <?php endif; ?>
-                        </span>
-                    </div>
-                    <div class="issue-card-meta">
-                        <span class="meta-item">
-                            <span class="meta-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" role="img">
-                                    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
-                                    <path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </span>
-                            <?php echo esc_html($product ? __('24 hours', 'aakaari') : $placeholders[$i]['duration']); ?>
-                        </span>
-                        <span class="meta-item">Fixed Price</span>
-                    </div>
-                    <div class="issue-card-footer">
-                        <a class="btn btn-primary" href="<?php echo esc_url($product ? $product->get_permalink() : home_url('/fix-an-issue/')); ?>">
-                            View Details
-                            <span aria-hidden="true">→</span>
-                        </a>
-                    </div>
-                </div>
-            <?php endfor; ?>
-        </div>
-        <div class="center" data-animate>
-            <a class="btn btn-outline" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">
-                View All Issues
-                <span aria-hidden="true">→</span>
-            </a>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container" data-animate>
-        <div class="section-heading center steps-heading">
-            <h2>How It Works</h2>
-            <p class="muted">Get your WordPress issue fixed in three simple steps</p>
-        </div>
-        <div class="grid grid-3 steps-grid">
-            <div class="card step-card-alt" data-animate>
-                <div class="step-number">1</div>
-                <div class="step-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" role="img">
-                        <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="2" />
-                        <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" />
-                    </svg>
-                </div>
-                <h3>Choose Your Issue</h3>
-                <p class="muted">Browse our catalog and select the exact problem you're facing. Each issue has clear descriptions and fixed pricing.</p>
-            </div>
-            <div class="card step-card-alt" data-animate>
-                <div class="step-number">2</div>
-                <div class="step-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" role="img">
-                        <rect x="4" y="7" width="16" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2" />
-                        <path d="M4 11h16" fill="none" stroke="currentColor" stroke-width="2" />
-                    </svg>
-                </div>
-                <h3>Pay Fixed Price</h3>
-                <p class="muted">Select your tier (Basic/Advanced/Critical) based on complexity. Pay securely via WooCommerce checkout.</p>
-            </div>
-            <div class="card step-card-alt" data-animate>
-                <div class="step-number">3</div>
-                <div class="step-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" role="img">
-                        <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" />
-                        <path d="M9 12.5l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-                <h3>We Fix It Fast</h3>
-                <p class="muted">After payment, share your site details through our secure form. Then relax while our experts work on your issue.</p>
-            </div>
-        </div>
-        <div class="notice-card notice-card-alt" data-animate>
-            <div class="notice-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="img">
-                    <path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+              <div class="flex items-start p-4 bg-white rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout h-6 w-6 text-blue-600 mr-3 mt-1">
+                  <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                  <path d="M3 9h18"></path>
+                  <path d="M9 21V9"></path>
                 </svg>
+                <div>
+                  <p class="font-semibold text-gray-900">Theme Development</p>
+                  <p class="text-sm text-gray-600">Unique design that matches your brand</p>
+                </div>
+              </div>
+              <div class="flex items-start p-4 bg-white rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings h-6 w-6 text-green-600 mr-3 mt-1">
+                  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <div>
+                  <p class="font-semibold text-gray-900">API Integration</p>
+                  <p class="text-sm text-gray-600">Connect with third-party services</p>
+                </div>
+              </div>
+              <div class="flex items-start p-4 bg-white rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database h-6 w-6 text-red-600 mr-3 mt-1">
+                  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+                  <path d="M3 12A9 3 0 0 0 21 12"></path>
+                </svg>
+                <div>
+                  <p class="font-semibold text-gray-900">Database Solutions</p>
+                  <p class="text-sm text-gray-600">Advanced data management systems</p>
+                </div>
+              </div>
             </div>
-            <div>
-                <strong>Fair Pricing Guarantee</strong>
-                <p class="muted">If the selected tier doesn't match complexity, we'll offer a clear upgrade option or provide a full refund. No hidden fees, no surprises.</p>
-            </div>
+          </div>
         </div>
+        <div class="order-1 lg:order-2">
+          <span class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 mb-6 px-4 py-2 rounded-full bg-purple-50 text-purple-600 border-purple-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-2 h-4 w-4 mr-2">
+              <path d="m18 16 4-4-4-4"></path>
+              <path d="m6 8-4 4 4 4"></path>
+              <path d="m14.5 4-5 16"></path>
+            </svg>
+            Custom Development
+          </span>
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+            Build Something
+            <br>
+            <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Extraordinary
+            </span>
+          </h2>
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+            Need more than just fixes? We build custom WordPress solutions tailored to your exact requirements. From plugins to complete platforms.
+          </p>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-purple-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Custom Plugin Development</p>
+                <p class="text-sm text-gray-600">Unique functionality built from scratch</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-purple-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Theme Development</p>
+                <p class="text-sm text-gray-600">Custom design that converts visitors</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-purple-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">API Integration</p>
+                <p class="text-sm text-gray-600">Connect with any service or platform</p>
+              </div>
+            </div>
+          </div>
+          <a href="<?php echo esc_url(home_url('/build-solutions/')); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 has-[&gt;svg]:px-4 rounded-full px-8 py-6 text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-xl text-white">
+            Start Your Project
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2 h-5 w-5">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<section class="section section-muted">
-    <div class="container" data-animate>
-        <div class="section-heading center">
-            <h2>Issue Categories</h2>
-            <p class="muted">Find your specific problem type</p>
+<section class="py-20 md:py-32 px-4 bg-white">
+<div class="container mx-auto">
+<div class="text-center mb-16">
+<span data-slot="badge" class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 mb-6 px-4 py-2 rounded-full bg-blue-50 text-blue-600 border-blue-200">Issues We Solve</span>
+<h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">Every WordPress Problem, Fixed</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">From critical emergencies to performance optimization, we handle it all</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto mb-12">
+<div>
+          <div data-slot="card" class="issue-card text-card-foreground flex flex-col gap-6 rounded-xl p-6 hover:shadow-xl transition-all border-2 border-gray-200 hover:border-blue-300 bg-white h-full">
+<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 border-blue-200 border mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-xml h-6 w-6 text-blue-600">
+<path d="m18 16 4-4-4-4">
+</path>
+<path d="m6 8-4 4 4 4">
+</path>
+<path d="m14.5 4-5 16">
+</path>
+</svg>
+</div>
+<h3 class="text-xl font-bold mb-3 text-gray-900">WordPress Core</h3>
+<ul class="space-y-2 mb-4">
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>White Screen of Death</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Plugin Conflicts</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Forms Not Working</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Site Down</span>
+</li>
+</ul>
+<div class="pt-4 border-t border-gray-200">
+<p class="text-sm text-gray-500">Starting from</p>
+<p class="text-lg font-bold text-gray-900">$15 - $99</p>
+<div class="mt-4 opacity-0 hover-indicator">
+<p class="text-sm text-blue-600 font-medium flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-4 w-4 mr-1">
+<path d="M5 12h14"></path>
+<path d="m12 5 7 7-7 7"></path>
+</svg>
+Click to fix this issue
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+          <div data-slot="card" class="issue-card text-card-foreground flex flex-col gap-6 rounded-xl p-6 hover:shadow-xl transition-all border-2 border-gray-200 hover:border-blue-300 bg-white h-full">
+<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-50 border-purple-200 border mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server h-6 w-6 text-purple-600">
+<rect width="20" height="8" x="2" y="2" rx="2" ry="2">
+</rect>
+<rect width="20" height="8" x="2" y="14" rx="2" ry="2">
+</rect>
+<line x1="6" x2="6.01" y1="6" y2="6">
+</line>
+<line x1="6" x2="6.01" y1="18" y2="18">
+</line>
+</svg>
+</div>
+<h3 class="text-xl font-bold mb-3 text-gray-900">Infrastructure</h3>
+<ul class="space-y-2 mb-4">
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>500 Server Error</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Database Issues</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Email Problems</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>DNS/Domain</span>
+</li>
+</ul>
+<div class="pt-4 border-t border-gray-200">
+<p class="text-sm text-gray-500">Starting from</p>
+<p class="text-lg font-bold text-gray-900">$15 - $149</p>
+<div class="mt-4 opacity-0 hover-indicator">
+<p class="text-sm text-blue-600 font-medium flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-4 w-4 mr-1">
+<path d="M5 12h14"></path>
+<path d="m12 5 7 7-7 7"></path>
+</svg>
+Click to fix this issue
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div data-slot="card" class="issue-card text-card-foreground flex flex-col gap-6 rounded-xl p-6 hover:shadow-xl transition-all border-2 border-gray-200 hover:border-blue-300 bg-white h-full">
+<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 border-red-200 border mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock h-6 w-6 text-red-600">
+<rect width="18" height="11" x="3" y="11" rx="2" ry="2">
+</rect>
+<path d="M7 11V7a5 5 0 0 1 10 0v4">
+</path>
+</svg>
+</div>
+<h3 class="text-xl font-bold mb-3 text-gray-900">Security</h3>
+<ul class="space-y-2 mb-4">
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Hacked Website</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Malware Removal</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>SSL Errors</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Redirect Hacks</span>
+</li>
+</ul>
+<div class="pt-4 border-t border-gray-200">
+<p class="text-sm text-gray-500">Starting from</p>
+<p class="text-lg font-bold text-gray-900">$15 - $149</p>
+</div>
+</div>
+</div>
+<div>
+<div data-slot="card" class="issue-card text-card-foreground flex flex-col gap-6 rounded-xl p-6 hover:shadow-xl transition-all border-2 border-gray-200 hover:border-blue-300 bg-white h-full">
+<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 border-emerald-200 border mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart h-6 w-6 text-emerald-600">
+<circle cx="8" cy="21" r="1">
+</circle>
+<circle cx="19" cy="21" r="1">
+</circle>
+<path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12">
+</path>
+</svg>
+</div>
+<h3 class="text-xl font-bold mb-3 text-gray-900">WooCommerce</h3>
+<ul class="space-y-2 mb-4">
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Payment Gateway</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Checkout Issues</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Orders Not Processing</span>
+</li>
+</ul>
+<div class="pt-4 border-t border-gray-200">
+<p class="text-sm text-gray-500">Starting from</p>
+<p class="text-lg font-bold text-gray-900">$25 - $149</p>
+<div class="mt-4 opacity-0 hover-indicator">
+<p class="text-sm text-blue-600 font-medium flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-4 w-4 mr-1">
+<path d="M5 12h14"></path>
+<path d="m12 5 7 7-7 7"></path>
+</svg>
+Click to fix this issue
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div data-slot="card" class="issue-card text-card-foreground flex flex-col gap-6 rounded-xl p-6 hover:shadow-xl transition-all border-2 border-gray-200 hover:border-blue-300 bg-white h-full">
+<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-50 border-yellow-200 border mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap h-6 w-6 text-yellow-600">
+<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z">
+</path>
+</svg>
+</div>
+<h3 class="text-xl font-bold mb-3 text-gray-900">Performance</h3>
+<ul class="space-y-2 mb-4">
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Slow Loading</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Core Web Vitals</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Mobile Responsive</span>
+</li>
+</ul>
+<div class="pt-4 border-t border-gray-200">
+<p class="text-sm text-gray-500">Starting from</p>
+<p class="text-lg font-bold text-gray-900">$19 - $119</p>
+<div class="mt-4 opacity-0 hover-indicator">
+<p class="text-sm text-blue-600 font-medium flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-4 w-4 mr-1">
+<path d="M5 12h14"></path>
+<path d="m12 5 7 7-7 7"></path>
+</svg>
+Click to fix this issue
+</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div data-slot="card" class="issue-card text-card-foreground flex flex-col gap-6 rounded-xl p-6 hover:shadow-xl transition-all border-2 border-gray-200 hover:border-blue-300 bg-white h-full">
+<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 border-indigo-200 border mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database h-6 w-6 text-indigo-600">
+<ellipse cx="12" cy="5" rx="9" ry="3">
+</ellipse>
+<path d="M3 5V19A9 3 0 0 0 21 19V5">
+</path>
+<path d="M3 12A9 3 0 0 0 21 12">
+</path>
+</svg>
+</div>
+<h3 class="text-xl font-bold mb-3 text-gray-900">Database</h3>
+<ul class="space-y-2 mb-4">
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Connection Errors</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Data Migration</span>
+</li>
+<li class="flex items-start text-sm text-gray-600">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-4 w-4 text-blue-600 mr-2 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<span>Backup &amp; Restore</span>
+</li>
+</ul>
+<div class="pt-4 border-t border-gray-200">
+<p class="text-sm text-gray-500">Starting from</p>
+<p class="text-lg font-bold text-gray-900">$19 - $99</p>
+<div class="mt-4 opacity-0 hover-indicator">
+<p class="text-sm text-blue-600 font-medium flex items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-4 w-4 mr-1">
+<path d="M5 12h14"></path>
+<path d="m12 5 7 7-7 7"></path>
+</svg>
+Click to fix this issue
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center">
+        <a href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground hover:bg-primary/90 h-10 has-[&gt;svg]:px-4 rounded-full px-10 py-6 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg">View All Issues &amp; Pricing<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2 h-5 w-5">
+            <path d="M5 12h14">
+            </path>
+            <path d="m12 5 7 7-7 7">
+            </path>
+          </svg>
+        </a>
+      </div>
+</div>
+
+<!-- Interactive CSS and JavaScript for Issues We Solve Section -->
+<section class="py-20 md:py-32 px-4 bg-gradient-to-br from-gray-50 to-blue-50">
+  <div class="container mx-auto">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 mb-6 px-4 py-2 rounded-full bg-green-50 text-green-600 border-green-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings h-4 w-4 mr-2">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            Proactive Maintenance
+          </span>
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+            Keep Your Website
+            <br>
+            <span class="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              Running Smoothly
+            </span>
+          </h2>
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+            Prevent issues before they happen with our comprehensive maintenance plans. Regular updates, security monitoring, and performance optimization.
+          </p>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-green-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Weekly Security Scans</p>
+                <p class="text-sm text-gray-600">Proactive malware detection and removal</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-green-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Plugin & Core Updates</p>
+                <p class="text-sm text-gray-600">Keep WordPress updated and secure</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-green-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Performance Monitoring</p>
+                <p class="text-sm text-gray-600">Track speed and optimize regularly</p>
+              </div>
+            </div>
+          </div>
+          <a href="<?php echo esc_url(home_url('/maintenance/')); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 has-[&gt;svg]:px-4 rounded-full px-8 py-6 text-lg bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-xl text-white">
+            View Maintenance Plans
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2 h-5 w-5">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
         </div>
-        <div class="grid grid-3 categories-grid">
-            <div class="card category-card" data-animate>
-                <div class="category-icon">⌘</div>
-                <h3>WordPress Core</h3>
+        <div class="relative">
+          <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-2xl font-bold text-gray-900">Maintenance Plans</h3>
+              <span class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 px-2.5 py-0.5 rounded-full bg-green-100 text-green-800">Save 30%</span>
             </div>
-            <div class="card category-card" data-animate>
-                <div class="category-icon">🛒</div>
-                <h3>WooCommerce</h3>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                <div>
+                  <p class="font-semibold text-gray-900">Basic Plan</p>
+                  <p class="text-sm text-gray-600">Essential maintenance</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-2xl font-bold text-gray-900">$49</p>
+                  <p class="text-sm text-gray-500">per month</p>
+                </div>
+              </div>
+              <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+                <div>
+                  <p class="font-semibold text-gray-900">Standard Plan</p>
+                  <p class="text-sm text-gray-600">Most Popular</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-2xl font-bold text-blue-600">$99</p>
+                  <p class="text-sm text-gray-500">per month</p>
+                </div>
+              </div>
+              <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                <div>
+                  <p class="font-semibold text-gray-900">Premium Plan</p>
+                  <p class="text-sm text-gray-600">Complete care</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-2xl font-bold text-gray-900">$199</p>
+                  <p class="text-sm text-gray-500">per month</p>
+                </div>
+              </div>
             </div>
-            <div class="card category-card" data-animate>
-                <div class="category-icon">⚡</div>
-                <h3>Performance</h3>
-            </div>
-            <div class="card category-card" data-animate>
-                <div class="category-icon">🔒</div>
-                <h3>Security</h3>
-            </div>
-            <div class="card category-card" data-animate>
-                <div class="category-icon">↗</div>
-                <h3>Custom Code / PHP</h3>
-            </div>
-            <div class="card category-card" data-animate>
-                <div class="category-icon">→</div>
-                <h3>My Issue Is Not Listed</h3>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<section class="section">
-    <div class="container" data-animate>
-        <div class="section-heading center">
-            <h2>Maintenance Plans</h2>
-            <p class="muted">Ongoing support and care for your WordPress site</p>
-        </div>
-        <div class="grid grid-3 plans-grid">
-            <div class="card plan-card" data-animate>
-                <h3>Basic Care</h3>
-                <p class="muted">Small sites</p>
-                <p class="price">$99<span class="muted">/month</span></p>
-                <a class="btn btn-outline" href="<?php echo esc_url(home_url('/plans/')); ?>">Learn More</a>
-            </div>
-            <div class="card plan-card featured" data-animate>
-                <span class="badge">Most Popular</span>
-                <h3>Business Care</h3>
-                <p class="muted">Business sites</p>
-                <p class="price">$199<span class="muted">/month</span></p>
-                <a class="btn btn-primary" href="<?php echo esc_url(home_url('/plans/')); ?>">Learn More</a>
-            </div>
-            <div class="card plan-card" data-animate>
-                <h3>Store Care</h3>
-                <p class="muted">WooCommerce stores</p>
-                <p class="price">$299<span class="muted">/month</span></p>
-                <a class="btn btn-outline" href="<?php echo esc_url(home_url('/plans/')); ?>">Learn More</a>
-            </div>
-        </div>
-    </div>
+<section class="py-20 md:py-32 px-4 bg-gray-50">
+<div class="container mx-auto">
+<div class="text-center mb-16">
+<span data-slot="badge" class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 mb-6 px-4 py-2 rounded-full bg-blue-50 text-blue-600 border-blue-200">Why Choose Aakaari</span>
+<h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">Professional Support You Can Trust</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 text-center hover:shadow-xl transition-all border-gray-200 bg-white h-full">
+<div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-500 shadow-lg shadow-blue-500/30 mx-auto mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-7 w-7 text-white">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+</div>
+<h3 class="text-lg font-bold mb-2 text-gray-900">24/7 Ticket Support</h3>
+<p class="text-sm text-gray-600">Submit tickets anytime, get expert responses around the clock</p>
+</div>
+</div>
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 text-center hover:shadow-xl transition-all border-gray-200 bg-white h-full">
+<div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-500 shadow-lg shadow-blue-500/30 mx-auto mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield h-7 w-7 text-white">
+<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
+</path>
+</svg>
+</div>
+<h3 class="text-lg font-bold mb-2 text-gray-900">Secure Access</h3>
+<p class="text-sm text-gray-600">Encrypted credential storage with temporary admin accounts</p>
+</div>
+</div>
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 text-center hover:shadow-xl transition-all border-gray-200 bg-white h-full">
+<div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-500 shadow-lg shadow-blue-500/30 mx-auto mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock h-7 w-7 text-white">
+<circle cx="12" cy="12" r="10">
+</circle>
+<polyline points="12 6 12 12 16 14">
+</polyline>
+</svg>
+</div>
+<h3 class="text-lg font-bold mb-2 text-gray-900">Fast Response</h3>
+<p class="text-sm text-gray-600">Priority support available with response times under 2 hours</p>
+</div>
+</div>
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 text-center hover:shadow-xl transition-all border-gray-200 bg-white h-full">
+<div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-500 shadow-lg shadow-blue-500/30 mx-auto mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up h-7 w-7 text-white">
+<polyline points="22 7 13.5 15.5 8.5 10.5 2 17">
+</polyline>
+<polyline points="16 7 22 7 22 13">
+</polyline>
+</svg>
+</div>
+<h3 class="text-lg font-bold mb-2 text-gray-900">No Hidden Charges</h3>
+<p class="text-sm text-gray-600">Fixed pricing per issue, transparent and upfront</p>
+</div>
+</div>
+</div>
+<div class="mt-16 max-w-4xl mx-auto">
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-8 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200">
+<h3 class="text-xl font-bold text-gray-900 mb-6 text-center flex items-center justify-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-6 w-6 text-blue-600 mr-2 fill-blue-600">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>Our Commitment to You</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-start">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<div>
+<p class="font-semibold text-gray-900">Standard = Most Popular</p>
+<p class="text-sm text-gray-600">Best value with fast turnaround</p>
+</div>
+</div>
+<div class="flex items-start">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<div>
+<p class="font-semibold text-gray-900">24/7 Ticket Support</p>
+<p class="text-sm text-gray-600">Always here when you need us</p>
+</div>
+</div>
+<div class="flex items-start">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<div>
+<p class="font-semibold text-gray-900">Secure Credentials</p>
+<p class="text-sm text-gray-600">Encrypted storage, temporary access</p>
+</div>
+</div>
+<div class="flex items-start">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5">
+<path d="M21.801 10A10 10 0 1 1 17 3.335">
+</path>
+<path d="m9 11 3 3L22 4">
+</path>
+</svg>
+<div>
+<p class="font-semibold text-gray-900">No Hidden Charges</p>
+<p class="text-sm text-gray-600">Transparent, fixed pricing</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 md:py-32 px-4 bg-white">
+<div class="container mx-auto">
+<div class="text-center mb-16">
+<span data-slot="badge" class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 mb-6 px-4 py-2 rounded-full bg-blue-50 text-blue-600 border-blue-200">Testimonials</span>
+<h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">Trusted by Hundreds</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-8 hover:shadow-xl transition-all border-gray-200 bg-white h-full">
+<div class="flex mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+</div>
+<p class="text-gray-700 mb-6 leading-relaxed">&quot;My site was down during Black Friday. Aakaari fixed it in 45 minutes. Absolute lifesavers!&quot;</p>
+<div class="flex items-center">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-500 text-white font-bold mr-4">SC</div>
+<div>
+<p class="font-semibold text-gray-900">Sarah Chen</p>
+<p class="text-sm text-gray-600">E-commerce Owner</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-8 hover:shadow-xl transition-all border-gray-200 bg-white h-full">
+<div class="flex mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+</div>
+<p class="text-gray-700 mb-6 leading-relaxed">&quot;We trust Aakaari with all our client emergencies. Real experts who know their stuff.&quot;</p>
+<div class="flex items-center">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-500 text-white font-bold mr-4">MR</div>
+<div>
+<p class="font-semibold text-gray-900">Marcus Rodriguez</p>
+<p class="text-sm text-gray-600">Agency Director</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border p-8 hover:shadow-xl transition-all border-gray-200 bg-white h-full">
+<div class="flex mb-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star h-5 w-5 fill-blue-500 text-blue-500">
+<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+</path>
+</svg>
+</div>
+<p class="text-gray-700 mb-6 leading-relaxed">&quot;Finally found professionals who actually understand WordPress. Worth every penny.&quot;</p>
+<div class="flex items-center">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-500 text-white font-bold mr-4">LT</div>
+<div>
+<p class="font-semibold text-gray-900">Lisa Thompson</p>
+<p class="text-sm text-gray-600">Blogger</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 md:py-32 px-4 bg-gradient-to-br from-blue-600 to-blue-500">
+<div class="container mx-auto">
+<div class="max-w-4xl mx-auto text-center text-white">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles h-16 w-16 mx-auto mb-8">
+<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z">
+</path>
+<path d="M20 3v4">
+</path>
+<path d="M22 5h-4">
+</path>
+<path d="M4 17v2">
+</path>
+<path d="M5 18H3">
+</path>
+</svg>
+<h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Fix Your Website?</h2>
+<p class="text-xl text-blue-50 mb-10 max-w-2xl mx-auto">Join hundreds of satisfied clients who trust Aakaari with their website issues. Fast, secure, and transparent.</p>
+<a href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 has-[&gt;svg]:px-4 rounded-full px-12 py-6 text-lg bg-white text-blue-600 hover:bg-gray-50 shadow-xl">Get Started Now<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2 h-5 w-5">
+<path d="M5 12h14">
+</path>
+<path d="m12 5 7 7-7 7">
+</path>
+</svg>
+</a>
+</div>
+</div>
 </section>
 
-<section class="section section-muted">
-    <div class="container" data-animate>
-        <div class="section-heading center">
-            <h2>Build Solutions</h2>
-            <p class="muted">Need something built from scratch? We can help.</p>
+<!-- Maintenance Plans Promotion Section -->
+<section class="py-20 md:py-32 px-4 bg-gradient-to-br from-gray-50 to-blue-50">
+  <div class="container mx-auto">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 mb-6 px-4 py-2 rounded-full bg-green-50 text-green-600 border-green-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings h-4 w-4 mr-2">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            Proactive Maintenance
+          </span>
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+            Keep Your Website
+            <br>
+            <span class="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              Running Smoothly
+            </span>
+          </h2>
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+            Prevent issues before they happen with our comprehensive maintenance plans. Regular updates, security monitoring, and performance optimization.
+          </p>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-green-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Weekly Security Scans</p>
+                <p class="text-sm text-gray-600">Proactive malware detection and removal</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-green-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Plugin & Core Updates</p>
+                <p class="text-sm text-gray-600">Keep WordPress updated and secure</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-green-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Performance Monitoring</p>
+                <p class="text-sm text-gray-600">Track speed and optimize regularly</p>
+              </div>
+            </div>
+          </div>
+          <a href="<?php echo esc_url(home_url('/maintenance/')); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 has-[&gt;svg]:px-4 rounded-full px-8 py-6 text-lg bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-xl text-white">
+            View Maintenance Plans
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2 h-5 w-5">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
         </div>
-        <div class="grid grid-3 build-grid">
-            <div class="card build-card" data-animate>
-                <h3>WooCommerce Store Setup</h3>
-                <a class="btn btn-outline" href="<?php echo esc_url(home_url('/build/')); ?>">Request Quote</a>
+        <div class="relative">
+          <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-2xl font-bold text-gray-900">Maintenance Plans</h3>
+              <span class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 px-2.5 py-0.5 rounded-full bg-green-100 text-green-800">Save 30%</span>
             </div>
-            <div class="card build-card" data-animate>
-                <h3>Custom WooCommerce Features</h3>
-                <a class="btn btn-outline" href="<?php echo esc_url(home_url('/build/')); ?>">Request Quote</a>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                <div>
+                  <p class="font-semibold text-gray-900">Basic Plan</p>
+                  <p class="text-sm text-gray-600">Essential maintenance</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-2xl font-bold text-gray-900">$49</p>
+                  <p class="text-sm text-gray-500">per month</p>
+                </div>
+              </div>
+              <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+                <div>
+                  <p class="font-semibold text-gray-900">Standard Plan</p>
+                  <p class="text-sm text-gray-600">Most Popular</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-2xl font-bold text-blue-600">$99</p>
+                  <p class="text-sm text-gray-500">per month</p>
+                </div>
+              </div>
+              <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                <div>
+                  <p class="font-semibold text-gray-900">Premium Plan</p>
+                  <p class="text-sm text-gray-600">Complete care</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-2xl font-bold text-gray-900">$199</p>
+                  <p class="text-sm text-gray-500">per month</p>
+                </div>
+              </div>
             </div>
-            <div class="card build-card" data-animate>
-                <h3>Custom PHP Website</h3>
-                <a class="btn btn-outline" href="<?php echo esc_url(home_url('/build/')); ?>">Request Quote</a>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<section class="section cta-strip">
-    <div class="container cta-inner" data-animate>
-        <div class="cta-content">
-            <h2>Ready to Fix Your WordPress Issue?</h2>
-            <p>Join thousands of satisfied clients who chose transparency over uncertainty</p>
+<!-- Build Solutions Promotion Section -->
+<section class="py-20 md:py-32 px-4 bg-white">
+  <div class="container mx-auto">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1">
+          <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl shadow-2xl p-8 border border-gray-200">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-2xl font-bold text-gray-900">Build Solutions</h3>
+              <span class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800">Custom Development</span>
+            </div>
+            <div class="space-y-4">
+              <div class="flex items-start p-4 bg-white rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-2 h-6 w-6 text-purple-600 mr-3 mt-1">
+                  <path d="m18 16 4-4-4-4"></path>
+                  <path d="m6 8-4 4 4 4"></path>
+                  <path d="m14.5 4-5 16"></path>
+                </svg>
+                <div>
+                  <p class="font-semibold text-gray-900">Custom Plugin Development</p>
+                  <p class="text-sm text-gray-600">Tailored functionality for your needs</p>
+                </div>
+              </div>
+              <div class="flex items-start p-4 bg-white rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout h-6 w-6 text-blue-600 mr-3 mt-1">
+                  <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                  <path d="M3 9h18"></path>
+                  <path d="M9 21V9"></path>
+                </svg>
+                <div>
+                  <p class="font-semibold text-gray-900">Theme Development</p>
+                  <p class="text-sm text-gray-600">Unique design that matches your brand</p>
+                </div>
+              </div>
+              <div class="flex items-start p-4 bg-white rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings h-6 w-6 text-green-600 mr-3 mt-1">
+                  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <div>
+                  <p class="font-semibold text-gray-900">API Integration</p>
+                  <p class="text-sm text-gray-600">Connect with third-party services</p>
+                </div>
+              </div>
+              <div class="flex items-start p-4 bg-white rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database h-6 w-6 text-red-600 mr-3 mt-1">
+                  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+                  <path d="M3 12A9 3 0 0 0 21 12"></path>
+                </svg>
+                <div>
+                  <p class="font-semibold text-gray-900">Database Solutions</p>
+                  <p class="text-sm text-gray-600">Advanced data management systems</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="button-group cta-actions">
-            <a class="btn btn-primary btn-light" href="<?php echo esc_url(home_url('/fix-an-issue/')); ?>">
-                Fix an Issue Now
-                <span aria-hidden="true">→</span>
-            </a>
-            <a class="btn btn-outline btn-light-outline" href="<?php echo esc_url(home_url('/plans/')); ?>">View Maintenance Plans</a>
+        <div class="order-1 lg:order-2">
+          <span class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 mb-6 px-4 py-2 rounded-full bg-purple-50 text-purple-600 border-purple-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-2 h-4 w-4 mr-2">
+              <path d="m18 16 4-4-4-4"></path>
+              <path d="m6 8-4 4 4 4"></path>
+              <path d="m14.5 4-5 16"></path>
+            </svg>
+            Custom Development
+          </span>
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+            Build Something
+            <br>
+            <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Extraordinary
+            </span>
+          </h2>
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+            Need more than just fixes? We build custom WordPress solutions tailored to your exact requirements. From plugins to complete platforms.
+          </p>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-purple-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Custom Plugin Development</p>
+                <p class="text-sm text-gray-600">Unique functionality built from scratch</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-purple-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Theme Development</p>
+                <p class="text-sm text-gray-600">Custom design that converts visitors</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-purple-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">API Integration</p>
+                <p class="text-sm text-gray-600">Connect with any service or platform</p>
+              </div>
+            </div>
+          </div>
+          <a href="<?php echo esc_url(home_url('/build-solutions/')); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 has-[&gt;svg]:px-4 rounded-full px-8 py-6 text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-xl text-white">
+            Start Your Project
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2 h-5 w-5">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
         </div>
+        <div class="order-1 lg:order-2">
+          <span class="inline-flex items-center justify-center border text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 mb-6 px-4 py-2 rounded-full bg-purple-50 text-purple-600 border-purple-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-2 h-4 w-4 mr-2">
+              <path d="m18 16 4-4-4-4"></path>
+              <path d="m6 8-4 4 4 4"></path>
+              <path d="m14.5 4-5 16"></path>
+            </svg>
+            Custom Development
+          </span>
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+            Build Something
+            <br>
+            <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Extraordinary
+            </span>
+          </h2>
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+            Need more than just fixes? We build custom WordPress solutions tailored to your exact requirements. From plugins to complete platforms.
+          </p>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-purple-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Custom Plugin Development</p>
+                <p class="text-sm text-gray-600">Unique functionality built from scratch</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-purple-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">Theme Development</p>
+                <p class="text-sm text-gray-600">Custom design that converts visitors</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big h-6 w-6 text-purple-600 mr-3 flex-shrink-0 mt-0.5">
+                <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <div>
+                <p class="font-semibold text-gray-900">API Integration</p>
+                <p class="text-sm text-gray-600">Connect with any service or platform</p>
+              </div>
+            </div>
+          </div>
+          <a href="<?php echo esc_url(home_url('/build-solutions/')); ?>" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-10 has-[&gt;svg]:px-4 rounded-full px-8 py-6 text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-xl text-white">
+            Start Your Project
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-2 h-5 w-5">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<?php get_footer(); ?>
+<!-- Interactive CSS and JavaScript for Issues We Solve Section -->
+<style>
+.issue-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.issue-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #3b82f6;
+}
+
+.issue-card:hover .issue-icon {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+.issue-card .hover-indicator {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.issue-card:hover .hover-indicator {
+  opacity: 1;
+}
+
+/* Animation for section entrance */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Stagger animation for cards */
+.issue-card:nth-child(1) { animation-delay: 0.1s; }
+.issue-card:nth-child(2) { animation-delay: 0.2s; }
+.issue-card:nth-child(3) { animation-delay: 0.3s; }
+.issue-card:nth-child(4) { animation-delay: 0.4s; }
+.issue-card:nth-child(5) { animation-delay: 0.5s; }
+.issue-card:nth-child(6) { animation-delay: 0.6s; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add click functionality to issue cards
+  const issueCards = document.querySelectorAll('.issue-card');
+  
+  issueCards.forEach(card => {
+    card.addEventListener('click', function() {
+      // Add visual feedback
+      this.style.transform = 'scale(0.98)';
+      
+      setTimeout(() => {
+        this.style.transform = '';
+        // Navigate to fix-an-issue page
+        window.location.href = '<?php echo esc_url(home_url('/fix-an-issue/')); ?>';
+      }, 200);
+    });
+    
+    // Add keyboard accessibility
+    card.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.click();
+      }
+    });
+    
+    // Make cards focusable
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', 'Click to fix this issue');
+  });
+  
+  // Add animation classes
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-fade-in-up');
+      }
+    });
+  });
+  
+  issueCards.forEach(card => {
+    observer.observe(card);
+  });
+});
+</script>
+
+</div>
+<?php
+get_footer();
+?>
