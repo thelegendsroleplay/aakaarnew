@@ -73,6 +73,27 @@ if (!function_exists('aakaari_fix_issue_price_text')) {
   }
 }
 
+if (!function_exists('aakaari_fix_issue_eta')) {
+  function aakaari_fix_issue_eta($issue) {
+    $from = isset($issue['from']) ? (float) $issue['from'] : 0.0;
+
+    if ($from <= 15) {
+      return '1-2 hours';
+    }
+    if ($from <= 19) {
+      return '2-4 hours';
+    }
+    if ($from <= 29) {
+      return '4-8 hours';
+    }
+    if ($from <= 39) {
+      return 'Same day';
+    }
+
+    return '1-2 days';
+  }
+}
+
 if (!function_exists('aakaari_fix_issue_urls')) {
   function aakaari_fix_issue_urls($issue) {
     $contact_url = home_url('/contact/');
@@ -428,6 +449,33 @@ $sections = array(
     ),
   ),
 );
+
+$wizard_sections = array();
+foreach ($sections as $section) {
+  $issues = array();
+  foreach ($section['issues'] as $issue) {
+    $issues[] = array(
+      'title' => $issue['title'] ?? '',
+      'desc' => $issue['desc'] ?? '',
+      'includes' => $issue['includes'] ?? array(),
+      'from' => isset($issue['from']) ? (float) $issue['from'] : 0.0,
+      'price_text' => aakaari_fix_issue_price_text($issue),
+      'icon' => $issue['icon'] ?? '',
+      'slug' => aakaari_fix_issue_slug($issue),
+      'eta' => aakaari_fix_issue_eta($issue),
+      'urls' => aakaari_fix_issue_urls($issue),
+    );
+  }
+
+  $wizard_sections[] = array(
+    'id' => $section['id'],
+    'title' => $section['title'],
+    'subtitle' => $section['subtitle'],
+    'accent' => $section['accent'],
+    'icon' => $section['icon'],
+    'issues' => $issues,
+  );
+}
 ?>
 
 <div class="fix-page">
@@ -618,103 +666,548 @@ $sections = array(
     </div>
   </section>
 
-  <!-- Category Navigation -->
-  <nav class="fix-nav" aria-label="Issue categories">
+  <!-- Issue Fixer Wizard -->
+  <section class="fix-wizard" aria-labelledby="fix-wizard-title">
     <div class="fix-container">
-      <div class="fix-nav-scroll">
-        <?php foreach ($sections as $section) { ?>
-          <a class="fix-nav-item" href="#fix-<?php echo esc_attr($section['id']); ?>" style="--accent: <?php echo esc_attr($section['accent']); ?>;">
-            <span class="fix-nav-item-dot"></span>
-            <span class="fix-nav-item-text"><?php echo esc_html($section['title']); ?></span>
-          </a>
-        <?php } ?>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <main class="fix-main">
-    <div class="fix-container">
-      <?php foreach ($sections as $section) { ?>
-        <section id="fix-<?php echo esc_attr($section['id']); ?>" class="fix-section" style="--accent: <?php echo esc_attr($section['accent']); ?>;">
-          <header class="fix-section-header">
-            <div class="fix-section-icon-wrap">
-              <div class="fix-section-icon">
-                <svg><use href="#fix-icon-<?php echo esc_attr($section['icon']); ?>"/></svg>
-              </div>
-              <div class="fix-section-icon-glow"></div>
-            </div>
-            <div class="fix-section-info">
-              <h2 class="fix-section-title"><?php echo esc_html($section['title']); ?></h2>
-              <p class="fix-section-desc"><?php echo esc_html($section['subtitle']); ?></p>
-            </div>
-          </header>
-
-          <div class="fix-cards">
-            <?php foreach ($section['issues'] as $issue) { ?>
-              <?php
-              $price_text = aakaari_fix_issue_price_text($issue);
-              $urls = aakaari_fix_issue_urls($issue);
-              ?>
-              <article class="fix-card">
-                <div class="fix-card-header">
-                  <div class="fix-card-icon">
-                    <svg><use href="#fix-icon-<?php echo esc_attr($issue['icon']); ?>"/></svg>
-                  </div>
-                  <div class="fix-card-badge"><?php echo esc_html($price_text); ?></div>
-                </div>
-
-                <div class="fix-card-content">
-                  <h3 class="fix-card-title"><?php echo esc_html($issue['title']); ?></h3>
-                  <p class="fix-card-desc"><?php echo esc_html($issue['desc']); ?></p>
-                </div>
-
-                <div class="fix-card-features">
-                  <div class="fix-card-features-label">What's included:</div>
-                  <ul class="fix-card-features-list">
-                    <?php foreach ($issue['includes'] as $item) { ?>
-                      <li>
-                        <svg class="fix-card-check"><use href="#fix-icon-check"/></svg>
-                        <span><?php echo esc_html($item); ?></span>
-                      </li>
-                    <?php } ?>
-                  </ul>
-                </div>
-
-                <div class="fix-card-actions">
-                  <a class="fix-card-btn fix-card-btn-primary" href="<?php echo esc_url($urls['checkout']); ?>">
-                    <span>Select &amp; Checkout</span>
-                    <svg><use href="#fix-icon-arrow-right"/></svg>
-                  </a>
-                  <a class="fix-card-btn fix-card-btn-secondary" href="<?php echo esc_url($urls['product']); ?>">
-                    View Details
-                  </a>
-                </div>
-              </article>
-            <?php } ?>
+      <div class="fix-wizard-shell" data-fix-wizard data-contact-url="<?php echo esc_url(home_url('/contact/')); ?>">
+        <div class="fix-wizard-top">
+          <div class="fix-wizard-intro">
+            <p class="fix-wizard-eyebrow">Issue Fixer Wizard</p>
+            <h2 id="fix-wizard-title" class="fix-wizard-title">Find the right fix in minutes</h2>
+            <p class="fix-wizard-subtitle">Describe the symptoms or pick a category. We will recommend the right repair with price and ETA.</p>
           </div>
-        </section>
-      <?php } ?>
-
-      <!-- Help CTA Section -->
-      <section class="fix-help">
-        <div class="fix-help-content">
-          <div class="fix-help-icon">
-            <svg><use href="#fix-icon-message-circle"/></svg>
-          </div>
-          <div class="fix-help-text">
-            <h3 class="fix-help-title">Not sure which issue to pick?</h3>
-            <p class="fix-help-desc">Tell us what you're experiencing and we'll route you to the right expert.</p>
+          <div class="fix-wizard-trust">
+            <div class="fix-wizard-trust-item">
+              <span class="fix-wizard-trust-value">5,000+</span>
+              <span class="fix-wizard-trust-label">Issues fixed</span>
+            </div>
+            <div class="fix-wizard-trust-item">
+              <span class="fix-wizard-trust-value">4.9/5</span>
+              <span class="fix-wizard-trust-label">Customer rating</span>
+            </div>
+            <div class="fix-wizard-trust-item">
+              <span class="fix-wizard-trust-value">2 hrs</span>
+              <span class="fix-wizard-trust-label">Avg response</span>
+            </div>
           </div>
         </div>
-        <a class="fix-help-btn" href="<?php echo esc_url(home_url('/contact/')); ?>">
-          <span>Contact Support</span>
-          <svg><use href="#fix-icon-arrow-right"/></svg>
-        </a>
-      </section>
+
+        <ol class="fix-stepper" role="list">
+          <li class="fix-stepper-item is-active" data-fix-step-item>
+            <span class="fix-stepper-dot">1</span>
+            <span class="fix-stepper-label">Describe</span>
+          </li>
+          <li class="fix-stepper-item" data-fix-step-item>
+            <span class="fix-stepper-dot">2</span>
+            <span class="fix-stepper-label">Select</span>
+          </li>
+          <li class="fix-stepper-item" data-fix-step-item>
+            <span class="fix-stepper-dot">3</span>
+            <span class="fix-stepper-label">Review</span>
+          </li>
+        </ol>
+        <div class="fix-stepper-track">
+          <span class="fix-stepper-progress" data-fix-progress></span>
+        </div>
+        <div class="fix-stepper-status">
+          <span class="fix-stepper-status-label">Current step</span>
+          <span class="fix-stepper-status-value" data-fix-step-label>Describe</span>
+        </div>
+
+        <div class="fix-step is-active" data-fix-step>
+          <div class="fix-step-grid">
+            <div class="fix-step-panel">
+              <label class="fix-step-label" for="fix-issue-search">Describe your issue</label>
+              <div class="fix-search">
+                <input id="fix-issue-search" class="fix-search-input" type="text" placeholder="Example: site down, payment failing, critical error" data-fix-search />
+                <button type="button" class="fix-search-clear" data-fix-clear>Clear</button>
+              </div>
+              <div class="fix-suggestions">
+                <button type="button" class="fix-suggestion" data-fix-suggestion="site down">Site down</button>
+                <button type="button" class="fix-suggestion" data-fix-suggestion="payment failing">Payment failing</button>
+                <button type="button" class="fix-suggestion" data-fix-suggestion="slow website">Slow website</button>
+                <button type="button" class="fix-suggestion" data-fix-suggestion="hacked">Hacked site</button>
+                <button type="button" class="fix-suggestion" data-fix-suggestion="white screen">White screen</button>
+              </div>
+              <p class="fix-step-note">Not sure what to type? Pick a category and we will narrow it down for you.</p>
+            </div>
+
+            <div class="fix-step-panel">
+              <p class="fix-step-label">Pick a category</p>
+              <div class="fix-category-grid">
+                <button type="button" class="fix-category-card is-active" data-fix-category="all" style="--accent: 99 102 241;">
+                  <span class="fix-category-icon">
+                    <svg><use href="#fix-icon-layers"/></svg>
+                  </span>
+                  <span class="fix-category-title">All Issues</span>
+                  <span class="fix-category-desc">Browse every available fix.</span>
+                </button>
+                <?php foreach ($sections as $section) { ?>
+                  <button type="button" class="fix-category-card" data-fix-category="<?php echo esc_attr($section['id']); ?>" style="--accent: <?php echo esc_attr($section['accent']); ?>;">
+                    <span class="fix-category-icon">
+                      <svg><use href="#fix-icon-<?php echo esc_attr($section['icon']); ?>"/></svg>
+                    </span>
+                    <span class="fix-category-title"><?php echo esc_html($section['title']); ?></span>
+                    <span class="fix-category-desc"><?php echo esc_html($section['subtitle']); ?></span>
+                  </button>
+                <?php } ?>
+                <a class="fix-category-card fix-category-card-ghost" href="<?php echo esc_url(home_url('/contact/')); ?>">
+                  <span class="fix-category-icon">
+                    <svg><use href="#fix-icon-message-circle"/></svg>
+                  </span>
+                  <span class="fix-category-title">Not sure?</span>
+                  <span class="fix-category-desc">Tell us what is happening.</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="fix-step-actions">
+            <button type="button" class="fix-primary-btn" data-fix-continue>Show matching issues</button>
+            <a class="fix-secondary-btn" href="<?php echo esc_url(home_url('/contact/')); ?>">I am not sure</a>
+          </div>
+        </div>
+
+        <div class="fix-step" data-fix-step hidden>
+          <div class="fix-results-header">
+            <div>
+              <p class="fix-results-kicker">Step 2</p>
+              <h3 class="fix-results-title">Select the issue that matches</h3>
+              <p class="fix-results-meta"><span data-fix-count>0</span> matches <span data-fix-filter></span></p>
+            </div>
+            <div class="fix-results-actions">
+              <button type="button" class="fix-secondary-btn" data-fix-back="0">Back</button>
+              <button type="button" class="fix-secondary-btn" data-fix-reset>Reset</button>
+            </div>
+          </div>
+          <div class="fix-results-search">
+            <input class="fix-search-input" type="text" placeholder="Filter results (ex: checkout, malware, DNS)" data-fix-search />
+          </div>
+          <div class="fix-results-grid" data-fix-results></div>
+          <div class="fix-results-footer">
+            <div class="fix-results-help">
+              <span>Still not sure? Describe the problem and we will route you to the right expert.</span>
+              <a class="fix-link" href="<?php echo esc_url(home_url('/contact/')); ?>">Contact support</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="fix-step" data-fix-step hidden>
+          <div class="fix-results-header">
+            <div>
+              <p class="fix-results-kicker">Step 3</p>
+              <h3 class="fix-results-title">Review and checkout</h3>
+              <p class="fix-results-meta">Confirm the fix scope, ETA, and pricing before checkout.</p>
+            </div>
+            <div class="fix-results-actions">
+              <button type="button" class="fix-secondary-btn" data-fix-back="1">Back</button>
+            </div>
+          </div>
+          <div class="fix-review-grid">
+            <div class="fix-review-slot" data-fix-review></div>
+            <aside class="fix-review-sidebar">
+              <div class="fix-review-panel">
+                <h4>What affects pricing</h4>
+                <ul>
+                  <li>Severity and number of affected pages</li>
+                  <li>Third-party access (hosting, DNS, payment gateways)</li>
+                  <li>Advanced recovery or security hardening needs</li>
+                </ul>
+              </div>
+              <div class="fix-review-panel fix-review-panel-accent">
+                <h4>Satisfaction guaranteed</h4>
+                <p>If we cannot resolve your issue, we will refund you. You will always know the price before work begins.</p>
+              </div>
+              <div class="fix-review-panel">
+                <h4>Need this done urgently?</h4>
+                <p>Let us know during checkout. We can prioritize critical issues and schedule an immediate response.</p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
     </div>
-  </main>
+  </section>
+
+  <details class="fix-browse">
+    <summary class="fix-browse-summary">
+      <span>Browse all issues</span>
+      <svg class="fix-browse-chevron"><use href="#fix-icon-chevron-down"/></svg>
+    </summary>
+
+    <!-- Category Navigation -->
+    <nav class="fix-nav" aria-label="Issue categories">
+      <div class="fix-container">
+        <div class="fix-nav-scroll">
+          <?php foreach ($sections as $section) { ?>
+            <a class="fix-nav-item" href="#fix-<?php echo esc_attr($section['id']); ?>" style="--accent: <?php echo esc_attr($section['accent']); ?>;">
+              <span class="fix-nav-item-dot"></span>
+              <span class="fix-nav-item-text"><?php echo esc_html($section['title']); ?></span>
+            </a>
+          <?php } ?>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="fix-main">
+      <div class="fix-container">
+        <?php foreach ($sections as $section) { ?>
+          <section id="fix-<?php echo esc_attr($section['id']); ?>" class="fix-section" style="--accent: <?php echo esc_attr($section['accent']); ?>;">
+            <header class="fix-section-header">
+              <div class="fix-section-icon-wrap">
+                <div class="fix-section-icon">
+                  <svg><use href="#fix-icon-<?php echo esc_attr($section['icon']); ?>"/></svg>
+                </div>
+                <div class="fix-section-icon-glow"></div>
+              </div>
+              <div class="fix-section-info">
+                <h2 class="fix-section-title"><?php echo esc_html($section['title']); ?></h2>
+                <p class="fix-section-desc"><?php echo esc_html($section['subtitle']); ?></p>
+              </div>
+            </header>
+
+            <div class="fix-cards">
+              <?php foreach ($section['issues'] as $issue) { ?>
+                <?php
+                $price_text = aakaari_fix_issue_price_text($issue);
+                $urls = aakaari_fix_issue_urls($issue);
+                ?>
+                <article class="fix-card">
+                  <div class="fix-card-header">
+                    <div class="fix-card-icon">
+                      <svg><use href="#fix-icon-<?php echo esc_attr($issue['icon']); ?>"/></svg>
+                    </div>
+                    <div class="fix-card-badge"><?php echo esc_html($price_text); ?></div>
+                  </div>
+
+                  <div class="fix-card-content">
+                    <h3 class="fix-card-title"><?php echo esc_html($issue['title']); ?></h3>
+                    <p class="fix-card-desc"><?php echo esc_html($issue['desc']); ?></p>
+                  </div>
+
+                  <div class="fix-card-features">
+                    <div class="fix-card-features-label">What's included:</div>
+                    <ul class="fix-card-features-list">
+                      <?php foreach ($issue['includes'] as $item) { ?>
+                        <li>
+                          <svg class="fix-card-check"><use href="#fix-icon-check"/></svg>
+                          <span><?php echo esc_html($item); ?></span>
+                        </li>
+                      <?php } ?>
+                    </ul>
+                  </div>
+
+                  <div class="fix-card-actions">
+                    <a class="fix-card-btn fix-card-btn-primary" href="<?php echo esc_url($urls['checkout']); ?>">
+                      <span>Select &amp; Checkout</span>
+                      <svg><use href="#fix-icon-arrow-right"/></svg>
+                    </a>
+                    <a class="fix-card-btn fix-card-btn-secondary" href="<?php echo esc_url($urls['product']); ?>">
+                      View Details
+                    </a>
+                  </div>
+                </article>
+              <?php } ?>
+            </div>
+          </section>
+        <?php } ?>
+
+        <!-- Help CTA Section -->
+        <section class="fix-help">
+          <div class="fix-help-content">
+            <div class="fix-help-icon">
+              <svg><use href="#fix-icon-message-circle"/></svg>
+            </div>
+            <div class="fix-help-text">
+              <h3 class="fix-help-title">Not sure which issue to pick?</h3>
+              <p class="fix-help-desc">Tell us what you're experiencing and we'll route you to the right expert.</p>
+            </div>
+          </div>
+          <a class="fix-help-btn" href="<?php echo esc_url(home_url('/contact/')); ?>">
+            <span>Contact Support</span>
+            <svg><use href="#fix-icon-arrow-right"/></svg>
+          </a>
+        </section>
+      </div>
+    </main>
+  </details>
 </div>
+
+<script type="application/json" id="aakaari-fix-data"><?php echo wp_json_encode($wizard_sections); ?></script>
+<script>
+(() => {
+  const dataEl = document.getElementById('aakaari-fix-data');
+  if (!dataEl) return;
+
+  let sections = [];
+  try {
+    sections = JSON.parse(dataEl.textContent || '[]');
+  } catch (error) {
+    return;
+  }
+
+  const wizard = document.querySelector('[data-fix-wizard]');
+  if (!wizard) return;
+
+  const contactUrl = wizard.getAttribute('data-contact-url') || '/contact/';
+  const stepEls = Array.from(wizard.querySelectorAll('[data-fix-step]'));
+  const stepItems = Array.from(wizard.querySelectorAll('[data-fix-step-item]'));
+  const progressEl = wizard.querySelector('[data-fix-progress]');
+  const stepLabelEl = wizard.querySelector('[data-fix-step-label]');
+  const searchInputs = Array.from(wizard.querySelectorAll('[data-fix-search]'));
+  const suggestionBtns = Array.from(wizard.querySelectorAll('[data-fix-suggestion]'));
+  const categoryBtns = Array.from(wizard.querySelectorAll('[data-fix-category]'));
+  const continueBtn = wizard.querySelector('[data-fix-continue]');
+  const clearBtn = wizard.querySelector('[data-fix-clear]');
+  const backBtns = Array.from(wizard.querySelectorAll('[data-fix-back]'));
+  const resetBtn = wizard.querySelector('[data-fix-reset]');
+  const resultsEl = wizard.querySelector('[data-fix-results]');
+  const countEl = wizard.querySelector('[data-fix-count]');
+  const filterEl = wizard.querySelector('[data-fix-filter]');
+  const reviewEl = wizard.querySelector('[data-fix-review]');
+
+  const stepTitles = ['Describe', 'Select', 'Review'];
+  const state = { step: 0, category: 'all', query: '', issue: null };
+
+  const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (match) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[match]));
+
+  const allIssues = sections.flatMap((section) => {
+    const issues = Array.isArray(section.issues) ? section.issues : [];
+    return issues.map((issue) => ({
+      ...issue,
+      sectionId: section.id,
+      sectionTitle: section.title,
+      accent: section.accent,
+      sectionIcon: section.icon,
+    }));
+  });
+
+  const setActiveCategory = () => {
+    categoryBtns.forEach((btn) => {
+      const isActive = btn.getAttribute('data-fix-category') === state.category;
+      btn.classList.toggle('is-active', isActive);
+    });
+  };
+
+  const setQuery = (value) => {
+    state.query = value;
+    searchInputs.forEach((input) => {
+      if (input.value !== value) {
+        input.value = value;
+      }
+    });
+  };
+
+  const matchesQuery = (issue, query) => {
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) return true;
+    const tokens = trimmed.split(/\s+/).filter(Boolean);
+    const haystack = [
+      issue.title,
+      issue.desc,
+      issue.sectionTitle,
+      Array.isArray(issue.includes) ? issue.includes.join(' ') : '',
+    ].join(' ').toLowerCase();
+    return tokens.every((token) => haystack.includes(token));
+  };
+
+  const renderResults = () => {
+    if (!resultsEl) return;
+    const filtered = allIssues.filter((issue) => {
+      const matchesCategory = state.category === 'all' || issue.sectionId === state.category;
+      return matchesCategory && matchesQuery(issue, state.query);
+    });
+
+    if (countEl) {
+      countEl.textContent = filtered.length.toString();
+    }
+
+    if (filterEl) {
+      const categoryLabel = state.category === 'all'
+        ? 'across all categories'
+        : `in ${escapeHtml((sections.find((section) => section.id === state.category) || {}).title || 'selected category')}`;
+      filterEl.textContent = categoryLabel;
+    }
+
+    if (!filtered.length) {
+      resultsEl.innerHTML = `
+        <div class="fix-empty">
+          <h4>No matching issues found</h4>
+          <p>Try another keyword or describe the symptoms and we will guide you.</p>
+          <a class="fix-primary-btn" href="${escapeHtml(contactUrl)}">Contact support</a>
+        </div>
+      `;
+      return;
+    }
+
+    const cards = filtered.map((issue) => `
+      <article class="fix-result-card" style="--accent: ${escapeHtml(issue.accent)};">
+        <div class="fix-result-header">
+          <div class="fix-result-icon">
+            <svg><use href="#fix-icon-${escapeHtml(issue.icon)}"/></svg>
+          </div>
+          <div class="fix-result-badge">${escapeHtml(issue.price_text)}</div>
+        </div>
+        <h4 class="fix-result-title">${escapeHtml(issue.title)}</h4>
+        <p class="fix-result-desc">${escapeHtml(issue.desc)}</p>
+        <div class="fix-result-meta">
+          <span>ETA ${escapeHtml(issue.eta)}</span>
+          <span>${escapeHtml(issue.sectionTitle)}</span>
+        </div>
+        <div class="fix-result-actions">
+          <button type="button" class="fix-primary-btn" data-fix-select="${escapeHtml(issue.slug)}">Select issue</button>
+          <a class="fix-secondary-btn" href="${escapeHtml(issue.urls.product)}">View details</a>
+        </div>
+      </article>
+    `).join('');
+
+    resultsEl.innerHTML = cards;
+  };
+
+  const renderReview = (issue) => {
+    if (!reviewEl || !issue) return;
+    const includes = Array.isArray(issue.includes)
+      ? issue.includes.map((item) => `<li><svg class="fix-review-check"><use href="#fix-icon-check"/></svg><span>${escapeHtml(item)}</span></li>`).join('')
+      : '';
+
+    reviewEl.innerHTML = `
+      <article class="fix-review-card">
+        <div class="fix-review-header">
+          <div class="fix-review-icon" style="--accent: ${escapeHtml(issue.accent)};">
+            <svg><use href="#fix-icon-${escapeHtml(issue.icon)}"/></svg>
+          </div>
+          <div class="fix-review-title-wrap">
+            <p class="fix-review-kicker">${escapeHtml(issue.sectionTitle)}</p>
+            <h3 class="fix-review-title">${escapeHtml(issue.title)}</h3>
+          </div>
+          <div class="fix-review-price">
+            <span class="fix-review-price-label">Starting at</span>
+            <span class="fix-review-price-value">${escapeHtml(issue.price_text)}</span>
+            <span class="fix-review-price-meta">ETA ${escapeHtml(issue.eta)}</span>
+          </div>
+        </div>
+        <p class="fix-review-desc">${escapeHtml(issue.desc)}</p>
+        <div class="fix-review-includes">
+          <h4>What is included</h4>
+          <ul>${includes}</ul>
+        </div>
+        <div class="fix-review-actions">
+          <a class="fix-primary-btn" href="${escapeHtml(issue.urls.checkout)}">Select & Checkout</a>
+          <a class="fix-secondary-btn" href="${escapeHtml(issue.urls.product)}">View details</a>
+        </div>
+        <div class="fix-review-footer">
+          <span>Need help choosing? <a class="fix-link" href="${escapeHtml(contactUrl)}">Talk to an expert</a></span>
+        </div>
+      </article>
+    `;
+  };
+
+  const updateStep = (nextStep) => {
+    state.step = nextStep;
+    stepEls.forEach((step, index) => {
+      const isActive = index === nextStep;
+      step.hidden = !isActive;
+      step.classList.toggle('is-active', isActive);
+    });
+    stepItems.forEach((item, index) => {
+      item.classList.toggle('is-active', index <= nextStep);
+    });
+    if (progressEl) {
+      progressEl.style.width = `${((nextStep + 1) / stepEls.length) * 100}%`;
+    }
+    if (stepLabelEl) {
+      stepLabelEl.textContent = stepTitles[nextStep] || '';
+    }
+    if (nextStep === 1) {
+      renderResults();
+    }
+    if (nextStep === 2 && state.issue) {
+      renderReview(state.issue);
+    }
+  };
+
+  setActiveCategory();
+  updateStep(0);
+
+  searchInputs.forEach((input) => {
+    input.addEventListener('input', (event) => {
+      setQuery(event.target.value);
+      if (state.step >= 1) {
+        renderResults();
+      }
+    });
+  });
+
+  suggestionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const value = btn.getAttribute('data-fix-suggestion') || '';
+      setQuery(value);
+      if (state.step >= 1) {
+        renderResults();
+      }
+    });
+  });
+
+  categoryBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      state.category = btn.getAttribute('data-fix-category') || 'all';
+      setActiveCategory();
+    });
+  });
+
+  if (continueBtn) {
+    continueBtn.addEventListener('click', () => updateStep(1));
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      setQuery('');
+      if (state.step >= 1) {
+        renderResults();
+      }
+    });
+  }
+
+  backBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const target = parseInt(btn.getAttribute('data-fix-back') || '', 10);
+      if (!Number.isNaN(target)) {
+        updateStep(target);
+      } else {
+        updateStep(Math.max(state.step - 1, 0));
+      }
+    });
+  });
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      state.category = 'all';
+      setQuery('');
+      setActiveCategory();
+      renderResults();
+    });
+  }
+
+  if (resultsEl) {
+    resultsEl.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-fix-select]');
+      if (!button) return;
+      const slug = button.getAttribute('data-fix-select');
+      const issue = allIssues.find((item) => item.slug === slug);
+      if (!issue) return;
+      state.issue = issue;
+      updateStep(2);
+    });
+  }
+})();
+</script>
 
 <?php
 get_footer();
